@@ -1,5 +1,9 @@
 import { omit } from "lodash";
 
+//checks email and password
+//if password is correct, it returns the user object
+//if password is inccorect, returns false
+
 export async function validatePassword({
   email,
   password,
@@ -8,7 +12,7 @@ export async function validatePassword({
   password: string;
 }) {
   //get user by email
-  // const user = await userModel.findOne({email})
+  const user = await userModel.findOne({ email });
 
   //if user does not exists, return false
   if (!user) {
@@ -23,4 +27,8 @@ export async function validatePassword({
   }
 
   return omit(user.toJSON(), "password");
+}
+
+export async function findUser(query: FilterQuery<UserDocument>) {
+  return UserModel.findOne(query);
 }
