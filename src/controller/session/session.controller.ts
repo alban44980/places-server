@@ -3,6 +3,7 @@ import { validatePassword } from "../../services/user.service";
 import { createSession } from "../../services/session.service";
 import { signJwt } from "../../utils/jwt.utils";
 
+//loggin
 export async function createUserSession(req: Request, res: Response) {
   //validate user passsword
   const user = await validatePassword(req.body);

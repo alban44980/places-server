@@ -31,6 +31,7 @@ const deserializeUser = async (
   }
 
   //if the token has expired and there is a refresh token, then we can create a new accessToken token
+
   if (expired && refreshToken) {
     const newAccessToken = await reIssueAccessToken({ refreshToken });
 
