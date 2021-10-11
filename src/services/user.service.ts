@@ -1,4 +1,17 @@
 import { omit } from "lodash";
+import { DocumentDefiniton } from "mongoose";
+
+export async function createUser(
+  input: DocumentDefiniton<
+    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
+  >
+) {
+  try {
+    return await UserModel.create(input);
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
 
 //checks email and password
 //if password is correct, it returns the user object
