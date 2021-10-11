@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-/* 
-    Interfaces for TS
-*/
-=======
 export interface UserAttributes {
   id: number;
   user_name: string;
@@ -66,4 +61,3 @@ export interface TagAttributes {
   id: number;
   tag_name: string;
 }
->>>>>>> d699c01c1a88c5041d08f979afc0fab837958e74
