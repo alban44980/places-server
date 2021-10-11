@@ -1,15 +1,16 @@
-'use strict';
-import * as dotenv from 'dotenv';
-import { Sequelize, Dialect } from 'sequelize';
+"use strict";
+import * as dotenv from "dotenv";
+import { Sequelize, Dialect } from "sequelize";
 dotenv.config();
 
 export const sequelize = new Sequelize(
-  process.env.DB_NAME ?? 'myplaces',
-  process.env.DB_USER ?? 'admin2',
-  process.env.DB_PASSWORD ?? 'admin2',
+  process.env.DB_NAME ?? "",
+  process.env.DB_USER ?? "",
+  process.env.DB_PASSWORD ?? "",
   {
-    host: process.env.DB_HOST ?? 'localhost',
-    dialect: (process.env.DB_DIALECT as Dialect) ?? 'postgres',
+    host: process.env.DB_HOST ?? "localhost",
+    dialect: (process.env.DB_DIALECT as Dialect) ?? "postgres",
     logging: false,
+    // port: process.env.DB_PORT ?? 3005,
   }
 );
