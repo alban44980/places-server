@@ -1,12 +1,13 @@
 import express from 'express';
 import config from "config";
+import logger from "./utils/logger";
 
 
 
-const port = config.get<number>('PORT');
+const port = config.get<number>('port');
 const app = express();
 
 
 app.listen(port, ()=>{
-  console.log("server is running");
+  logger.info(`server is running at http://localhost:${port}`);
 });
