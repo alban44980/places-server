@@ -1,6 +1,8 @@
-import { Model, Optional, DataTypes } from "sequelize";
+import { Model, Optional, DataTypes, Association, HasManyAddAssociationMixin, HasManyCreateAssociationMixin } from "sequelize";
 import { sequelize } from "./index";
 import { CityAttributes } from "../interfaces";
+import { SavedPlace } from "./savedPlaces.model";
+import { Place } from "./place.model";
 
 interface CityCreationAttributes extends Optional<CityAttributes, 'id'> {}
 
@@ -15,6 +17,20 @@ export class City extends Model<CityAttributes, CityCreationAttributes>
 
     public readonly created_at!: Date;
     public readonly updated_at!: Date;
+
+    public addPlace!: HasManyAddAssociationMixin<Place, number>;
+    public createPlace!: HasManyCreateAssociationMixin<Place>;
+    public readonly places?: Place[];
+
+    public addSavedPlace!: HasManyAddAssociationMixin<SavedPlace, number>;
+    public createSavedPlace!: HasManyCreateAssociationMixin<SavedPlace>;
+    public readonly saved_places?: SavedPlace[];
+
+    public static associations: {
+    places: Association<City, Place>;
+    saved_places: Association<City, SavedPlace>;
+    };
+
   }
 City.init(
   {
@@ -31,17 +47,16 @@ City.init(
       // foreignKey: true,
     },
     user_name: {
-      type: new DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
       unique: true,
     },
     country: {
-      type: new DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
     location: {
-      type: new DataTypes.STRING,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -50,5 +65,17 @@ City.init(
     sequelize,
   }
 );
+
+City.hasMany(Place, {
+  sourceKey: 'id',
+  foreignKey: 'city_id',
+  as: 'places',
+});
+
+City.hasMany(SavedPlace, {
+  sourceKey: 'id',
+  foreignKey: 'city_id',
+  as: 'saved_places',
+});
 
 export default City;

@@ -20,6 +20,17 @@ export class Place extends Model<PlaceAttributes, PlaceCreationAttributes>
 
     public readonly created_at!: Date;
     public readonly updated_at!: Date;
+
+    // public static associations(models:any) {
+    //   Place.belongsToMany(models.User, {
+    //     through: 'place_tag_junction'
+    //   })
+    // };
+    
+    // Place.belongsToMany(User: any, { through: "place_tag_junction" }: {
+    //   through: any;
+    //   place_tag_junction: any;
+    // }): any 
   }
 
 Place.init(
