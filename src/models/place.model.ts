@@ -1,6 +1,7 @@
 import { Model, Optional, DataTypes } from "sequelize";
 import { sequelize } from "./index";
 import { PlaceAttributes } from "../interfaces";
+import { Tag } from "./tags.model";
 
 interface PlaceCreationAttributes extends Optional<PlaceAttributes, "id"> {}
 
@@ -16,22 +17,11 @@ export class Place
   public address!: string;
   public city!: string;
   public country!: string;
-  public city_id!: string;
-  public user_id!: string;
+  public CityId?: string;
+  public UserId?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
-
-  public associations(models: any) {
-    Place.belongsToMany(models.Tag, {
-      through: "place_tag_junction",
-    });
-  }
-
-  // Place.belongsToMany(User: any, { through: "place_tag_junction" }: {
-  //   through: any;
-  //   place_tag_junction: any;
-  // }): any
 }
 
 Place.init(
@@ -75,21 +65,13 @@ Place.init(
       allowNull: false,
       unique: false,
     },
-    city_id: {
-      type: new DataTypes.STRING(),
-      allowNull: false,
-      unique: false,
-    },
-    user_id: {
-      type: new DataTypes.STRING(),
-      allowNull: false,
-      unique: false,
-    },
   },
   {
     tableName: "places",
     sequelize,
   }
 );
+
+Place.belongsToMany(Tag, { through: "places_tag_junction" });
 
 export default Place;

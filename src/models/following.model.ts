@@ -2,18 +2,20 @@ import { Model, Optional, DataTypes } from "sequelize";
 import { sequelize } from "./index";
 import { FollowingAttributes } from "../interfaces";
 
-interface FollowingCreationAttributes extends Optional<FollowingAttributes, 'id'> {}
+interface FollowingCreationAttributes
+  extends Optional<FollowingAttributes, "id"> {}
 
-export class Following extends Model<FollowingAttributes, FollowingCreationAttributes>
-  implements FollowingAttributes 
-  {
-    public id!: string;
-    public user_id!: string;
-    public friend_id!: string;
+export class Following
+  extends Model<FollowingAttributes, FollowingCreationAttributes>
+  implements FollowingAttributes
+{
+  public id!: string;
+  public UserId?: string;
+  public FriendId!: string;
 
-    public readonly createdAt?: Date;
-    public readonly updatedAt?: Date;
-  }
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
+}
 Following.init(
   {
     id: {
@@ -22,19 +24,14 @@ Following.init(
       primaryKey: true,
       unique: true,
     },
-    user_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      unique: false,
-    },
-    friend_id: {
+    FriendId: {
       type: DataTypes.UUID,
       allowNull: false,
       unique: false,
     },
   },
   {
-    tableName: 'followings',
+    tableName: "followings",
     sequelize,
   }
 );

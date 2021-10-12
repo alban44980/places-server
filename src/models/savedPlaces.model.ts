@@ -1,6 +1,7 @@
 import { Model, Optional, DataTypes } from "sequelize";
 import { sequelize } from "./index";
 import { SavedPlaceAttributes } from "../interfaces";
+import { Tag } from "./tags.model";
 
 interface SavedPlaceCreationAttributes
   extends Optional<SavedPlaceAttributes, "id"> {}
@@ -17,17 +18,11 @@ export class SavedPlace
   public address!: string;
   public city!: string;
   public country!: string;
-  public city_id!: string;
-  public user_id!: string;
+  public CityId?: string;
+  public UserId?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
-
-  public associations(models: any) {
-    SavedPlace.belongsToMany(models.Tag, {
-      through: "savedPlaces_tag_junction",
-    });
-  }
 }
 
 SavedPlace.init(
@@ -71,21 +66,13 @@ SavedPlace.init(
       allowNull: false,
       unique: false,
     },
-    city_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      unique: false,
-    },
-    user_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      unique: false,
-    },
   },
   {
     tableName: "saved_places",
     sequelize,
   }
 );
+
+SavedPlace.belongsToMany(Tag, { through: "saved_places_tag_junction" });
 
 export default SavedPlace;

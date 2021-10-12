@@ -13,15 +13,6 @@ export class Tag
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
-
-  public associations(models: any) {
-    Tag.belongsToMany(models.Place, {
-      through: "place_tag_junction",
-    }),
-      Tag.belongsToMany(models.savedPlaces, {
-        through: "savedPlaces_tag_junction",
-      });
-  }
 }
 Tag.init(
   {
