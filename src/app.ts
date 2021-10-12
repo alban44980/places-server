@@ -3,9 +3,12 @@ import config from "config";
 import logger from "./utils/logger";
 import routes from "./routes";
 import { sequelize } from "./models/index";
+//need to add cors
 
 const port = config.get<number>("port");
 const app = express();
+
+app.use(express.json());
 
 (async () => {
   await sequelize.sync();

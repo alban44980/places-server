@@ -3,12 +3,13 @@
 import { verifyJwt } from "../utils/jwt.utils";
 import { signJwt } from "../utils/jwt.utils";
 import { get } from "lodash";
-import { findUser } from "./user.service";
+import Session from "../models/session.model";
+import User from "../models/user.model";
 
 // import { FilterQuery } from mongoose // it is the type of find query
 
-export async function createSession(userId: string, userAgent: string) {
-  const session = await SessionModel.create({ userId, userAgent });
+export async function createSession(userId: number, userAgent: string) {
+  const session = await Session.create({ id: userId, user_agent: userAgent });
 
   return session.toJSON();
 }
@@ -22,20 +23,20 @@ export async function reIssueAccessToken({
   const { decoded } = verifyJwt(refreshToken);
 
   //we need session id to make sure the session is still valid before re issusing session token
-  if (!decoded || !get(decoded, "_id")) return false;
+  if (!decoded || !get(decoded, "id")) return false;
 
-  const session = await SessionModel.findById(get(decoded, "session"));
+  const session = await Session.findByPk(get(decoded, "session"));
 
   if (!session || !session.valid) return false;
 
   //
-  const user = await findUser({ _id: session.user });
+  const user = await User.findOne({ where: { id: session.id } });
 
   if (!user) return false;
 
   //create an access token
   const accesToken = signJwt(
-    { ...user, session: session._id },
+    { ...user, session: session.id },
     { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
   );
 

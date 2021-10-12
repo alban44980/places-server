@@ -7,7 +7,12 @@ import User from "../models/user.model";
 export async function createUser(
   input: Omit<
     UserAttributes,
-    "createdAt" | "updatedAt" | "id" | "profile_pic" | "following" | "followers"
+    | "createdAt"
+    | "updatedAt"
+    | "id"
+    | "profile_pic"
+    | "following_count"
+    | "followers_count"
   >
 ) {
   try {
@@ -52,7 +57,3 @@ export async function validatePassword({
 
   return omit(user.toJSON(), "password");
 }
-
-// export async function findUser(query: FilterQuery<UserDocument>) {
-//   return UserModel.findOne(query);
-// }

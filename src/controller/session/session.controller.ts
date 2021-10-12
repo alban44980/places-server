@@ -11,19 +11,18 @@ export async function createUserSession(req: Request, res: Response) {
     return res.status(401).send("Invalid email or password");
   }
   //create a session
-  //session model is required to add a new row to it
-  const session = await createSession(user._id, req.get("user-agent") || "");
+  const session = await createSession(user.id, req.get("user-agent") || "");
 
   //create an access token
   const accesToken = signJwt(
-    { ...user, session: session._id },
+    { ...user, session: session.id },
     { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
   );
 
   //create a refresh token
   const refreshToken = signJwt(
     { ...user, session: session._id },
-    { expiresIn: process.env.refreshTokenTtl } //access token time to live 15 minutes
+    { expiresIn: process.env.refreshTokenTtl } //access token time to live 1 year
   );
 
   //return access and refrsh token

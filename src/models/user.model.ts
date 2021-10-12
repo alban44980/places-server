@@ -12,11 +12,11 @@ export class User
   public user_name!: string;
   public bio?: string;
   public profile_pic!: string;
-  public following?: number;
-  public followers?: number;
+  public following_count?: number;
+  public followers_count?: number;
   public first_name!: string;
   public last_name!: string;
-  public email?: string | null;
+  public email!: string;
   public password!: string;
 
   public readonly created_at!: Date; //createdAt
@@ -45,12 +45,12 @@ User.init(
       type: new DataTypes.STRING(),
       allowNull: false,
     },
-    following: {
+    following_count: {
       type: new DataTypes.INTEGER(),
       allowNull: true,
       defaultValue: 0,
     },
-    followers: {
+    followers_count: {
       type: new DataTypes.INTEGER(),
       allowNull: true,
       defaultValue: 0,

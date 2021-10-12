@@ -1,4 +1,3 @@
-import config from "config";
 import jwt from "jsonwebtoken";
 
 const privateKey = process.env.privateKey as string;
