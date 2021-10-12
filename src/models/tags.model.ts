@@ -2,17 +2,27 @@ import { Model, Optional, DataTypes } from "sequelize";
 import { sequelize } from "./index";
 import { TagAttributes } from "../interfaces";
 
-interface TagCreationAttributes extends Optional<TagAttributes, 'id'> {}
+interface TagCreationAttributes extends Optional<TagAttributes, "id"> {}
 
-export class Tag extends Model<TagAttributes, TagCreationAttributes>
-  implements TagAttributes 
-  {
-    public id!: string;
-    public tag_name!: string;
+export class Tag
+  extends Model<TagAttributes, TagCreationAttributes>
+  implements TagAttributes
+{
+  public id!: string;
+  public tag_name!: string;
 
-    public readonly createdAt?: Date;
-    public readonly updatedAt?: Date;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
+
+  public associations(models: any) {
+    Tag.belongsToMany(models.Place, {
+      through: "place_tag_junction",
+    }),
+      Tag.belongsToMany(models.savedPlaces, {
+        through: "savedPlaces_tag_junction",
+      });
   }
+}
 Tag.init(
   {
     id: {
@@ -28,7 +38,7 @@ Tag.init(
     },
   },
   {
-    tableName: 'tags',
+    tableName: "tags",
     sequelize,
   }
 );
