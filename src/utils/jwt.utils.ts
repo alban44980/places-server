@@ -4,8 +4,9 @@ const privateKey = process.env.privateKey as string;
 const publicKey = process.env.publicKey as string;
 
 export function signJwt(object: Object, options?: jwt.SignOptions | undefined) {
+  //sign payload with the private key
   return jwt.sign(object, privateKey, {
-    ...(options && options), //short cuircuit,
+    ...(options && options), //short cuircuit, as options could be undefined
     algorithm: "RS256", //allows us to use public and private keys
   });
 }

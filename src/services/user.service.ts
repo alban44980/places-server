@@ -18,12 +18,15 @@ export async function createUser(
   try {
     //hash password
     if (process.env.saltWorkFactor) {
-      var hash = await bcrypt.hash(input.password, process.env.saltWorkFactor);
+      const hash = await bcrypt.hash(
+        input.password,
+        process.env.saltWorkFactor
+      );
       //rewrite password with hash version
       input.password = hash;
       //return created user
-      return await User.create(input);
     }
+    return await User.create(input);
   } catch (e: any) {
     throw new Error(e);
   }
@@ -55,5 +58,6 @@ export async function validatePassword({
     return false;
   }
 
-  return omit(user.toJSON(), "password");
+  return omit(user, "password");
+  // return omit(user.toJSON(), "password");
 }

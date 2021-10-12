@@ -6,12 +6,11 @@ import { get } from "lodash";
 import Session from "../models/session.model";
 import User from "../models/user.model";
 
-// import { FilterQuery } from mongoose // it is the type of find query
-
-export async function createSession(userId: number, userAgent: string) {
+export async function createSession(userId: string, userAgent: string) {
   const session = await Session.create({ id: userId, user_agent: userAgent });
 
-  return session.toJSON();
+  return session;
+  // return session.toJSON();
 }
 
 export async function reIssueAccessToken({
