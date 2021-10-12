@@ -2,18 +2,19 @@ import { Model, Optional, DataTypes } from "sequelize";
 import { sequelize } from "./index";
 import { SessionAttributes } from "../interfaces";
 
-interface SessionCreationAttributes extends Optional<SessionAttributes, 'id'> {}
+interface SessionCreationAttributes extends Optional<SessionAttributes, "id"> {}
 
-export class Session extends Model<SessionAttributes, SessionCreationAttributes>
-  implements SessionAttributes 
-  {
-    public id!: number;
-    public valid!: boolean;
-    public user_agent!: string;
+export class Session
+  extends Model<SessionAttributes, SessionCreationAttributes>
+  implements SessionAttributes
+{
+  public id!: number;
+  public valid?: boolean;
+  public user_agent!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
-  }
+  public readonly created_at!: Date;
+  public readonly updated_at!: Date;
+}
 Session.init(
   {
     id: {
@@ -25,16 +26,16 @@ Session.init(
     valid: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
-      unique: true,
+      defaultValue: true,
     },
     user_agent: {
-      type: new DataTypes.STRING,
+      type: new DataTypes.STRING(),
       allowNull: false,
       unique: true,
     },
   },
   {
-    tableName: 'sessions',
+    tableName: "sessions",
     sequelize,
   }
 );

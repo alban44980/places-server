@@ -1,10 +1,10 @@
 export interface UserAttributes {
-  id: number;
+  id?: number;
   user_name: string;
-  bio: string;
-  profile_pic: string;
-  following: number;
-  followers: number;
+  bio?: string;
+  profile_pic?: string;
+  following_count?: number;
+  followers_count?: number;
   first_name: string;
   last_name: string;
   email: string;
@@ -63,7 +63,7 @@ export interface SavedPlaceAttributes {
 
 export interface SessionAttributes {
   id: number;
-  valid: boolean;
+  valid?: boolean;
   user_agent: string;
   createdAt?: Date;
   updatedAt?: Date;

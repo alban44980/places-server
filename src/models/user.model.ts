@@ -13,12 +13,12 @@ export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: number;
+  public id?: number;
   public user_name!: string;
-  public bio!: string;
+  public bio?: string;
   public profile_pic!: string;
-  public following!: number;
-  public followers!: number;
+  public following_count?: number;
+  public followers_count?: number;
   public first_name!: string;
   public last_name!: string;
   public email!: string;
@@ -73,12 +73,12 @@ User.init(
       type: new DataTypes.STRING(),
       allowNull: false,
     },
-    following: {
+    following_count: {
       type: new DataTypes.INTEGER(),
       allowNull: true,
       defaultValue: 0,
     },
-    followers: {
+    followers_count: {
       type: new DataTypes.INTEGER(),
       allowNull: true,
       defaultValue: 0,
