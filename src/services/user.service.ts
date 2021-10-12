@@ -1,13 +1,24 @@
 import { omit } from "lodash";
-import { DocumentDefiniton } from "mongoose";
+import bcrypt from "bcrypt";
+
+import { UserAttributes } from "../interfaces";
+import User from "../models/user.model";
 
 export async function createUser(
-  input: DocumentDefiniton<
-    Omit<UserDocument, "createdAt" | "updatedAt" | "comparePassword">
+  input: Omit<
+    UserAttributes,
+    "createdAt" | "updatedAt" | "id" | "profile_pic" | "following" | "followers"
   >
 ) {
   try {
-    return await UserModel.create(input);
+    //hash password
+    if (process.env.saltWorkFactor) {
+      var hash = await bcrypt.hash(input.password, process.env.saltWorkFactor);
+      //rewrite password with hash version
+      input.password = hash;
+      //return created user
+      return await User.create(input);
+    }
   } catch (e: any) {
     throw new Error(e);
   }
@@ -25,14 +36,15 @@ export async function validatePassword({
   password: string;
 }) {
   //get user by email
-  const user = await userModel.findOne({ email });
+
+  const user = await User.findOne({ email });
 
   //if user does not exists, return false
   if (!user) {
     return false;
   }
 
-  const isValid = await user.comparePassword(password);
+  const isValid = await bcrypt.compare(password, user.password);
 
   //if password is not valid, return false
   if (!isValid) {
@@ -42,6 +54,6 @@ export async function validatePassword({
   return omit(user.toJSON(), "password");
 }
 
-export async function findUser(query: FilterQuery<UserDocument>) {
-  return UserModel.findOne(query);
-}
+// export async function findUser(query: FilterQuery<UserDocument>) {
+//   return UserModel.findOne(query);
+// }
