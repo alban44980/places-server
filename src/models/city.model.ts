@@ -9,14 +9,14 @@ interface CityCreationAttributes extends Optional<CityAttributes, 'id'> {}
 export class City extends Model<CityAttributes, CityCreationAttributes>
   implements CityAttributes 
   {
-    public id!: number;
-    public user_id!: number;
-    public user_name!: string;
+    public id!: string;
+    public user_id!: string;
+    public name!: string;
     public country!: string;
     public location!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
 
     public addPlace!: HasManyAddAssociationMixin<Place, number>;
     public createPlace!: HasManyCreateAssociationMixin<Place>;
@@ -44,19 +44,18 @@ City.init(
     user_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      // foreignKey: true,
     },
-    user_name: {
-      type: DataTypes.STRING,
+    name: {
+      type: new DataTypes.STRING(),
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     country: {
-      type: DataTypes.STRING,
+      type: new DataTypes.STRING(),
       allowNull: false,
     },
     location: {
-      type: DataTypes.STRING,
+      type: new DataTypes.STRING(),
       allowNull: false,
     },
   },

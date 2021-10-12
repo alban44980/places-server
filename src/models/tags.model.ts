@@ -7,11 +7,11 @@ interface TagCreationAttributes extends Optional<TagAttributes, 'id'> {}
 export class Tag extends Model<TagAttributes, TagCreationAttributes>
   implements TagAttributes 
   {
-    public id!: number;
+    public id!: string;
     public tag_name!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
   }
 Tag.init(
   {
@@ -22,7 +22,7 @@ Tag.init(
       unique: true,
     },
     tag_name: {
-      type: new DataTypes.STRING,
+      type: new DataTypes.STRING(),
       allowNull: false,
       unique: true,
     },

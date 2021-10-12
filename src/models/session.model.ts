@@ -8,12 +8,12 @@ export class Session
   extends Model<SessionAttributes, SessionCreationAttributes>
   implements SessionAttributes
 {
-  public id!: number;
+  public id!: string;
   public valid?: boolean;
   public user_agent!: string;
 
-  public readonly created_at!: Date;
-  public readonly updated_at!: Date;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
 }
 Session.init(
   {
@@ -25,13 +25,13 @@ Session.init(
     },
     valid: {
       type: DataTypes.BOOLEAN,
-      allowNull: false,
+      allowNull: true,
       defaultValue: true,
     },
     user_agent: {
       type: new DataTypes.STRING(),
-      allowNull: false,
-      unique: true,
+      allowNull: true,
+      unique: false,
     },
   },
   {

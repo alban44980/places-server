@@ -1,5 +1,5 @@
 export interface UserAttributes {
-  id?: number;
+  id: string;
   user_name: string;
   bio?: string;
   profile_pic?: string;
@@ -14,24 +14,24 @@ export interface UserAttributes {
 }
 
 export interface PlaceAttributes {
-  id: number;
+  id: string;
   name: string;
-  img: string;
+  img?: string;
   description: string;
   location: string;
   address: string;
   city: string;
   country: string;
   city_id: string;
-  user_id: number;
+  user_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface CityAttributes {
-  id: number;
-  user_id: number;
-  user_name: string;
+  id: string;
+  user_id: string;
+  name: string;
   country: string;
   location: string;
   createdAt?: Date;
@@ -39,30 +39,30 @@ export interface CityAttributes {
 }
 
 export interface FollowingAttributes {
-  id: number;
+  id: string;
   user_id: string;
-  friend_id: number;
+  friend_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface SavedPlaceAttributes {
-  id: number;
+  id: string;
   name: string;
-  img: string;
+  img?: string;
   description: string;
   location: string;
   address: string;
   city: string;
   country: string;
   city_id: string;
-  user_id: number;
+  user_id: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface SessionAttributes {
-  id: number;
+  id: string;
   valid?: boolean;
   user_agent: string;
   createdAt?: Date;
@@ -70,7 +70,7 @@ export interface SessionAttributes {
 }
 
 export interface TagAttributes {
-  id: number;
+  id: string;
   tag_name: string;
   createdAt?: Date;
   updatedAt?: Date;

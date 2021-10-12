@@ -7,12 +7,12 @@ interface FollowingCreationAttributes extends Optional<FollowingAttributes, 'id'
 export class Following extends Model<FollowingAttributes, FollowingCreationAttributes>
   implements FollowingAttributes 
   {
-    public id!: number;
+    public id!: string;
     public user_id!: string;
-    public friend_id!: number;
+    public friend_id!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
   }
 Following.init(
   {
@@ -23,16 +23,14 @@ Following.init(
       unique: true,
     },
     user_id: {
-      // Make sure the types is correct
-      // or if we need to use new DataTypes.STRING
       type: DataTypes.UUID,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
     friend_id: {
       type: DataTypes.UUID,
       allowNull: false,
-      unique: true,
+      unique: false,
     },
   },
   {

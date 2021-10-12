@@ -13,10 +13,10 @@ export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id?: number;
+  public id!: string;
   public user_name!: string;
   public bio?: string;
-  public profile_pic!: string;
+  public profile_pic?: string;
   public following_count?: number;
   public followers_count?: number;
   public first_name!: string;
@@ -24,8 +24,8 @@ export class User
   public email!: string;
   public password!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
 
     public addPlace!: HasManyAddAssociationMixin<Place, number>;
     public createPlace!: HasManyCreateAssociationMixin<Place>;
@@ -67,11 +67,11 @@ User.init(
     },
     bio: {
       type: new DataTypes.STRING(),
-      allowNull: false,
+      allowNull: true,
     },
     profile_pic: {
       type: new DataTypes.STRING(),
-      allowNull: false,
+      allowNull: true,
     },
     following_count: {
       type: new DataTypes.INTEGER(),
@@ -99,7 +99,7 @@ User.init(
     password: {
       type: new DataTypes.STRING(),
       allowNull: false,
-      unique: true,
+      unique: false,
     },
   },
   {

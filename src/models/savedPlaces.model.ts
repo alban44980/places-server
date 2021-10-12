@@ -8,19 +8,19 @@ interface SavedPlaceCreationAttributes extends Optional<SavedPlaceAttributes, 'i
 export class SavedPlace extends Model<SavedPlaceAttributes, SavedPlaceCreationAttributes>
   implements SavedPlaceAttributes 
   {
-    public id!: number;
+    public id!: string;
     public name!: string;
-    public img!: string;
+    public img?: string;
     public description!: string;
     public location!: string;
     public address!: string;
     public city!: string;
     public country!: string;
     public city_id!: string;
-    public user_id!: number;
+    public user_id!: string;
 
-    public readonly created_at!: Date;
-    public readonly updated_at!: Date;
+    public readonly createdAt?: Date;
+    public readonly updatedAt?: Date;
   }
 
 SavedPlace.init(
@@ -32,47 +32,47 @@ SavedPlace.init(
     unique: true,
   },
   name: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   img: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   description: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
   },
   location: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
   },
   address: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   city: {
-    type: DataTypes.STRING,
+    type: new DataTypes.STRING(),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   country: {
-    type: DataTypes.STRING,
+    type:new DataTypes.STRING(),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   city_id: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   user_id: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.UUID,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
 },
   {
