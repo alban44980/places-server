@@ -32,7 +32,3 @@ export async function createUserSession(req: Request, res: Response) {
 
   return res.send({ accesToken, refreshToken });
 }
-
-export async function getUserSessionHandler(userId: string, userAgent: string) {
-  // const session = await SessionModel.create(user_id: userId, userAgent);
-}
