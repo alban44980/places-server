@@ -2,7 +2,8 @@ import { Request, Response } from "express";
 import { validatePassword } from "../../services/user.service";
 import { createSession } from "../../services/session.service";
 import { signJwt } from "../../utils/jwt.utils";
-
+import { updateSession } from "../../services/session.service";
+import { StringLiteral } from "@babel/types";
 //create session on logging
 export async function createUserSession(req: Request, res: Response) {
   //validate user passsword
@@ -31,4 +32,15 @@ export async function createUserSession(req: Request, res: Response) {
   //return access and refrsh token
 
   return res.send({ accesToken, refreshToken });
+}
+
+export async function deleteUserSession(req: Request, res: Response) {
+  //it's safe to access res.locals do to the requireUser middleware
+  const sessionId = res.locals.user.session;
+  //expire session as the user has logged out
+  await updateSession(sessionId, false);
+  return res.send({
+    accessToken: null,
+    refreshToken: null,
+  });
 }

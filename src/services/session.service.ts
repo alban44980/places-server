@@ -22,10 +22,11 @@ export async function reIssueAccessToken({
   const { decoded } = verifyJwt(refreshToken);
 
   //we need session id to make sure the session is still valid before re issusing session token
-  if (!decoded || !get(decoded, "id")) return false;
+  if (!decoded || !get(decoded, "session")) return false;
 
   const session = await Session.findByPk(get(decoded, "session"));
 
+  //if session has be set to validFalse, we dont want to issue an access token
   if (!session || !session.valid) return false;
 
   //
@@ -42,6 +43,26 @@ export async function reIssueAccessToken({
   return accesToken;
 }
 
+//updates a session dpending on what is being passed
+export async function updateSession(sid: string, sValid: boolean) {
+  return Session.update(
+    { id: sid },
+    {
+      where: {
+        valid: sValid,
+      },
+    }
+  );
+
+  //  await User.update(
+  //    { lastName: "Doe" },
+  //    {
+  //      where: {
+  //        lastName: null,
+  //      },
+  //    }
+  //  );
+}
 // export async function findSessions(query: FilterQuery<SchemaDocument>) {
 //   return sessionModel.find(query);
 // }
