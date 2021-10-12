@@ -9,6 +9,8 @@ export interface UserAttributes {
   last_name: string;
   email: string;
   password: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface PlaceAttributes {
@@ -22,6 +24,8 @@ export interface PlaceAttributes {
   country: string;
   city_id: string;
   user_id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface CityAttributes {
@@ -30,12 +34,16 @@ export interface CityAttributes {
   user_name: string;
   country: string;
   location: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface FollowingAttributes {
   id: number;
   user_id: string;
   friend_id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SavedPlaceAttributes {
@@ -49,15 +57,21 @@ export interface SavedPlaceAttributes {
   country: string;
   city_id: string;
   user_id: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface SessionAttributes {
   id: number;
   valid: boolean;
   user_agent: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 export interface TagAttributes {
   id: number;
   tag_name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
