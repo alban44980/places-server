@@ -1,13 +1,13 @@
 export interface UserAttributes {
-  id: number;
+  id?: number;
   user_name: string;
-  bio: string;
-  profile_pic: string;
-  following: number;
-  followers: number;
+  bio?: string;
+  profile_pic?: string;
+  following?: number;
+  followers?: number;
   first_name: string;
   last_name: string;
-  email: string;
+  email?: string | null;
   password: string;
   createdAt?: Date;
   updatedAt?: Date;

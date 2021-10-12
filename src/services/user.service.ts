@@ -36,8 +36,7 @@ export async function validatePassword({
   password: string;
 }) {
   //get user by email
-
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ where: { email } });
 
   //if user does not exists, return false
   if (!user) {

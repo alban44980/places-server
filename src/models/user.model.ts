@@ -8,15 +8,15 @@ export class User
   extends Model<UserAttributes, UserCreationAttributes>
   implements UserAttributes
 {
-  public id!: number;
+  public id?: number;
   public user_name!: string;
-  public bio!: string;
+  public bio?: string;
   public profile_pic!: string;
-  public following!: number;
-  public followers!: number;
+  public following?: number;
+  public followers?: number;
   public first_name!: string;
   public last_name!: string;
-  public email!: string;
+  public email?: string | null;
   public password!: string;
 
   public readonly created_at!: Date; //createdAt
