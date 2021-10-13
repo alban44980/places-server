@@ -10,7 +10,7 @@ export async function createUser(
     | "createdAt"
     | "updatedAt"
     | "id"
-    | "profile_pic"
+    | "img"
     | "following_count"
     | "followers_count"
   >
