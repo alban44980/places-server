@@ -5,7 +5,7 @@ import routes from "./routes";
 import { sequelize } from "./models/index";
 //need to add cors
 
-const port = config.get<number>("port");
+const port = process.env.PORT;
 const app = express();
 
 app.use(express.json());
