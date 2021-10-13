@@ -17,3 +17,20 @@ export async function getUserFriends(user: UserAttributes) {
     throw new Error(e);
   }
 }
+
+export async function addFriend(user: UserAttributes, friend: string) {
+  try {
+    console.log(user);
+    Following.create(
+      {
+        FriendId: friend,
+      },
+
+      { include: { model: User }, where: { id: user.id } }
+    );
+
+    // Following.update({ UserId: user.id }, { where: { FriendId: friend } });
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}

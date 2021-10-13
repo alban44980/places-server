@@ -11,7 +11,11 @@ import {
 } from "./controller/session/session.controller";
 import { createPlaceHandler } from "./controller/places/places.controller";
 import { createPlaceSchema } from "./schema/place.schema";
-import { getFriends } from "./controller/friends/friends.controller";
+import {
+  addFriendHandler,
+  getFriends,
+} from "./controller/friends/friends.controller";
+import { createAddFriendSchema } from "./schema/addFriend.schema";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -33,6 +37,13 @@ function routes(app: Express) {
 
   //friends
   app.get("/my/friends", deserializeUser, requireUser, getFriends);
+  app.post(
+    "/add/friend",
+    validateResource(createAddFriendSchema),
+    deserializeUser,
+    requireUser,
+    addFriendHandler
+  );
 }
 
 export default routes;
