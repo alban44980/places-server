@@ -38,7 +38,7 @@ export async function reIssueAccessToken({
   //create an access token
   const accesToken = signJwt(
     { ...user, session: session.id },
-    { expiresIn: config.get<string>("accessTokenTtl") } //access token time to live 15 minutes
+    { expiresIn: process.env.accessTokenTtl as string } //access token time to live 15 minutes
   );
 
   return accesToken;

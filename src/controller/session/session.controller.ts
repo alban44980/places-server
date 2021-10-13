@@ -21,13 +21,13 @@ export async function createUserSession(req: Request, res: Response) {
     //payload contains a user and a reference to the session
     { ...user, session: session.id },
     //options
-    { expiresIn: config.get<string>("accessTokenTtl") } //access token time to live 15 minutes
+    { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
   );
 
   //create a refresh token
   const refreshToken = signJwt(
     { ...user, session: session.id },
-    { expiresIn: config.get<string>("refreshTokenTtl") } //access token time to live 1 year
+    { expiresIn: process.env.refreshTokenTtl } //access token time to live 1 year
   );
 
   //return access and refrsh token
