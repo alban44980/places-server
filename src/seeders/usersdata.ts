@@ -1,4 +1,4 @@
-export const users = [
+const users = [
   {
     id: "123e4567-e89b-12d3-a456-426614174000",
     user_name: "namusste",
@@ -40,7 +40,21 @@ export const users = [
     password: "7890",
     createdAt: new Date(),
     updatedAt: new Date(),
-  }, 
-]
+  },
+  // {
+  //   id: "9fedfb34-0351-4aee-8131-11c24768d133",
+  //   user_name: "charley",
+  //   bio: "Looking for a Help Request",
+  //   img: "",
+  //   following_count: 0,
+  //   followers_count: 0,
+  //   first_name: "charley",
+  //   last_name: "carleyson",
+  //   email: "charley@gmail.com",
+  //   password: "7890",
+  //   createdAt: new Date(),
+  //   updatedAt: new Date(),
+  // },
+];
 
-// export default users;
+export default users;
