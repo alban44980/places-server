@@ -108,4 +108,4 @@ node_module
 
 .env
 .env.local
-
+config/config.json
