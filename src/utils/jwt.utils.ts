@@ -19,7 +19,7 @@ export function verifyJwt(token: string) {
     return {
       valid: true,
       expired: false,
-      decoded,
+      decoded, //user
     };
   } catch (e: any) {
     //if the token cannot be verifed it will throw

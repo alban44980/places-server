@@ -8,6 +8,7 @@ export async function createPlaceHandler(
 ) {
   try {
     const user = res.locals.user.dataValues;
+
     const place = await createPlace(req.body, user);
     if (place) {
       return res.status(201).send(place);

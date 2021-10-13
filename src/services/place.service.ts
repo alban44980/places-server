@@ -19,6 +19,8 @@ export async function createPlace(
 
     //get user Model
     const userM = await User.findOne({ where: { id: user.id } });
+
+    return false;
   } catch (e: any) {
     throw new Error(e);
   }
