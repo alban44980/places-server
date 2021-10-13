@@ -1,6 +1,5 @@
 import { omit } from "lodash";
 import bcrypt from "bcrypt";
-import config from "config";
 
 import { UserAttributes } from "../interfaces";
 import User from "../models/user.model";
@@ -18,16 +17,16 @@ export async function createUser(
 ) {
   try {
     //hash password
+
     const hash = await bcrypt.hash(
       input.password,
-      config.get<number>("saltWorkFactor")
+      process.env.saltWorkfactor || 10
     );
     //rewrite password with hash version
     input.password = hash;
     //return created user
     return await User.create(input);
   } catch (e: any) {
-    console.log(e);
     throw new Error(e);
   }
 }
