@@ -9,6 +9,7 @@ import {
   createUserSession,
   deleteUserSession,
 } from "./controller/session/session.controller";
+import { createPlace } from "./controller/places/places.controller";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -18,6 +19,9 @@ function routes(app: Express) {
   app.post("/register", validateResource(createUserSchema), registerUser);
   app.post("/login", validateResource(createSessionSchema), createUserSession);
   app.delete("/logout", deserializeUser, requireUser, deleteUserSession);
+
+  //places
+  app.get("/my/places", deserializeUser, requireUser, createPlace);
 }
 
 export default routes;

@@ -5,7 +5,6 @@ import { signJwt } from "../utils/jwt.utils";
 import { get } from "lodash";
 import Session from "../models/session.model";
 import User from "../models/user.model";
-import config from "config";
 
 export async function createSession(userId: string, userAgent: string) {
   const session = await Session.create({ id: userId, user_agent: userAgent });
