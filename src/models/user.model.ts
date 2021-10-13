@@ -1,11 +1,18 @@
-import { Model, Optional, DataTypes, Association, HasManyAddAssociationMixin, HasManyCreateAssociationMixin } from "sequelize";
+import {
+  Model,
+  Optional,
+  DataTypes,
+  Association,
+  HasManyAddAssociationMixin,
+  HasManyCreateAssociationMixin,
+} from "sequelize";
 import { sequelize } from "./index";
 import { UserAttributes } from "../interfaces";
-import { Place } from "./place.model"
-import { City } from "./city.model"
-import { SavedPlace } from "./savedPlaces.model"
-import { Following } from "./following.model"
-
+import { Place } from "./place.model";
+import { City } from "./city.model";
+import { SavedPlace } from "./savedPlaces.model";
+import { Following } from "./following.model";
+import { Session } from "./session.model";
 
 interface UserCreationAttributes extends Optional<UserAttributes, "id"> {}
 
@@ -24,37 +31,36 @@ export class User
   public email!: string;
   public password!: string;
 
-    public readonly createdAt?: Date;
-    public readonly updatedAt?: Date;
+  public readonly createdAt?: Date;
+  public readonly updatedAt?: Date;
 
-    public addPlace!: HasManyAddAssociationMixin<Place, number>;
-    public createPlace!: HasManyCreateAssociationMixin<Place>;
-    public readonly places?: Place[];
+  public addPlace!: HasManyAddAssociationMixin<Place, number>;
+  public createPlace!: HasManyCreateAssociationMixin<Place>;
+  public readonly places?: Place[];
 
-    public addCity!: HasManyAddAssociationMixin<City, number>;
-    public createCity!: HasManyCreateAssociationMixin<City>;
-    public readonly cities?: City[];
+  public addCity!: HasManyAddAssociationMixin<City, number>;
+  public createCity!: HasManyCreateAssociationMixin<City>;
+  public readonly cities?: City[];
 
-    public addSavedPlace!: HasManyAddAssociationMixin<SavedPlace, number>;
-    public createSavedPlace!: HasManyCreateAssociationMixin<SavedPlace>;
-    public readonly saved_places?: SavedPlace[];
+  public addSavedPlace!: HasManyAddAssociationMixin<SavedPlace, number>;
+  public createSavedPlace!: HasManyCreateAssociationMixin<SavedPlace>;
+  public readonly saved_places?: SavedPlace[];
 
-    public addFollowing!: HasManyAddAssociationMixin<Following, number>;
-    public createFollowing!: HasManyCreateAssociationMixin<Following>;
-    public readonly followings?: Following[];
+  public addFollowing!: HasManyAddAssociationMixin<Following, number>;
+  public createFollowing!: HasManyCreateAssociationMixin<Following>;
+  public readonly followings?: Following[];
 
-    public static associations: {
+  public static associations: {
     places: Association<User, Place>;
     cities: Association<User, City>;
     saved_places: Association<User, SavedPlace>;
     followings: Association<User, Following>;
-    };
-  }
+  };
+}
 
 User.init(
   {
     id: {
-      // figure out the associations
       type: DataTypes.UUID,
       allowNull: false,
       primaryKey: true,
@@ -108,28 +114,14 @@ User.init(
   }
 );
 
-User.hasMany(Place, {
-  sourceKey: 'id',
-  foreignKey: 'user_id',
-  as: 'places',
-});
+User.hasMany(Place);
 
-User.hasMany(City, {
-  sourceKey: 'id',
-  foreignKey: 'user_id',
-  as: 'cities',
-});
+User.hasMany(City);
 
-User.hasMany(SavedPlace, {
-  sourceKey: 'id',
-  foreignKey: 'user_id',
-  as: 'saved_places',
-});
+User.hasMany(Following);
 
-User.hasMany(Following, {
-  sourceKey: 'id',
-  foreignKey: 'user_id',
-  as: 'followings',
-});
+User.hasMany(SavedPlace);
+
+User.hasMany(Session);
 
 export default User;

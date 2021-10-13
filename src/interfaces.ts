@@ -22,15 +22,15 @@ export interface PlaceAttributes {
   address: string;
   city: string;
   country: string;
-  city_id: string;
-  user_id: string;
+  CityId?: string;
+  UserId?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface CityAttributes {
   id: string;
-  user_id: string;
+  UserId?: string;
   name: string;
   country: string;
   location: string;
@@ -40,8 +40,8 @@ export interface CityAttributes {
 
 export interface FollowingAttributes {
   id: string;
-  user_id: string;
-  friend_id: string;
+  UserId?: string;
+  FriendId?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -55,8 +55,8 @@ export interface SavedPlaceAttributes {
   address: string;
   city: string;
   country: string;
-  city_id: string;
-  user_id: string;
+  CityId?: string;
+  UserId?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

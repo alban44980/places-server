@@ -40,4 +40,6 @@ Session.init(
   }
 );
 
+// Session.belongsTo(User);
+
 export default Session;
