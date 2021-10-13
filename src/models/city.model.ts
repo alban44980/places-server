@@ -5,6 +5,7 @@ import {
   Association,
   HasManyAddAssociationMixin,
   HasManyCreateAssociationMixin,
+  UUIDV4,
 } from "sequelize";
 import { sequelize } from "./index";
 import { CityAttributes } from "../interfaces";
@@ -46,6 +47,7 @@ City.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     name: {
       type: new DataTypes.STRING(),

@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes } from "sequelize";
+import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { TagAttributes } from "../interfaces";
 
@@ -21,6 +21,7 @@ Tag.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     tag_name: {
       type: new DataTypes.STRING(),

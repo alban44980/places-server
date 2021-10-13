@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes } from "sequelize";
+import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { SessionAttributes } from "../interfaces";
 
@@ -22,6 +22,7 @@ Session.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     valid: {
       type: DataTypes.BOOLEAN,

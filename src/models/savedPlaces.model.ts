@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes } from "sequelize";
+import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { SavedPlaceAttributes } from "../interfaces";
 import { Tag } from "./tags.model";
@@ -32,6 +32,7 @@ SavedPlace.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     name: {
       type: new DataTypes.STRING(),

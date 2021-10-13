@@ -3,7 +3,8 @@ import { validatePassword } from "../../services/user.service";
 import { createSession } from "../../services/session.service";
 import { signJwt } from "../../utils/jwt.utils";
 import { updateSession } from "../../services/session.service";
-import { StringLiteral } from "@babel/types";
+import config from "config";
+
 //create session on logging
 export async function createUserSession(req: Request, res: Response) {
   //validate user passsword
@@ -20,13 +21,13 @@ export async function createUserSession(req: Request, res: Response) {
     //payload contains a user and a reference to the session
     { ...user, session: session.id },
     //options
-    { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
+    { expiresIn: config.get<string>("accessTokenTtl") } //access token time to live 15 minutes
   );
 
   //create a refresh token
   const refreshToken = signJwt(
     { ...user, session: session.id },
-    { expiresIn: process.env.refreshTokenTtl } //access token time to live 1 year
+    { expiresIn: config.get<string>("refreshTokenTtl") } //access token time to live 1 year
   );
 
   //return access and refrsh token

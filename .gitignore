@@ -108,3 +108,5 @@ node_module
 
 .env
 .env.local
+
+default.ts

@@ -5,6 +5,7 @@ import { signJwt } from "../utils/jwt.utils";
 import { get } from "lodash";
 import Session from "../models/session.model";
 import User from "../models/user.model";
+import config from "config";
 
 export async function createSession(userId: string, userAgent: string) {
   const session = await Session.create({ id: userId, user_agent: userAgent });
@@ -37,7 +38,7 @@ export async function reIssueAccessToken({
   //create an access token
   const accesToken = signJwt(
     { ...user, session: session.id },
-    { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
+    { expiresIn: config.get<string>("accessTokenTtl") } //access token time to live 15 minutes
   );
 
   return accesToken;
@@ -53,15 +54,6 @@ export async function updateSession(sid: string, sValid: boolean) {
       },
     }
   );
-
-  //  await User.update(
-  //    { lastName: "Doe" },
-  //    {
-  //      where: {
-  //        lastName: null,
-  //      },
-  //    }
-  //  );
 }
 // export async function findSessions(query: FilterQuery<SchemaDocument>) {
 //   return sessionModel.find(query);

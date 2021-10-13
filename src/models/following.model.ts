@@ -1,4 +1,4 @@
-import { Model, Optional, DataTypes } from "sequelize";
+import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { FollowingAttributes } from "../interfaces";
 
@@ -23,6 +23,7 @@ Following.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     FriendId: {
       type: DataTypes.UUID,

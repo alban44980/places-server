@@ -5,6 +5,7 @@ import {
   Association,
   HasManyAddAssociationMixin,
   HasManyCreateAssociationMixin,
+  UUIDV4,
 } from "sequelize";
 import { sequelize } from "./index";
 import { UserAttributes } from "../interfaces";
@@ -65,6 +66,7 @@ User.init(
       allowNull: false,
       primaryKey: true,
       unique: true,
+      defaultValue: UUIDV4,
     },
     user_name: {
       type: new DataTypes.STRING(),
