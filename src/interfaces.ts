@@ -2,7 +2,7 @@ export interface UserAttributes {
   id: string;
   user_name: string;
   bio?: string;
-  profile_pic?: string;
+  img?: string;
   following_count?: number;
   followers_count?: number;
   first_name: string;

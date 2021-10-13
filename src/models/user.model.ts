@@ -24,7 +24,7 @@ export class User
   public id!: string;
   public user_name!: string;
   public bio?: string;
-  public profile_pic?: string;
+  public img?: string;
   public following_count?: number;
   public followers_count?: number;
   public first_name!: string;
@@ -77,7 +77,7 @@ User.init(
       type: new DataTypes.STRING(),
       allowNull: true,
     },
-    profile_pic: {
+    img: {
       type: new DataTypes.STRING(),
       allowNull: true,
     },
