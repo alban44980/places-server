@@ -10,11 +10,9 @@ const deserializeUser = async (
 ) => {
   //at the start of auth token, there will be the word Bearer. This means that the bearer of the token gets access to the system
   //below we will be removing this from the reques
-  const accessToken = get(
-    req,
-    "headers.authorization",
-    "".replace(/^Bearer\s/, "")
-  );
+  const TempAccessToken = get(req, "headers.authorization");
+
+  const accessToken = TempAccessToken.split(" ")[1];
 
   const refreshToken = get(req, "headers.x-refresh");
 
