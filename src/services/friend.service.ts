@@ -63,7 +63,16 @@ export async function getFriendsCitiesPlaces(user: UserAttributes) {
         include: [
           {
             model: City,
-            include: [{ model: Place }],
+            include: [
+              {
+                model: Place,
+                include: [
+                  {
+                    model: Tag,
+                  },
+                ],
+              },
+            ],
           },
         ],
       });
