@@ -1,6 +1,7 @@
 import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { FollowingAttributes } from "../interfaces";
+import User from "./user.model";
 
 interface FollowingCreationAttributes
   extends Optional<FollowingAttributes, "id"> {}
