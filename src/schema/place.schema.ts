@@ -1,5 +1,6 @@
 import { object, string, TypeOf, array } from "zod";
 import { tagsSchema } from "./tag.schema";
+import { createCitySchema } from "./city.schema";
 
 export const createPlaceSchema = object({
   body: object({
@@ -22,6 +23,7 @@ export const createPlaceSchema = object({
     city: string({
       required_error: "City required",
     }),
+    city_info: createCitySchema,
     country: string({
       required_error: "Country required",
     }),

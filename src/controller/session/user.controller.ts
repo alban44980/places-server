@@ -10,7 +10,7 @@ export async function registerUser(
   try {
     const user = await createUser(req.body);
     if (user) {
-      return res.status(201).send(omit(user.toJSON(), "password"));
+      return res.status(201).send(omit(user.dataValues, "password"));
     }
   } catch (e: any) {
     return res.status(409).send(e.message); //throw because it has vialotated uniq conflict of our User model.
