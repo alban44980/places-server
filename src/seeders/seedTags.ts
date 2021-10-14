@@ -47,7 +47,5 @@ export const populateTags = async () => {
     for (let tag of tags) {
       await Tag.create(tag);
     }
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

@@ -16,7 +16,7 @@ app.use(express.json());
   try {
     populateTags();
   } catch (error) {
-    console.log(error);
+    console.log("poop");
   }
 
   // await sequelize.sync();
