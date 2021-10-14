@@ -3,7 +3,6 @@ import { validatePassword } from "../../services/user.service";
 import { createSession } from "../../services/session.service";
 import { signJwt } from "../../utils/jwt.utils";
 import { updateSession } from "../../services/session.service";
-import config from "config";
 
 //create session on logging
 export async function createUserSession(req: Request, res: Response) {
@@ -17,7 +16,7 @@ export async function createUserSession(req: Request, res: Response) {
   const session = await createSession(user.id, req.get("user-agent") || "");
 
   //create an access token
-  const accesToken = signJwt(
+  const accessToken = signJwt(
     //payload contains a user and a reference to the session
     { ...user, session: session.id },
     //options
@@ -32,14 +31,16 @@ export async function createUserSession(req: Request, res: Response) {
 
   //return access and refrsh token
 
-  return res.send({ accesToken, refreshToken });
+  return res.send({ accessToken, refreshToken });
 }
 
 export async function deleteUserSession(req: Request, res: Response) {
   //it's safe to access res.locals do to the requireUser middleware
   const sessionId = res.locals.user.session;
+
   //expire session as the user has logged out
-  await updateSession(sessionId, false);
+  const rest = await updateSession(sessionId, false);
+
   return res.send({
     accessToken: null,
     refreshToken: null,

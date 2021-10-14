@@ -75,5 +75,6 @@ SavedPlace.init(
 );
 
 SavedPlace.belongsToMany(Tag, { through: "saved_places_tag_junction" });
+Tag.belongsToMany(SavedPlace, { through: "saved_places_tag_junction" });
 
 export default SavedPlace;

@@ -70,5 +70,6 @@ City.init(
 );
 
 City.hasMany(Place);
+Place.belongsTo(City);
 
 export default City;

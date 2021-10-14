@@ -74,5 +74,6 @@ Place.init(
 );
 
 Place.belongsToMany(Tag, { through: "places_tag_junction" });
+Tag.belongsToMany(Place, { through: "places_tag_junction" });
 
 export default Place;
