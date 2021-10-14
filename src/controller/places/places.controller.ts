@@ -20,10 +20,3 @@ export async function createPlaceHandler(
     return res.status(500).send(e.message);
   }
 }
-
-export async function getFriendsCitiesPlancesHandler(
-  req: Request,
-  res: Response
-) {
-  const user = res.locals.user.dataValues;
-}
