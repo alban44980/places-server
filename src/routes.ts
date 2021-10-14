@@ -29,7 +29,7 @@ function routes(app: Express) {
 
   //places
   app.post(
-    "/place",
+    "/add/place",
     deserializeUser,
     requireUser,
     validateResource(createPlaceSchema),
