@@ -9,15 +9,13 @@ import {
   createUserSession,
   deleteUserSession,
 } from "./controller/session/session.controller";
-import {
-  createPlaceHandler,
-  getFriendsCitiesPlancesHandler,
-} from "./controller/places/places.controller";
+import { createPlaceHandler } from "./controller/places/places.controller";
 import { createPlaceSchema } from "./schema/place.schema";
 import {
   addFriendHandler,
   getFriends,
   removeFriendHandler,
+  getFriendsCitiesPlacesHandler,
 } from "./controller/friends/friends.controller";
 import { createFriendSchema } from "./schema/friend.schema";
 
@@ -42,7 +40,7 @@ function routes(app: Express) {
     "/friendsCitiesPlaces",
     deserializeUser,
     requireUser,
-    getFriendsCitiesPlancesHandler
+    getFriendsCitiesPlacesHandler
   );
 
   //friends

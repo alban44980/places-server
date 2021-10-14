@@ -3,6 +3,7 @@ import {
   getUserFriends,
   addFriend,
   removeFriend,
+  getFriendsCitiesPlaces,
 } from "../../services/friend.service";
 import { FriendInput } from "../../schema/friend.schema";
 
@@ -41,8 +42,24 @@ export async function removeFriendHandler(
     const user = res.locals.user.dataValues;
 
     await removeFriend(user, req.body.FriendId);
-    res.sendStatus(204);
+    return res.sendStatus(204);
   } catch (e: any) {
-    res.sendStatus(500);
+    return res.sendStatus(500);
+  }
+}
+
+//return all friend's cities and places
+export async function getFriendsCitiesPlacesHandler(
+  req: Request,
+  res: Response
+) {
+  try {
+    const user = res.locals.user.dataValues;
+
+    const everything = await getFriendsCitiesPlaces(user);
+
+    return res.status(200).send(everything);
+  } catch (e: any) {
+    return res.sendStatus(500);
   }
 }
