@@ -1,6 +1,10 @@
 import { Request, Response } from "express";
-import { getUserFriends, addFriend } from "../../services/friend.service";
-import { AddFriendInput } from "../../schema/addFriend.schema";
+import {
+  getUserFriends,
+  addFriend,
+  removeFriend,
+} from "../../services/friend.service";
+import { FriendInput } from "../../schema/friend.schema";
 
 export async function getFriends(req: Request, res: Response) {
   try {
@@ -15,7 +19,7 @@ export async function getFriends(req: Request, res: Response) {
 }
 
 export async function addFriendHandler(
-  req: Request<{}, {}, AddFriendInput["body"]>,
+  req: Request<{}, {}, FriendInput["body"]>,
   res: Response
 ) {
   try {
@@ -24,7 +28,21 @@ export async function addFriendHandler(
     await addFriend(user, req.body.FriendId);
 
     res.sendStatus(201);
-  } catch (e) {
-    res.status(401);
+  } catch (e: any) {
+    res.sendStatus(401);
+  }
+}
+
+export async function removeFriendHandler(
+  req: Request<{}, {}, FriendInput["body"]>,
+  res: Response
+) {
+  try {
+    const user = res.locals.user.dataValues;
+
+    await removeFriend(user, req.body.FriendId);
+    res.sendStatus(204);
+  } catch (e: any) {
+    res.sendStatus(500);
   }
 }

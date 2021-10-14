@@ -14,8 +14,9 @@ import { createPlaceSchema } from "./schema/place.schema";
 import {
   addFriendHandler,
   getFriends,
+  removeFriendHandler,
 } from "./controller/friends/friends.controller";
-import { createAddFriendSchema } from "./schema/addFriend.schema";
+import { createFriendSchema } from "./schema/friend.schema";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -37,9 +38,16 @@ function routes(app: Express) {
 
   //friends
   app.get("/my/friends", deserializeUser, requireUser, getFriends);
+  app.delete(
+    "/remove/friend",
+    validateResource(createFriendSchema),
+    deserializeUser,
+    requireUser,
+    removeFriendHandler
+  );
   app.post(
     "/add/friend",
-    validateResource(createAddFriendSchema),
+    validateResource(createFriendSchema),
     deserializeUser,
     requireUser,
     addFriendHandler

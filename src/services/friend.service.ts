@@ -10,8 +10,8 @@ export async function getUserFriends(user: UserAttributes) {
       where: { id: user.id },
       include: { model: Following },
     });
-
-    return omit(userM, "password");
+    //this works, dont touch for now
+    return omit(userM[0].dataValues, "password");
     //get all friends that appear in followings table
   } catch (e: any) {
     throw new Error(e);
@@ -20,10 +20,23 @@ export async function getUserFriends(user: UserAttributes) {
 
 export async function addFriend(user: UserAttributes, friend: string) {
   try {
-    // console.log(user);
     Following.create({
       FriendId: friend,
       UserId: user.id,
+    });
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
+
+export async function removeFriend(user: UserAttributes, friend: string) {
+  try {
+    console.log("friend", friend);
+    await Following.destroy({
+      where: {
+        FriendId: friend,
+        UserId: user.id,
+      },
     });
   } catch (e: any) {
     throw new Error(e);
