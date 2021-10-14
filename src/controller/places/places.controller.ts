@@ -12,6 +12,9 @@ export async function createPlaceHandler(
     const place = await createPlace(req.body, user);
     if (place) {
       return res.status(201).send(place);
+    } else {
+      //the place already exists for this user
+      return res.sendStatus(400);
     }
   } catch (e: any) {
     return res.status(500).send(e.message);
