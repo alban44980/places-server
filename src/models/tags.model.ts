@@ -2,29 +2,22 @@ import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { TagAttributes } from "../interfaces";
 
-interface TagCreationAttributes extends Optional<TagAttributes, "id"> {}
+interface TagCreationAttributes extends Optional<TagAttributes, "name"> {}
 
 export class Tag
   extends Model<TagAttributes, TagCreationAttributes>
   implements TagAttributes
 {
-  public id!: string;
-  public tag_name!: string;
+  public name!: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 }
 Tag.init(
   {
-    id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-      unique: true,
-      defaultValue: UUIDV4,
-    },
-    tag_name: {
+    name: {
       type: new DataTypes.STRING(),
+      primaryKey: true,
       allowNull: false,
       unique: true,
     },

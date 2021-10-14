@@ -2,6 +2,7 @@ import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { PlaceAttributes } from "../interfaces";
 import { Tag } from "./tags.model";
+import { Places_Tag_Junction } from "./places_tag_junction.model";
 
 interface PlaceCreationAttributes extends Optional<PlaceAttributes, "id"> {}
 
@@ -73,7 +74,15 @@ Place.init(
   }
 );
 
-Place.belongsToMany(Tag, { through: "places_tag_junction" });
-Tag.belongsToMany(Place, { through: "places_tag_junction" });
+Place.belongsToMany(Tag, {
+  through: Places_Tag_Junction,
+  foreignKey: "PlaceId",
+  constraints: false,
+});
+Tag.belongsToMany(Place, {
+  through: Places_Tag_Junction,
+  foreignKey: "TagName",
+  constraints: false,
+});
 
 export default Place;

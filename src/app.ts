@@ -12,14 +12,12 @@ const app = express();
 app.use(express.json());
 
 (async () => {
+  // await sequelize.sync({ force: true });
   await sequelize.sync();
   try {
-    populateTags();
-  } catch (error) {
-    console.log("poop");
-  }
+    await populateTags();
+  } catch (error) {}
 
-  // await sequelize.sync();
   app.listen(port, () => {
     logger.info(`server is running at http://localhost:${port}`);
     routes(app);

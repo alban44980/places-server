@@ -45,7 +45,7 @@ const tags = [
 export const populateTags = async () => {
   try {
     for (let tag of tags) {
-      await Tag.create(tag);
+      await Tag.create({ name: tag.tag_name });
     }
   } catch (error) {}
 };

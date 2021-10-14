@@ -2,6 +2,7 @@ import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
 import { sequelize } from "./index";
 import { SavedPlaceAttributes } from "../interfaces";
 import { Tag } from "./tags.model";
+import { SavedPlaces_Tag_Junction } from "./savedPlaces_tag_junction.model";
 
 interface SavedPlaceCreationAttributes
   extends Optional<SavedPlaceAttributes, "id"> {}
@@ -76,5 +77,16 @@ SavedPlace.init(
 
 SavedPlace.belongsToMany(Tag, { through: "saved_places_tag_junction" });
 Tag.belongsToMany(SavedPlace, { through: "saved_places_tag_junction" });
+
+SavedPlace.belongsToMany(Tag, {
+  through: SavedPlaces_Tag_Junction,
+  foreignKey: "SavedPlaceId",
+  constraints: false,
+});
+Tag.belongsToMany(SavedPlace, {
+  through: SavedPlaces_Tag_Junction,
+  foreignKey: "TagName",
+  constraints: false,
+});
 
 export default SavedPlace;
