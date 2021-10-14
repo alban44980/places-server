@@ -9,7 +9,10 @@ import {
   createUserSession,
   deleteUserSession,
 } from "./controller/session/session.controller";
-import { createPlaceHandler } from "./controller/places/places.controller";
+import {
+  createPlaceHandler,
+  getFriendsCitiesPlancesHandler,
+} from "./controller/places/places.controller";
 import { createPlaceSchema } from "./schema/place.schema";
 import {
   addFriendHandler,
@@ -34,6 +37,12 @@ function routes(app: Express) {
     requireUser,
     validateResource(createPlaceSchema),
     createPlaceHandler
+  );
+  app.get(
+    "/friendsCitiesPlaces",
+    deserializeUser,
+    requireUser,
+    getFriendsCitiesPlancesHandler
   );
 
   //friends

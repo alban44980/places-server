@@ -1,55 +1,50 @@
 import Place from "../models/place.model";
 import User from "../models/user.model";
 import { UserAttributes, PlaceAttributes } from "../interfaces";
+import City from "../models/city.model";
+import { omit } from "lodash";
 
 export async function createPlace(
-  place: Omit<
-    PlaceAttributes,
-    "createdAt" | "updatedAt" | "id" | "UserId" | "CityId"
-  >,
+  place: Omit<PlaceAttributes, "createdAt" | "updatedAt" | "id" | "city_info">,
+  //| "UserId" | "CityId"
   user: UserAttributes
 ) {
   try {
-    console.log("place", place);
-    // place {
-    // name: "Sandy's",
-    // description: 'great place for drinks',
-    // tag_list: [ { tag_name: 'bars' }, { tag_name: 'music' } ],
-    // img: 'https://13144adksfjhafakjfhjkhfa.com',
-    // location: '{lat:131313,lng:1313134}',
-    // address: '134avc 53st, barc, MW, 33193',
-    // city: 'Lagos',
-    // country: 'Japan'
-    //}
+    //if user already has this place added then return false
+    if (await Place.findOne({ where: { name: place.name, UserId: user.id } })) {
+      return false;
+    }
 
-    console.log("user", user);
-    //  user {
-    //   id: '44c54ce5-1d1c-4312-b864-3fd18fcc6927',
-    //   user_name: 'test1UN',
-    //   bio: 'test1BIO',
-    //   img: null,
-    //   following_count: 0,
-    //   followers_count: 0,
-    //   first_name: 'test1FN',
-    //   last_name: 'test1LN',
-    //   email: 'test1EM@EM.com',
-    //   password: '$2b$10$mAuLPqIIkqzxgk82T06.HeKE9dtRNVTEhU0ZLHu4sXDEy4GOEkETO',
-    //   createdAt: '2021-10-14T08:24:46.671Z',
-    //   updatedAt: '2021-10-14T08:24:46.671Z'
-    //  }
+    //check if user already has a city
+    let city = await City.findOne({
+      where: { name: place.city_info.name, UserId: user.id },
+    });
 
-    //PLACE has a relation of many to many with TAGS
-    //a CITY can have many places
-    //a USER can many cities
-    //first we need to find if a user has a city that matches the new place's city
-    //if it does not, we create a new city with a relation to the user
-    //if it does we move forward
+    //if city does not exists create a new city for the user
+    if (!city) {
+      const newCity = {
+        ...place.city_info,
+        UserId: user.id,
+      };
+      city = await City.create(newCity);
+      console.log("new city", city);
+    }
+    //city exists
+    //omit city_info from place object
+    place = {
+      ...place,
+      CityId: city.dataValues.id,
+      UserId: user.id,
+    };
+    const newPlace = omit(place, "city_info");
 
-    //get user Model
-    const userM = await User.findOne({ where: { id: user.id } });
+    const createdPlace = await Place.create(newPlace);
 
-    return true;
+    console.log("newly created place", createdPlace);
+
+    return createdPlace;
   } catch (e: any) {
+    console.log("place already exists");
     throw new Error(e);
   }
 }
