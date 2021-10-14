@@ -117,13 +117,18 @@ User.init(
 );
 
 User.hasMany(Place);
+Place.belongsTo(User);
 
 User.hasMany(City);
+City.belongsTo(User);
 
 User.hasMany(Following);
+Following.belongsTo(User);
 
 User.hasMany(SavedPlace);
+SavedPlace.belongsTo(User);
 
 User.hasMany(Session);
+Session.belongsTo(User);
 
 export default User;

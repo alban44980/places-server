@@ -38,6 +38,4 @@ Following.init(
   }
 );
 
-// Following.belongsTo(User);
-
 export default Following;
