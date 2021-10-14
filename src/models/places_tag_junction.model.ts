@@ -11,8 +11,8 @@ export class Places_Tag_Junction
   >
   implements Places_Tag_JunctionAttributes
 {
-  public PlaceId?: string;
-  public TagName?: string;
+  public placeId?: string;
+  public tagName?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
@@ -20,11 +20,11 @@ export class Places_Tag_Junction
 
 Places_Tag_Junction.init(
   {
-    PlaceId: {
-      type: new DataTypes.STRING(),
+    placeId: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    TagName: {
+    tagName: {
       type: new DataTypes.STRING(),
 
       allowNull: false,

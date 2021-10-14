@@ -76,13 +76,13 @@ Place.init(
 
 Place.belongsToMany(Tag, {
   through: Places_Tag_Junction,
-  foreignKey: "PlaceId",
-  constraints: false,
+  // foreignKey: "placeId",
+  // constraints: false,
 });
 Tag.belongsToMany(Place, {
   through: Places_Tag_Junction,
-  foreignKey: "TagName",
-  constraints: false,
+  // foreignKey: "tagName",
+  // constraints: false,
 });
 
 export default Place;

@@ -76,14 +76,14 @@ export interface TagAttributes {
 }
 
 export interface Places_Tag_JunctionAttributes {
-  PlaceId?: string;
-  TagName?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  // placeId?: string;
+  // tagName?: string;
+  // createdAt?: Date;
+  // updatedAt?: Date;
 }
 export interface SavedPlaces_Tag_JunctionAttributes {
-  SavedPlaceId?: string;
-  TagName?: string;
+  savedPlaceId?: string;
+  tagName?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

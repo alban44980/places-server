@@ -11,8 +11,8 @@ export class SavedPlaces_Tag_Junction
   >
   implements SavedPlaces_Tag_JunctionAttributes
 {
-  public SavedPlaceId?: string;
-  public TagName?: string;
+  public savedPlaceId?: string;
+  public tagName?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
@@ -20,11 +20,11 @@ export class SavedPlaces_Tag_Junction
 
 SavedPlaces_Tag_Junction.init(
   {
-    SavedPlaceId: {
+    savedPlaceId: {
       type: new DataTypes.STRING(),
       allowNull: false,
     },
-    TagName: {
+    tagName: {
       type: new DataTypes.STRING(),
 
       allowNull: false,
