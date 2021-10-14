@@ -1,5 +1,6 @@
 const cities = [
   {
+    //connor
     id: "848b8780-cc46-4e06-a12c-1f0d22fc4723",
     UserId: "123e4567-e89b-12d3-a456-426614174000",
     name: "Barcelona",
@@ -9,6 +10,7 @@ const cities = [
     updatedAt: new Date(),
   },
   {
+    //adriano
     id: "42b08843-69ae-4f30-a37a-a99982945db2",
     UserId: "18c1237f-363e-44db-9999-5adc3afd279c",
     name: "Barcelona",
@@ -18,6 +20,7 @@ const cities = [
     updatedAt: new Date(),
   },
   {
+    //connor
     id: "2260e096-421d-4944-a077-ccf02081db3c",
     UserId: "123e4567-e89b-12d3-a456-426614174000",
     name: "Berlin",
@@ -27,6 +30,7 @@ const cities = [
     updatedAt: new Date(),
   },
   {
+    //
     id: "7040f4a4-c602-478d-86a1-b1afc130ca7a",
     UserId: "b28f24a1-77ec-4809-a26e-ee35068d12a8",
     name: "Nantes",
