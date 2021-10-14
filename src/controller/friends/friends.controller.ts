@@ -6,7 +6,7 @@ export async function getFriends(req: Request, res: Response) {
   try {
     const user = res.locals.user.dataValues;
 
-    const friends = getUserFriends(user);
+    const friends = await getUserFriends(user);
 
     return res.send(friends);
   } catch (e) {

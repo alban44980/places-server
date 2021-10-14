@@ -20,16 +20,11 @@ export async function getUserFriends(user: UserAttributes) {
 
 export async function addFriend(user: UserAttributes, friend: string) {
   try {
-    console.log(user);
-    Following.create(
-      {
-        FriendId: friend,
-      },
-
-      { include: { model: User }, where: { id: user.id } }
-    );
-
-    // Following.update({ UserId: user.id }, { where: { FriendId: friend } });
+    // console.log(user);
+    Following.create({
+      FriendId: friend,
+      UserId: user.id,
+    });
   } catch (e: any) {
     throw new Error(e);
   }
