@@ -51,6 +51,48 @@ export async function createPlace(
     return createdPlace;
   } catch (e: any) {
     console.log(e);
+  }
+}
+
+export async function getMyPlaces(user: User) {
+  try {
+    const userM = await User.findAll({
+      where: { id: user.id },
+      include: { model: Place },
+    });
+    return omit(userM[0].dataValues, "password");
+    // get places
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
+
+// will be used to delete if city has no more places
+export async function getMyCities(user: User) {
+  try {
+    const userM = await User.findAll({
+      where: { id: user.id },
+      include: { model: City },
+    });
+    return omit(userM[0].dataValues, "password");
+    //get all cities that appear in cities table
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
+
+// does not yet remove city if it has no more places assosciated with it
+export async function removeMyPlace(user: UserAttributes, myPlaceId: any) {
+  try {
+    console.log("myPlaceId", myPlaceId);
+    console.log("USER", user);
+    await Place.destroy({
+      where: {
+        id: myPlaceId.id,
+        UserId: user.id,
+      },
+    });
+  } catch (e: any) {
     throw new Error(e);
   }
 }

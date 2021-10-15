@@ -35,6 +35,7 @@ export async function addFriend(user: UserAttributes, friend: string) {
 export async function removeFriend(user: UserAttributes, friend: string) {
   try {
     console.log("friend", friend);
+    console.log("user", user);
     await Following.destroy({
       where: {
         FriendId: friend,
