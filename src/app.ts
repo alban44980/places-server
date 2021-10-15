@@ -11,8 +11,8 @@ app.use(cors());
 app.use(express.json());
 
 (async () => {
-  // await sequelize.sync({ force: true });
-  await sequelize.sync();
+  await sequelize.sync({ force: true });
+  // await sequelize.sync();
   try {
     await populateTags();
   } catch (error) {}

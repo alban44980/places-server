@@ -16,11 +16,12 @@ export async function createPlaceHandler(
   try {
     const user = res.locals.user.dataValues;
     const place = await createPlace(req.body, user);
+
     if (place) {
       return res.status(201).send(place);
     } else {
       //the place already exists for this user
-      return res.status(400);
+      return res.sendStatus(400);
     }
   } catch (e: any) {
     return res.status(500).send(e.message);
@@ -34,7 +35,7 @@ export async function getMyPlacesHandler(req: Request, res: Response) {
     const myPlaces = await getMyPlaces(user);
 
     return res.send(myPlaces);
-  } catch (e) {
+  } catch (e: any) {
     res.status(404);
   }
 }
@@ -45,7 +46,7 @@ export async function getMyCitiesPlacesHandler(req: Request, res: Response) {
 
     const myCitiesPlaces = await getMyCitiesPlaces(user);
     return res.status(200).send(myCitiesPlaces);
-  } catch (e) {
+  } catch (e: any) {
     res.sendStatus(404);
   }
 }
@@ -59,7 +60,7 @@ export async function getOtherUserCitiesPlacesHandler(
 
     const myCitiesPlaces = await getMyCitiesPlaces(otherUser);
     return res.status(200).send(myCitiesPlaces);
-  } catch (e) {
+  } catch (e: any) {
     res.sendStatus(404);
   }
 }

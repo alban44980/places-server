@@ -47,7 +47,9 @@ export async function createPlace(
     }
 
     return createdPlace;
-  } catch (e: any) {}
+  } catch (e: any) {
+    throw new Error(e);
+  }
 }
 
 export async function getMyPlaces(user: User) {
@@ -116,7 +118,6 @@ export async function removeMyPlace(user: UserAttributes, myPlaceId: any) {
       });
     }
   } catch (e: any) {
-    console.log(e);
     throw new Error(e);
   }
 }
