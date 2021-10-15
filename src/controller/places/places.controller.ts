@@ -2,11 +2,12 @@ import { Request, Response } from "express";
 import { CreatePlaceInput } from "../../schema/place.schema";
 import {
   createPlace,
-  getMyCities,
+  getMyCitiesPlaces,
   removeMyPlace,
 } from "../../services/place.service";
 import { getMyPlaces } from "../../services/place.service";
 import { RemoveMyPlaceInput } from "../../schema/removeMyPlace.schema";
+import { OtherUsInput } from "../../schema/otherUserInfo.schema";
 
 export async function createPlaceHandler(
   req: Request<{}, {}, CreatePlaceInput["body"]>,
@@ -38,15 +39,38 @@ export async function getMyPlacesHandler(req: Request, res: Response) {
   }
 }
 
-// does not yet remove city if it has no more places assosciated with it
+export async function getMyCitiesPlacesHandler(req: Request, res: Response) {
+  try {
+    const user = res.locals.user.dataValues;
+
+    const myCitiesPlaces = await getMyCitiesPlaces(user);
+    return res.status(200).send(myCitiesPlaces);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+}
+
+export async function getOtherUserCitiesPlacesHandler(
+  req: Request<{}, {}, OtherUsInput["body"]>,
+  res: Response
+) {
+  try {
+    const otherUser = { id: req.body.userId };
+
+    const myCitiesPlaces = await getMyCitiesPlaces(otherUser);
+    return res.status(200).send(myCitiesPlaces);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+}
+
 export async function removeMyPlaceHandler(
   req: Request<{}, {}, RemoveMyPlaceInput["body"]>,
   res: Response
 ) {
   try {
     const user = res.locals.user.dataValues;
-    const myCities = await getMyCities(user);
-    console.log("POOP", myCities);
+    // const myCities = await getMyCities(user);
     await removeMyPlace(user, req.body);
     return res.sendStatus(204);
   } catch (e: any) {

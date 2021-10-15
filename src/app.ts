@@ -1,19 +1,18 @@
 import express from "express";
-import config from "config";
 import logger from "./utils/logger";
 import routes from "./routes";
 import { sequelize } from "./models/index";
 import { populateTags } from "./seeders/seedTags";
-//need to add cors
+import cors from "cors";
 
 const port = process.env.PORT;
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 (async () => {
-  await sequelize.sync({ force: true });
-  // await sequelize.sync();
+  // await sequelize.sync({ force: true });
+  await sequelize.sync();
   try {
     await populateTags();
   } catch (error) {}

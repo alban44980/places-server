@@ -47,7 +47,6 @@ export async function addSavedPlace(
 
     return createdSavedPlace;
   } catch (e: any) {
-    console.log(e);
     throw new Error(e);
   }
 }

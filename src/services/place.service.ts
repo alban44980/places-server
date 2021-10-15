@@ -3,6 +3,7 @@ import User from "../models/user.model";
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";
+import Tag from "../models/tags.model";
 
 export async function createPlace(
   place: Omit<PlaceAttributes, "createdAt" | "updatedAt" | "id" | "city_info">,
@@ -14,9 +15,6 @@ export async function createPlace(
     if (await Place.findOne({ where: { name: place.name, UserId: user.id } })) {
       return false;
     }
-
-    //extra tags for relation
-    console.log("tags", place.tag_list);
 
     //check if user already has a city
     let city = await City.findOne({
@@ -49,9 +47,7 @@ export async function createPlace(
     }
 
     return createdPlace;
-  } catch (e: any) {
-    console.log(e);
-  }
+  } catch (e: any) {}
 }
 
 export async function getMyPlaces(user: User) {
@@ -68,13 +64,29 @@ export async function getMyPlaces(user: User) {
 }
 
 // will be used to delete if city has no more places
-export async function getMyCities(user: User) {
+export async function getMyCitiesPlaces(user: any) {
   try {
-    const userM = await User.findAll({
+    const userM = await User.findOne({
+      attributes: { exclude: ["password"] },
       where: { id: user.id },
-      include: { model: City },
+      include: [
+        {
+          model: City,
+          include: [
+            {
+              model: Place,
+              include: [
+                {
+                  model: Tag,
+                },
+              ],
+            },
+          ],
+        },
+      ],
     });
-    return omit(userM[0].dataValues, "password");
+
+    return userM;
     //get all cities that appear in cities table
   } catch (e: any) {
     throw new Error(e);
@@ -84,8 +96,6 @@ export async function getMyCities(user: User) {
 // does not yet remove city if it has no more places assosciated with it
 export async function removeMyPlace(user: UserAttributes, myPlaceId: any) {
   try {
-    console.log("myPlaceId", myPlaceId);
-    console.log("USER", user);
     await Place.destroy({
       where: {
         id: myPlaceId.id,
