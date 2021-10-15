@@ -1,4 +1,4 @@
-import { Model, DataTypes } from "sequelize";
+import { Model } from "sequelize";
 import { sequelize } from "./index";
 import { Places_Tag_JunctionAttributes } from "../interfaces";
 

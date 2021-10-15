@@ -1,4 +1,4 @@
-import { FollowingAttributes, UserAttributes } from "../interfaces";
+import { UserAttributes } from "../interfaces";
 import User from "../models/user.model";
 import Following from "../models/following.model";
 import City from "../models/city.model";

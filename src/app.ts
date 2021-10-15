@@ -1,5 +1,4 @@
 import express from "express";
-import config from "config";
 import logger from "./utils/logger";
 import routes from "./routes";
 import { sequelize } from "./models/index";

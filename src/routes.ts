@@ -43,6 +43,7 @@ function routes(app: Express) {
   app.delete("/logout", deserializeUser, requireUser, deleteUserSession);
 
   //places
+  // Create a place
   app.post(
     "/add/place",
     validateResource(createPlaceSchema),
@@ -50,31 +51,8 @@ function routes(app: Express) {
     requireUser,
     createPlaceHandler
   );
-  app.get(
-    "/friendsCitiesPlaces",
-    deserializeUser,
-    requireUser,
-    getFriendsCitiesPlacesHandler
-  );
 
-  app.post(
-    "/add/savedplace",
-    validateResource(addSavedPlaceSchema),
-    deserializeUser,
-    requireUser,
-    addSavedPlaceHandler
-  );
-
-  app.delete(
-    "/remove/savedplace",
-    validateResource(removeSavedPlaceSchema),
-    deserializeUser,
-    requireUser,
-    removeSavedPlaceHandler
-  );
-
-  app.get("/my/savedplaces", deserializeUser, requireUser, getSavedPlaces);
-
+  // Remove a place
   app.delete(
     "/remove/myplace",
     validateResource(removeMyPlaceSchema),
@@ -83,10 +61,43 @@ function routes(app: Express) {
     removeMyPlaceHandler
   );
 
+  // Get my places
   app.get("/my/places", deserializeUser, requireUser, getMyPlacesHandler);
 
+  // Get my places, cities and friends
+  app.get(
+    "/friendsCitiesPlaces",
+    deserializeUser,
+    requireUser,
+    getFriendsCitiesPlacesHandler
+  );
+
+  // Add to saved places
+  app.post(
+    "/add/savedplace",
+    validateResource(addSavedPlaceSchema),
+    deserializeUser,
+    requireUser,
+    addSavedPlaceHandler
+  );
+
+  // Remove saved place
+  app.delete(
+    "/remove/savedplace",
+    validateResource(removeSavedPlaceSchema),
+    deserializeUser,
+    requireUser,
+    removeSavedPlaceHandler
+  );
+
+  // Get saved places
+  app.get("/my/savedplaces", deserializeUser, requireUser, getSavedPlaces);
+
   //friends
+  // Get all friends
   app.get("/my/friends", deserializeUser, requireUser, getFriends);
+
+  // Remove/unfollow friend
   app.delete(
     "/remove/friend",
     validateResource(createFriendSchema),
@@ -94,6 +105,7 @@ function routes(app: Express) {
     requireUser,
     removeFriendHandler
   );
+  // Add/follow friend
   app.post(
     "/add/friend",
     validateResource(createFriendSchema),

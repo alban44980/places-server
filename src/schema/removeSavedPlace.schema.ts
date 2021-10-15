@@ -1,6 +1,4 @@
 import { object, string, TypeOf, array } from "zod";
-import { tagsSchema } from "./tag.schema";
-import { createCitySchema } from "./city.schema";
 
 export const removeSavedPlaceSchema = object({
   body: object({

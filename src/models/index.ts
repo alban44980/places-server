@@ -1,7 +1,6 @@
 "use strict";
 import * as dotenv from "dotenv";
 import { Sequelize, Dialect } from "sequelize";
-import { populateTags } from "../seeders/seedTags";
 
 dotenv.config();
 

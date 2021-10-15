@@ -1,5 +1,3 @@
-// import session model
-
 import { verifyJwt } from "../utils/jwt.utils";
 import { signJwt } from "../utils/jwt.utils";
 import { get } from "lodash";
