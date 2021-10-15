@@ -9,7 +9,11 @@ import {
   createUserSession,
   deleteUserSession,
 } from "./controller/session/session.controller";
-import { createPlaceHandler } from "./controller/places/places.controller";
+import {
+  createPlaceHandler,
+  getMyPlacesHandler,
+  removeMyPlaceHandler,
+} from "./controller/places/places.controller";
 import { createPlaceSchema } from "./schema/place.schema";
 import {
   addFriendHandler,
@@ -18,6 +22,13 @@ import {
   getFriendsCitiesPlacesHandler,
 } from "./controller/friends/friends.controller";
 import { createFriendSchema } from "./schema/friend.schema";
+import { addSavedPlaceSchema } from "./schema/savedPlaces.schema";
+import {
+  addSavedPlaceHandler,
+  getSavedPlaces,
+  removeSavedPlaceHandler,
+} from "./controller/savedPlaces/savedPlaces.controller";
+import { removeSavedPlaceSchema } from "./schema/removeSavedPlace.schema";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -31,9 +42,9 @@ function routes(app: Express) {
   //places
   app.post(
     "/add/place",
+    validateResource(createPlaceSchema),
     deserializeUser,
     requireUser,
-    validateResource(createPlaceSchema),
     createPlaceHandler
   );
   app.get(
@@ -42,6 +53,34 @@ function routes(app: Express) {
     requireUser,
     getFriendsCitiesPlacesHandler
   );
+
+  app.post(
+    "/add/savedplace",
+    validateResource(addSavedPlaceSchema),
+    deserializeUser,
+    requireUser,
+    addSavedPlaceHandler
+  );
+
+  app.delete(
+    "/remove/savedplace",
+    validateResource(removeSavedPlaceSchema),
+    deserializeUser,
+    requireUser,
+    removeSavedPlaceHandler
+  );
+
+  app.get("/my/savedplaces", deserializeUser, requireUser, getSavedPlaces);
+
+  app.delete(
+    "/remove/myplace",
+    validateResource(removeSavedPlaceSchema),
+    deserializeUser,
+    requireUser,
+    removeMyPlaceHandler
+  );
+
+  app.get("/my/places", deserializeUser, requireUser, getMyPlacesHandler);
 
   //friends
   app.get("/my/friends", deserializeUser, requireUser, getFriends);
