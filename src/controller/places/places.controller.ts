@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import Place from "../../models/place.model";
 import { CreatePlaceInput } from "../../schema/place.schema";
 import {
   createPlace,

@@ -11,8 +11,8 @@ export class Places_Tag_Junction
   >
   implements Places_Tag_JunctionAttributes
 {
-  public placeId?: string;
-  public tagName?: string;
+  public PlaceId?: string;
+  public TagName?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
