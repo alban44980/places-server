@@ -1,6 +1,8 @@
-import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
+import { Model, Optional, DataTypes, UUIDV4, Association } from "sequelize";
 import { sequelize } from "./index";
 import { TagAttributes } from "../interfaces";
+import Place from "./place.model";
+import SavedPlace from "./savedPlaces.model";
 
 interface TagCreationAttributes extends Optional<TagAttributes, "name"> {}
 
@@ -12,6 +14,11 @@ export class Tag
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
+
+  public static associations: {
+    places: Association<Tag, Place>;
+    saved_places: Association<Tag, SavedPlace>;
+  };
 }
 Tag.init(
   {

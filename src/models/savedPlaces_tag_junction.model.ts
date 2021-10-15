@@ -11,25 +11,15 @@ export class SavedPlaces_Tag_Junction
   >
   implements SavedPlaces_Tag_JunctionAttributes
 {
-  public savedPlaceId?: string;
-  public tagName?: string;
+  public SavedPlaceId?: string;
+  public TagName?: string;
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
 }
 
 SavedPlaces_Tag_Junction.init(
-  {
-    savedPlaceId: {
-      type: new DataTypes.STRING(),
-      allowNull: false,
-    },
-    tagName: {
-      type: new DataTypes.STRING(),
-
-      allowNull: false,
-    },
-  },
+  {},
   {
     tableName: "saved_places_tag_junction",
     sequelize,

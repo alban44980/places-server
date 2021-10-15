@@ -19,17 +19,7 @@ export class Places_Tag_Junction
 }
 
 Places_Tag_Junction.init(
-  {
-    placeId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    tagName: {
-      type: new DataTypes.STRING(),
-
-      allowNull: false,
-    },
-  },
+  {},
   {
     tableName: "places_tag_junction",
     sequelize,

@@ -3,7 +3,6 @@ import Place from "../models/place.model";
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";
-import { Places_Tag_Junction } from "../models/places_tag_junction.model";
 
 export async function createPlace(
   place: Omit<PlaceAttributes, "createdAt" | "updatedAt" | "id" | "city_info">,
@@ -11,11 +10,10 @@ export async function createPlace(
   user: UserAttributes
 ) {
   try {
-    console.log("newPLSDASDAS", place);
     //if user already has this place added then return false
-    // if (await Place.findOne({ where: { name: place.name, UserId: user.id } })) {
-    //   return false;
-    // }
+    if (await Place.findOne({ where: { name: place.name, UserId: user.id } })) {
+      return false;
+    }
 
     //extra tags for relation
     console.log("tags", place.tag_list);
@@ -47,12 +45,7 @@ export async function createPlace(
     //add tag relations
 
     for (let tag of place.tag_list) {
-      console.log("tag", tag);
-      const result = await Places_Tag_Junction.create({
-        PlaceId: createdPlace.id,
-        TagName: tag.tag_name,
-      });
-      console.log("res", result);
+      await createdPlace.addTag(tag.tag_name);
     }
 
     return createdPlace;
