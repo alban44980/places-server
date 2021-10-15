@@ -1,5 +1,5 @@
 import Place from "../models/place.model";
-
+import User from "../models/user.model";
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";

@@ -40,6 +40,11 @@ export async function addSavedPlace(
     };
     const newSavedPlace = omit(place, "city_info");
     const createdSavedPlace = await SavedPlace.create(newSavedPlace);
+
+    for (let tag of place.tag_list) {
+      await createdSavedPlace.addTag(tag.tag_name);
+    }
+
     return createdSavedPlace;
   } catch (e: any) {
     console.log(e);
