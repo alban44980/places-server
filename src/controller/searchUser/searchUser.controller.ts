@@ -8,6 +8,7 @@ export async function sendAllSearchedUsers(
 ) {
   try {
     const user = res.locals.user.dataValues;
+
     const results = await getAllUsers(user, req.body.searchValue);
     return res.status(200).send(results);
   } catch (e: any) {

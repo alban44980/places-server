@@ -1,8 +1,9 @@
 import Place from "../models/place.model";
+import User from "../models/user.model";
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";
-import User from "../models/user.model";
+import Tag from "../models/tags.model";
 
 export async function createPlace(
   place: Omit<PlaceAttributes, "createdAt" | "updatedAt" | "id" | "city_info">,
@@ -46,9 +47,7 @@ export async function createPlace(
     }
 
     return createdPlace;
-  } catch (e: any) {
-    console.log(e);
-  }
+  } catch (e: any) {}
 }
 
 export async function getMyPlaces(user: User) {
@@ -64,19 +63,35 @@ export async function getMyPlaces(user: User) {
   }
 }
 
-// // gets all cities
-// export async function getMyCities(user: User) {
-//   try {
-//     const userM = await User.findAll({
-//       where: { id: user.id },
-//       include: { model: City },
-//     });
-//     return omit(userM[0].dataValues, "password");
-//     //get all cities that appear in cities table
-//   } catch (e: any) {
-//     throw new Error(e);
-//   }
-// }
+// will be used to delete if city has no more places
+export async function getMyCitiesPlaces(user: any) {
+  try {
+    const userM = await User.findOne({
+      attributes: { exclude: ["password"] },
+      where: { id: user.id },
+      include: [
+        {
+          model: City,
+          include: [
+            {
+              model: Place,
+              include: [
+                {
+                  model: Tag,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+
+    return userM;
+    //get all cities that appear in cities table
+  } catch (e: any) {
+    throw new Error(e);
+  }
+}
 
 // does not yet remove city if it has no more places assosciated with it
 export async function removeMyPlace(user: UserAttributes, myPlaceId: any) {

@@ -1,8 +1,13 @@
 import { Request, Response } from "express";
 import { CreatePlaceInput } from "../../schema/place.schema";
-import { createPlace, removeMyPlace } from "../../services/place.service";
+import {
+  createPlace,
+  getMyCitiesPlaces,
+  removeMyPlace,
+} from "../../services/place.service";
 import { getMyPlaces } from "../../services/place.service";
 import { RemoveMyPlaceInput } from "../../schema/removeMyPlace.schema";
+import { OtherUsInput } from "../../schema/otherUserInfo.schema";
 
 export async function createPlaceHandler(
   req: Request<{}, {}, CreatePlaceInput["body"]>,
@@ -31,6 +36,31 @@ export async function getMyPlacesHandler(req: Request, res: Response) {
     return res.send(myPlaces);
   } catch (e) {
     res.status(404);
+  }
+}
+
+export async function getMyCitiesPlacesHandler(req: Request, res: Response) {
+  try {
+    const user = res.locals.user.dataValues;
+
+    const myCitiesPlaces = await getMyCitiesPlaces(user);
+    return res.status(200).send(myCitiesPlaces);
+  } catch (e) {
+    res.sendStatus(404);
+  }
+}
+
+export async function getOtherUserCitiesPlacesHandler(
+  req: Request<{}, {}, OtherUsInput["body"]>,
+  res: Response
+) {
+  try {
+    const otherUser = { id: req.body.userId };
+
+    const myCitiesPlaces = await getMyCitiesPlaces(otherUser);
+    return res.status(200).send(myCitiesPlaces);
+  } catch (e) {
+    res.sendStatus(404);
   }
 }
 

@@ -11,7 +11,9 @@ import {
 } from "./controller/session/session.controller";
 import {
   createPlaceHandler,
+  getMyCitiesPlacesHandler,
   getMyPlacesHandler,
+  getOtherUserCitiesPlacesHandler,
   removeMyPlaceHandler,
 } from "./controller/places/places.controller";
 import { createPlaceSchema } from "./schema/place.schema";
@@ -32,6 +34,7 @@ import {
 } from "./controller/savedPlaces/savedPlaces.controller";
 import { removeSavedPlaceSchema } from "./schema/removeSavedPlace.schema";
 import { removeMyPlaceSchema } from "./schema/removeMyPlace.schema";
+import { createOtherUserInfoSchema } from "./schema/otherUserInfo.schema";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -81,7 +84,21 @@ function routes(app: Express) {
     addSavedPlaceHandler
   );
 
-  // Remove saved place
+  app.post(
+    "/otherUserInfo",
+    validateResource(createOtherUserInfoSchema),
+    deserializeUser,
+    requireUser,
+    getOtherUserCitiesPlacesHandler
+  );
+
+  app.get(
+    "/my/citiesPlaces",
+    deserializeUser,
+    requireUser,
+    getMyCitiesPlacesHandler
+  );
+
   app.delete(
     "/remove/savedplace",
     validateResource(removeSavedPlaceSchema),

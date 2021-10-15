@@ -27,6 +27,10 @@ export async function addFriend(user: UserAttributes, friend: string) {
       FriendId: friend,
       UserId: user.id,
     });
+    //increment following by one for the user
+    User.increment({ following_count: +1 }, { where: { id: user.id } });
+    //increment followers by one for the target friend
+    User.increment({ followers_count: +1 }, { where: { id: friend } });
   } catch (e: any) {
     throw new Error(e);
   }
@@ -40,6 +44,10 @@ export async function removeFriend(user: UserAttributes, friend: string) {
         UserId: user.id,
       },
     });
+    //decrement following by one for the user
+    User.increment({ following_count: -1 }, { where: { id: user.id } });
+    //decrement followers by one for the target friend
+    User.increment({ followers_count: -1 }, { where: { id: friend } });
   } catch (e: any) {
     throw new Error(e);
   }

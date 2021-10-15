@@ -3,11 +3,11 @@ import logger from "./utils/logger";
 import routes from "./routes";
 import { sequelize } from "./models/index";
 import { populateTags } from "./seeders/seedTags";
-//need to add cors
+import cors from "cors";
 
 const port = process.env.PORT;
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 
 (async () => {
