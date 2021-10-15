@@ -69,7 +69,14 @@ City.init(
   }
 );
 
-City.hasMany(Place);
-Place.belongsTo(City);
+City.hasMany(Place, {
+  onDelete: "cascade",
+  hooks: true,
+});
+
+Place.belongsTo(City, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
 export default City;

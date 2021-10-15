@@ -90,9 +90,13 @@ SavedPlace.init(
 
 SavedPlace.belongsToMany(Tag, {
   through: SavedPlaces_Tag_Junction,
+  onDelete: "cascade",
+  hooks: true,
 });
 Tag.belongsToMany(SavedPlace, {
   through: SavedPlaces_Tag_Junction,
+  onDelete: "cascade",
+  hooks: true,
 });
 
 export default SavedPlace;

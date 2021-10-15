@@ -1,11 +1,6 @@
 import { Request, Response } from "express";
-import Place from "../../models/place.model";
 import { CreatePlaceInput } from "../../schema/place.schema";
-import {
-  createPlace,
-  getMyCities,
-  removeMyPlace,
-} from "../../services/place.service";
+import { createPlace, removeMyPlace } from "../../services/place.service";
 import { getMyPlaces } from "../../services/place.service";
 import { RemoveMyPlaceInput } from "../../schema/removeMyPlace.schema";
 
@@ -39,15 +34,13 @@ export async function getMyPlacesHandler(req: Request, res: Response) {
   }
 }
 
-// does not yet remove city if it has no more places assosciated with it
 export async function removeMyPlaceHandler(
   req: Request<{}, {}, RemoveMyPlaceInput["body"]>,
   res: Response
 ) {
   try {
     const user = res.locals.user.dataValues;
-    const myCities = await getMyCities(user);
-    console.log("POOP", myCities);
+
     await removeMyPlace(user, req.body);
     return res.sendStatus(204);
   } catch (e: any) {

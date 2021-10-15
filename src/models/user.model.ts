@@ -116,19 +116,49 @@ User.init(
   }
 );
 
-User.hasMany(Place);
-Place.belongsTo(User);
+User.hasMany(Place, {
+  onDelete: "cascade",
+  hooks: true,
+});
+Place.belongsTo(User, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
-User.hasMany(City);
-City.belongsTo(User);
+User.hasMany(City, {
+  onDelete: "cascade",
+  hooks: true,
+});
+City.belongsTo(User, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
-User.hasMany(Following);
-Following.belongsTo(User);
+User.hasMany(Following, {
+  onDelete: "cascade",
+  hooks: true,
+});
+Following.belongsTo(User, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
-User.hasMany(SavedPlace);
-SavedPlace.belongsTo(User);
+User.hasMany(SavedPlace, {
+  onDelete: "cascade",
+  hooks: true,
+});
+SavedPlace.belongsTo(User, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
-User.hasMany(Session);
-Session.belongsTo(User);
+User.hasMany(Session, {
+  onDelete: "cascade",
+  hooks: true,
+});
+Session.belongsTo(User, {
+  onDelete: "cascade",
+  hooks: true,
+});
 
 export default User;

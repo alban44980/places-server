@@ -1,8 +1,8 @@
 import Place from "../models/place.model";
-
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";
+import User from "../models/user.model";
 
 export async function createPlace(
   place: Omit<PlaceAttributes, "createdAt" | "updatedAt" | "id" | "city_info">,
@@ -14,9 +14,6 @@ export async function createPlace(
     if (await Place.findOne({ where: { name: place.name, UserId: user.id } })) {
       return false;
     }
-
-    //extra tags for relation
-    console.log("tags", place.tag_list);
 
     //check if user already has a city
     let city = await City.findOne({
@@ -67,32 +64,44 @@ export async function getMyPlaces(user: User) {
   }
 }
 
-// will be used to delete if city has no more places
-export async function getMyCities(user: User) {
-  try {
-    const userM = await User.findAll({
-      where: { id: user.id },
-      include: { model: City },
-    });
-    return omit(userM[0].dataValues, "password");
-    //get all cities that appear in cities table
-  } catch (e: any) {
-    throw new Error(e);
-  }
-}
+// // gets all cities
+// export async function getMyCities(user: User) {
+//   try {
+//     const userM = await User.findAll({
+//       where: { id: user.id },
+//       include: { model: City },
+//     });
+//     return omit(userM[0].dataValues, "password");
+//     //get all cities that appear in cities table
+//   } catch (e: any) {
+//     throw new Error(e);
+//   }
+// }
 
 // does not yet remove city if it has no more places assosciated with it
 export async function removeMyPlace(user: UserAttributes, myPlaceId: any) {
   try {
-    console.log("myPlaceId", myPlaceId);
-    console.log("USER", user);
-    await Place.destroy({
-      where: {
-        id: myPlaceId.id,
-        UserId: user.id,
-      },
+    const cityList = await City.findOne({
+      where: { id: myPlaceId.CityId },
+      include: { model: Place },
     });
+    // if there is only one place for the city delete the city as well and cascading relations
+    if (cityList.dataValues.Places.length === 1) {
+      await City.destroy({
+        where: {
+          id: myPlaceId.CityId,
+        },
+      });
+    } else {
+      await Place.destroy({
+        where: {
+          id: myPlaceId.id,
+          UserId: user.id,
+        },
+      });
+    }
   } catch (e: any) {
+    console.log(e);
     throw new Error(e);
   }
 }

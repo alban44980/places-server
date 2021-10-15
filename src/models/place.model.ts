@@ -89,9 +89,13 @@ Place.init(
 
 Place.belongsToMany(Tag, {
   through: Places_Tag_Junction,
+  onDelete: "cascade",
+  hooks: true,
 });
 Tag.belongsToMany(Place, {
   through: Places_Tag_Junction,
+  onDelete: "cascade",
+  hooks: true,
 });
 
 export default Place;

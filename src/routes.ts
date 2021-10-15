@@ -31,6 +31,7 @@ import {
   removeSavedPlaceHandler,
 } from "./controller/savedPlaces/savedPlaces.controller";
 import { removeSavedPlaceSchema } from "./schema/removeSavedPlace.schema";
+import { removeMyPlaceSchema } from "./schema/removeMyPlace.schema";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -76,7 +77,7 @@ function routes(app: Express) {
 
   app.delete(
     "/remove/myplace",
-    validateResource(removeSavedPlaceSchema),
+    validateResource(removeMyPlaceSchema),
     deserializeUser,
     requireUser,
     removeMyPlaceHandler
