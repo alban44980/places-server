@@ -18,6 +18,8 @@ import {
   getFriendsCitiesPlacesHandler,
 } from "./controller/friends/friends.controller";
 import { createFriendSchema } from "./schema/friend.schema";
+import { createSearchUserSchema } from "./schema/searchUser.schema";
+import  { sendAllSearchedUsers } from "./controller/searchUser/searchUser.controller";
 
 function routes(app: Express) {
   app.get("/healthCheck", (req: Request, res: Response) => {
@@ -58,6 +60,14 @@ function routes(app: Express) {
     deserializeUser,
     requireUser,
     addFriendHandler
+  );
+  // Searched user
+  app.post(
+    "/searched/user",
+    validateResource(createSearchUserSchema),
+    deserializeUser,
+    requireUser,
+    sendAllSearchedUsers
   );
 }
 
