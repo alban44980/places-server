@@ -1,5 +1,5 @@
 import Place from "../models/place.model";
-import User from "../models/user.model";
+
 import { UserAttributes, PlaceAttributes } from "../interfaces";
 import City from "../models/city.model";
 import { omit } from "lodash";
@@ -15,6 +15,9 @@ export async function createPlace(
       return false;
     }
 
+    //extra tags for relation
+    console.log("tags", place.tag_list);
+
     //check if user already has a city
     let city = await City.findOne({
       where: { name: place.city_info.name, UserId: user.id },
@@ -27,7 +30,6 @@ export async function createPlace(
         UserId: user.id,
       };
       city = await City.create(newCity);
-      console.log("new city", city);
     }
     //city exists
     //omit city_info from place object
@@ -40,11 +42,15 @@ export async function createPlace(
 
     const createdPlace = await Place.create(newPlace);
 
-    console.log("newly created place", createdPlace);
+    //add tag relations
+
+    for (let tag of place.tag_list) {
+      await createdPlace.addTag(tag.tag_name);
+    }
 
     return createdPlace;
   } catch (e: any) {
-    console.log("place already exists");
+    console.log(e);
     throw new Error(e);
   }
 }

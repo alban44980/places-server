@@ -1,7 +1,15 @@
-import { Model, Optional, DataTypes, UUIDV4 } from "sequelize";
+import {
+  Model,
+  Optional,
+  DataTypes,
+  UUIDV4,
+  HasManyAddAssociationMixin,
+  Association,
+} from "sequelize";
 import { sequelize } from "./index";
 import { PlaceAttributes } from "../interfaces";
 import { Tag } from "./tags.model";
+import { Places_Tag_Junction } from "./places_tag_junction.model";
 
 interface PlaceCreationAttributes extends Optional<PlaceAttributes, "id"> {}
 
@@ -22,6 +30,12 @@ export class Place
 
   public readonly createdAt?: Date;
   public readonly updatedAt?: Date;
+
+  public addTag!: HasManyAddAssociationMixin<Tag, string>;
+
+  public static associations: {
+    tags: Association<Place, Tag>;
+  };
 }
 
 Place.init(
@@ -73,7 +87,11 @@ Place.init(
   }
 );
 
-Place.belongsToMany(Tag, { through: "places_tag_junction" });
-Tag.belongsToMany(Place, { through: "places_tag_junction" });
+Place.belongsToMany(Tag, {
+  through: Places_Tag_Junction,
+});
+Tag.belongsToMany(Place, {
+  through: Places_Tag_Junction,
+});
 
 export default Place;

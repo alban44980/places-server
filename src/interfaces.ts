@@ -70,8 +70,20 @@ export interface SessionAttributes {
 }
 
 export interface TagAttributes {
-  id: string;
-  tag_name: string;
+  name: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface Places_Tag_JunctionAttributes {
+  PlaceId?: string;
+  TagName?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+export interface SavedPlaces_Tag_JunctionAttributes {
+  SavedPlaceId?: string;
+  TagName?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }
