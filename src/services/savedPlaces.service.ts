@@ -19,23 +19,9 @@ export async function addSavedPlace(
     ) {
       return false;
     }
-    //check if user already has a city
-    let city = await City.findOne({
-      where: { name: place.city_info.name, UserId: user.id },
-    });
-    //if city does not exists create a new city for the user
-    if (!city) {
-      const newCity = {
-        ...place.city_info,
-        UserId: user.id,
-      };
-      city = await City.create(newCity);
-    }
-    //city exists
     //omit city_info from place object
     place = {
       ...place,
-      CityId: city.dataValues.id,
       UserId: user.id,
     };
     const newSavedPlace = omit(place, "city_info");

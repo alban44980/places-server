@@ -23,13 +23,6 @@ export const addSavedPlaceSchema = object({
     city: string({
       required_error: "City required",
     }),
-    city_info: createCitySchema,
-    country: string({
-      required_error: "Country required",
-    }),
-    // UserId: string({
-    //   required_error: "UserId required",
-    // }),
   }),
 });
 
