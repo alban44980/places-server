@@ -84,7 +84,7 @@ function routes(app: Express) {
     addSavedPlaceHandler
   );
 
-  app.post(
+  app.get(
     "/otherUserInfo",
     validateResource(createOtherUserInfoSchema),
     deserializeUser,
