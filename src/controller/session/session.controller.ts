@@ -6,32 +6,36 @@ import { updateSession } from "../../services/session.service";
 
 //create session on logging
 export async function createUserSession(req: Request, res: Response) {
-  //validate user passsword
-  const user = await validatePassword(req.body);
-  if (!user) {
-    return res.status(401).send("Invalid email or password");
+  try {
+    //validate user passsword
+    const user = await validatePassword(req.body);
+    if (!user) {
+      return res.status(401).send("Invalid email or password");
+    }
+
+    //create a session
+    const session = await createSession(user.id, req.get("user-agent") || "");
+
+    //create an access token
+    const accessToken = signJwt(
+      //payload contains a user and a reference to the session
+      { ...user, session: session.id },
+      //options
+      { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
+    );
+
+    //create a refresh token
+    const refreshToken = signJwt(
+      { ...user, session: session.id },
+      { expiresIn: process.env.refreshTokenTtl } //access token time to live 1 year
+    );
+
+    //return access and refrsh token
+
+    return res.json({ accessToken, refreshToken });
+  } catch (error) {
+    console.log(error);
   }
-
-  //create a session
-  const session = await createSession(user.id, req.get("user-agent") || "");
-
-  //create an access token
-  const accessToken = signJwt(
-    //payload contains a user and a reference to the session
-    { ...user, session: session.id },
-    //options
-    { expiresIn: process.env.accessTokenTtl } //access token time to live 15 minutes
-  );
-
-  //create a refresh token
-  const refreshToken = signJwt(
-    { ...user, session: session.id },
-    { expiresIn: process.env.refreshTokenTtl } //access token time to live 1 year
-  );
-
-  //return access and refrsh token
-
-  return res.send({ accessToken, refreshToken });
 }
 
 export async function deleteUserSession(req: Request, res: Response) {
