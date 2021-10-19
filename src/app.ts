@@ -14,7 +14,7 @@ app.use(express.json());
 console.log(path);
 
 (async () => {
-  // await sequelize.sync({ force: true });
+  //await sequelize.sync({ force: true });
   await sequelize.sync();
   try {
     await populateTags();
