@@ -23,6 +23,14 @@ export async function getUserFriends(user: UserAttributes) {
 
 export async function addFriend(user: UserAttributes, friend: string) {
   try {
+    const check = await Following.findOne({
+      where: { UserId: user.id, FriendId: friend },
+    });
+
+    if (check) {
+      throw new Error();
+    }
+    // if (check === )
     Following.create({
       FriendId: friend,
       UserId: user.id,
