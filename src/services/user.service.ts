@@ -24,6 +24,8 @@ export async function createUser(
     );
     //rewrite password with hash version
     input.password = hash;
+    input.user_name = input.user_name.toLowerCase();
+    input.email = input.email.toLowerCase();
     //return created user
     return await User.create(input);
   } catch (e: any) {
@@ -43,6 +45,7 @@ export async function validatePassword({
   password: string;
 }) {
   //get user by email
+  email = email.toLowerCase();
   const user = await User.findOne({ where: { email } });
 
   //if user does not exists, return false

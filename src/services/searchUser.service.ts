@@ -5,7 +5,7 @@ const { Op } = require("sequelize");
 
 export async function getAllUsers(user: UserAttributes, searchValue: string) {
   try {
-    console.log(searchValue);
+    searchValue = searchValue.toLowerCase();
     const userSearched = await User.findAll({
       attributes: { exclude: ["password"] },
       where: {
