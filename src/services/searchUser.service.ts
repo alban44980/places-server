@@ -11,7 +11,7 @@ export async function getAllUsers(user: UserAttributes, searchValue: string) {
       where: {
         user_name: {
           [Op.ne]: user.user_name,
-          [Op.like]: `%${searchValue}%`,
+          [Op.like]: `${searchValue}%`,
         },
       },
       limit: 20,
