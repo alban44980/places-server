@@ -11,16 +11,14 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-console.log(path);
-
 (async () => {
-  //await sequelize.sync({ force: true });
+  // await sequelize.sync({ force: true });
   await sequelize.sync();
   try {
     await populateTags();
   } catch (error) {}
 
-  app.listen({ port, path }, () => {
+  app.listen(port, () => {
     logger.info(`server is running at http://${path}:${port}`);
     routes(app);
   });

@@ -13,6 +13,7 @@ export async function addSavedPlaceHandler(
 ) {
   try {
     const user = res.locals.user.dataValues;
+
     const place = await addSavedPlace(req.body, user);
     if (place) {
       return res.status(201).send(place);
