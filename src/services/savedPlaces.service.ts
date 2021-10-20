@@ -1,7 +1,7 @@
 import SavedPlace from "../models/savedPlaces.model";
 import User from "../models/user.model";
 import { UserAttributes, SavedPlaceAttributes } from "../interfaces";
-import City from "../models/city.model";
+
 import { omit } from "lodash";
 
 export async function addSavedPlace(
@@ -25,8 +25,8 @@ export async function addSavedPlace(
       UserId: user.id,
     };
     const newSavedPlace = omit(place, "city_info");
-    const createdSavedPlace = await SavedPlace.create(newSavedPlace);
 
+    const createdSavedPlace = await SavedPlace.create(newSavedPlace);
     for (let tag of place.tag_list) {
       await createdSavedPlace.addTag(tag.tag_name);
     }
