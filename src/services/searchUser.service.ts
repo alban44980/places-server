@@ -5,15 +5,18 @@ const { Op } = require("sequelize");
 
 export async function getAllUsers(user: UserAttributes, searchValue: string) {
   try {
+    console.log(searchValue);
     const userSearched = await User.findAll({
+      attributes: { exclude: ["password"] },
       where: {
         user_name: {
           [Op.ne]: user.user_name,
-          [Op.like]: searchValue,
+          [Op.like]: `%${searchValue}%`,
         },
       },
+      limit: 20,
     });
-    return omit(userSearched[0].dataValues, "password");
+    return userSearched;
   } catch (e: any) {
     throw new Error(e);
   }
