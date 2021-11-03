@@ -85,10 +85,10 @@ Enjoy!
 
 ## Developers Team
 
-- Alban [Github](https://github.com/alban44980) - [LinkedIn](https://www.linkedin.com/in/alban-mansord/) 
-- Connor [Github](https://github.com/cmusson) - [LinkedIn](https://www.linkedin.com/in/connor-musson/) 
-- Juliana [Github](https://github.com/Julianahlk) - [LinkedIn](https://www.linkedin.com/in/juliana-halko/)
-- Adriano [Github](https://github.com/AdrianoG117) - [LinkedIn](https://www.linkedin.com/in/adriano-gonzalez-alberto/)
-- Will [Github](https://github.com/wms8463) - [LinkedIn](https://www.linkedin.com/in/williamsukonik/) 
+- Alban Mansord [Github](https://github.com/alban44980) - [LinkedIn](https://www.linkedin.com/in/alban-mansord/) 
+- Connor Musson [Github](https://github.com/cmusson) - [LinkedIn](https://www.linkedin.com/in/connor-musson/) 
+- Juliana Halko [Github](https://github.com/Julianahlk) - [LinkedIn](https://www.linkedin.com/in/juliana-halko/)
+- Adriano Gonzalez [Github](https://github.com/AdrianoG117) - [LinkedIn](https://www.linkedin.com/in/adriano-gonzalez-alberto/)
+- Will Sukonik [Github](https://github.com/wms8463) - [LinkedIn](https://www.linkedin.com/in/williamsukonik/) 
 
 
