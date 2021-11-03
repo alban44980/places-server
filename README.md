@@ -1,8 +1,8 @@
 # MyPlaces - Share your favorite places with friends.
-**Backend files for the MyPlaces app. ([MyPlaces Frontend](https://github.com/alban44980/places-client))**
+([MyPlaces Frontend](https://github.com/alban44980/places-client))**
 
 [![All Contributors](https://img.shields.io/badge/all_contributors-4-yellow.svg?style=flat-square)](#contributors-)
-[![GitHub license](https://img.shields.io/github/license/alban44980/places-client)](https://github.com/alban44980/places-server/blob/develop/LICENSE)[![GitHub release](https://img.shields.io/github/release/alban44980/places-server](https://github.com/alban44980/places-server/releases/tag/0.9.0)
+[![GitHub license](https://img.shields.io/github/license/alban44980/places-client)](https://github.com/alban44980/places-server/blob/develop/LICENSE)
 
 <p align="center">
  <img src="./readmeFiles/myplaceslogo1.png" alt="myplaces logo" width="300px;" >
@@ -46,16 +46,30 @@ Enjoy!
 
 
 ## Tech Stack
+### Front-end
 
-[React Native](https://reactnative.dev/)  
-[Typescript](https://www.typescriptlang.org/)  
-[Expo](https://expo.io/)  
-[Redux](https://redux.js.org/)  
-[Auth0](https://auth0.com/)  
-[Express](https://expressjs.com/)  
-[PostgreSQL](https://www.postgresql.org/)  
-[Sequelize](https://sequelize.org/)   
-[Google Places API](https://cloud.google.com/maps-platform/places)
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Expo](https://img.shields.io/badge/expo-1C1E24?style=for-the-badge&logo=expo&logoColor=#D04A37)
+![Google API](https://img.shields.io/badge/Google_API-%234285F4.svg?style=for-the-badge&logo=google-api&logoColor=white)
+
+### Backend
+
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+![BCrypt](https://img.shields.io/badge/BCrypt-%23B92B27.svg?style=for-the-badge&logo=BCrypt&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+![Sequelize](https://img.shields.io/badge/Sequelize-%234285F4.svg?style=for-the-badge&logo=Sequelize&logoColor=white)
+
+## Authentication
+
+<ul>
+  <li>JWT</li>
+  <li>bCrypt</li>
+</ul>
 
 
 ## The server
