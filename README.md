@@ -47,15 +47,15 @@ Enjoy!
 
 ## Tech Stack
 
-🌎: [React Native](https://reactnative.dev/)  
-📍: [Typescript](https://www.typescriptlang.org/)  
-🌎: [Expo](https://expo.io/)  
-📍: [Redux](https://redux.js.org/)  
-🌎: [Auth0](https://auth0.com/)  
-📍: [Express](https://expressjs.com/)  
-🌎: [PostgreSQL](https://www.postgresql.org/)  
-📍: [Sequelize](https://sequelize.org/)   
-🌎: [Google Places API](https://cloud.google.com/maps-platform/places)
+[React Native](https://reactnative.dev/)  
+[Typescript](https://www.typescriptlang.org/)  
+[Expo](https://expo.io/)  
+[Redux](https://redux.js.org/)  
+[Auth0](https://auth0.com/)  
+[Express](https://expressjs.com/)  
+[PostgreSQL](https://www.postgresql.org/)  
+[Sequelize](https://sequelize.org/)   
+[Google Places API](https://cloud.google.com/maps-platform/places)
 
 
 ## The server
