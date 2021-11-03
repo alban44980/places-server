@@ -73,7 +73,7 @@ Enjoy!
 
 
 ## Running MyPlaces
-## Backend
+## Backend:
 
 - Fork & clone the [MyPlaces Backend](https://github.com/alban44980/places-server)
 - Make sure you have postgreSQL installed on your machine mac || windows
