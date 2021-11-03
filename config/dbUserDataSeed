@@ -1,0 +1,792 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: cities; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.cities (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    country character varying(255) NOT NULL,
+    location character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "UserId" uuid
+);
+
+
+ALTER TABLE public.cities OWNER TO williamsukonik;
+
+--
+-- Name: followings; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.followings (
+    id uuid NOT NULL,
+    "FriendId" uuid NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "UserId" uuid
+);
+
+
+ALTER TABLE public.followings OWNER TO williamsukonik;
+
+--
+-- Name: places; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.places (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    img character varying(255),
+    description character varying(255) NOT NULL,
+    location character varying(255) NOT NULL,
+    address character varying(255) NOT NULL,
+    city character varying(255) NOT NULL,
+    country character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "CityId" uuid,
+    "UserId" uuid
+);
+
+
+ALTER TABLE public.places OWNER TO williamsukonik;
+
+--
+-- Name: places_tag_junction; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.places_tag_junction (
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "PlaceId" uuid NOT NULL,
+    "TagName" character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.places_tag_junction OWNER TO williamsukonik;
+
+--
+-- Name: saved_places; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.saved_places (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    img character varying(255) NOT NULL,
+    description character varying(255) NOT NULL,
+    location character varying(255) NOT NULL,
+    address character varying(255) NOT NULL,
+    city character varying(255) NOT NULL,
+    country character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "UserId" uuid
+);
+
+
+ALTER TABLE public.saved_places OWNER TO williamsukonik;
+
+--
+-- Name: saved_places_tag_junction; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.saved_places_tag_junction (
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "SavedPlaceId" uuid NOT NULL,
+    "TagName" character varying(255) NOT NULL
+);
+
+
+ALTER TABLE public.saved_places_tag_junction OWNER TO williamsukonik;
+
+--
+-- Name: sessions; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.sessions (
+    id uuid NOT NULL,
+    valid boolean DEFAULT true,
+    user_agent character varying(255),
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL,
+    "UserId" uuid
+);
+
+
+ALTER TABLE public.sessions OWNER TO williamsukonik;
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.tags (
+    name character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO williamsukonik;
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: williamsukonik
+--
+
+CREATE TABLE public.users (
+    id uuid NOT NULL,
+    user_name character varying(255) NOT NULL,
+    bio character varying(255),
+    img character varying(255),
+    following_count integer DEFAULT 0,
+    followers_count integer DEFAULT 0,
+    first_name character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    email character varying(255) NOT NULL,
+    password character varying(255) NOT NULL,
+    "createdAt" timestamp with time zone NOT NULL,
+    "updatedAt" timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.users OWNER TO williamsukonik;
+
+--
+-- Data for Name: cities; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.cities (id, name, country, location, "createdAt", "updatedAt", "UserId") FROM stdin;
+932ce8e1-84ce-4ac3-8cdf-85b6999c7d6a	Barcelona	Spain	{lat:41.3874,lng:2.1686}	2021-10-21 12:33:51.954+02	2021-10-21 12:33:51.954+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+b7a7de32-8576-441f-a076-98842cc0da14	Barcelona	Spain	{lat:41.3828939,lng:2.1774322}	2021-10-21 13:02:24.894+02	2021-10-21 13:02:24.894+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+cbf1f689-7479-44ec-8b25-30e705f0c4eb	Barcelona	Spain	{lat:41.4140994,lng:2.1524386}	2021-10-21 13:04:53.187+02	2021-10-21 13:04:53.187+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+709c6492-2dd9-43be-8353-1d69a9b2a4af	Barcelona	Spain	{lat:41.3888,lng:2.159}	2021-10-21 13:08:01.114+02	2021-10-21 13:08:01.114+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+b4d844df-bdfd-45f3-b002-07c8437fa5a5	London	United Kingdom	{lat:51.5073219,lng:-0.1276474}	2021-10-21 13:08:13.599+02	2021-10-21 13:08:13.599+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+6c72e41b-e4f7-4560-8b6f-5d67830a09b1	London	England	{lat:51.5073219,lng:-0.1276474}	2021-10-21 13:08:15.804+02	2021-10-21 13:08:15.804+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+a7e14fa4-6e40-485a-98da-90392a75be73	Berlin	Germany	{lat:52.5200,lng:13.4050}	2021-10-21 13:13:34.239+02	2021-10-21 13:13:34.239+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+a0e1949a-4d5d-43f4-9c39-7c04634086b4	Berlin	Germany	{lat:52.5170365,lng:13.3888599}	2021-10-21 13:15:42.969+02	2021-10-21 13:15:42.969+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+d0277190-159a-478f-96c2-7bed7b10cd43	London	UK	{lat:51.49785556567719,lng:-0.13560471111015848}	2021-10-21 13:20:35.528+02	2021-10-21 13:20:35.528+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+6e0ca968-c1d7-44c2-a882-af477876687d	Barcelona	Spain	{lat:41.3828939,lng:2.1774322}	2021-10-21 13:23:03.263+02	2021-10-21 13:23:03.263+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+5e2b1ea3-0505-4004-b33e-b571e9761ac5	London	United Kingdom	{lat:51.512967,lng:-0.13525}	2021-10-21 13:24:49.458+02	2021-10-21 13:24:49.458+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+3984e650-e9cf-4f6a-9a01-d8784fa42aab	London	United Kingdom	{lat:51.5072,lng:0.1276}	2021-10-21 13:31:22.938+02	2021-10-21 13:31:22.938+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+687667ef-7d44-48b1-9db5-ab4e5df5b430	Berlin	Germany	{lat:52.5026864,lng:13.3364619}	2021-10-21 13:32:55.215+02	2021-10-21 13:32:55.215+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+42df04fe-f9f7-4146-beb5-e05de056cc65	Berlin	Germany	{lat:52.5170365,lng:13.3888599}	2021-10-21 13:33:24.627+02	2021-10-21 13:33:24.627+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+c590b721-8a70-49dd-b4c4-011d153e83c1	Berlin	Germany	{lat:52.529615318031524,lng:13.395725285084886}	2021-10-21 13:36:57.996+02	2021-10-21 13:36:57.996+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+\.
+
+
+--
+-- Data for Name: followings; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.followings (id, "FriendId", "createdAt", "updatedAt", "UserId") FROM stdin;
+8c5cc9b8-66c0-4fe8-8d50-7b13e82a4f88	f328ab36-1e9d-4bfc-af55-f8bd378fd839	2021-10-21 12:16:00.176+02	2021-10-21 12:16:00.176+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+144c18f2-cf00-4c35-93f9-dda05114d27d	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37	2021-10-21 12:16:07.643+02	2021-10-21 12:16:07.643+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+9e1939d1-37dc-4618-925c-dad92ef045d4	d32112f3-c5db-42c6-801e-3203e6c69b9f	2021-10-21 12:16:25.98+02	2021-10-21 12:16:25.98+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+2991868b-532c-445b-8340-8fa3faa55d16	c848c206-55a2-4aa7-8b2c-afc98a75efac	2021-10-21 12:26:15.962+02	2021-10-21 12:26:15.962+02	42b69c88-3130-44a2-83f3-09654e16ddd6
+24cd567a-fe58-4bf9-a43e-481508c8c3dc	c848c206-55a2-4aa7-8b2c-afc98a75efac	2021-10-21 12:36:55.047+02	2021-10-21 12:36:55.047+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+1e5aa935-f1dc-4b41-9896-610bb54370ae	42b69c88-3130-44a2-83f3-09654e16ddd6	2021-10-21 12:37:04.03+02	2021-10-21 12:37:04.03+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+8b4e9469-e777-4601-b2d9-46c94890eaf7	f328ab36-1e9d-4bfc-af55-f8bd378fd839	2021-10-21 12:37:18.259+02	2021-10-21 12:37:18.259+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+ee600c33-4c99-4266-8e02-5b35d2e715ee	42b69c88-3130-44a2-83f3-09654e16ddd6	2021-10-21 12:42:19.804+02	2021-10-21 12:42:19.804+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+aa47c05a-8520-4dde-bcd0-5b34b0db57b6	c848c206-55a2-4aa7-8b2c-afc98a75efac	2021-10-21 12:46:03.297+02	2021-10-21 12:46:03.297+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+24851f11-91ea-48f3-bff3-b9fa94c56c1d	c848c206-55a2-4aa7-8b2c-afc98a75efac	2021-10-21 12:58:37.949+02	2021-10-21 12:58:37.949+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+7680dc90-3181-403a-b09a-301da8128c0e	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37	2021-10-21 12:58:53.907+02	2021-10-21 12:58:53.907+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+5248b783-be34-4115-a3a9-5260effff89b	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37	2021-10-21 13:27:41.531+02	2021-10-21 13:27:41.531+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+730da5e1-a17d-4e18-a23e-b2b9378aa3af	d32112f3-c5db-42c6-801e-3203e6c69b9f	2021-10-21 13:28:21.346+02	2021-10-21 13:28:21.346+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+f258f2e3-75ab-4570-839d-50e83cd71685	42b69c88-3130-44a2-83f3-09654e16ddd6	2021-10-21 14:29:19.432+02	2021-10-21 14:29:19.432+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+b89c0239-c8d3-4d23-a631-81db334dc002	d32112f3-c5db-42c6-801e-3203e6c69b9f	2021-10-21 15:51:53.559+02	2021-10-21 15:51:53.559+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+454a2dd1-b1d6-44f3-91c4-35c28713c64d	f328ab36-1e9d-4bfc-af55-f8bd378fd839	2021-10-21 16:14:55.317+02	2021-10-21 16:14:55.317+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+21519943-7a84-482a-ad19-2db73b62474c	42b69c88-3130-44a2-83f3-09654e16ddd6	2021-10-21 16:25:51.454+02	2021-10-21 16:25:51.454+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+b1627fcc-9436-4a9a-9d6d-edc3165d0d0f	f328ab36-1e9d-4bfc-af55-f8bd378fd839	2021-10-22 19:20:15.314+02	2021-10-22 19:20:15.314+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+356b70fc-e8fa-439f-9b78-14937736adaa	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37	2021-10-22 19:20:28.279+02	2021-10-22 19:20:28.279+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+\.
+
+
+--
+-- Data for Name: places; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.places (id, name, img, description, location, address, city, country, "createdAt", "updatedAt", "CityId", "UserId") FROM stdin;
+e91c0e32-c9d4-419a-93c8-f0343fabc539	BCN Surf Break	https://images.pexels.com/photos/6230131/pexels-photo-6230131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Nothing but glass nuggs all day long baby	{lat:41.3784,lng:2.1925}	Passeig Marítim de la Barceloneta, 34, 08003 Barcelona	Barcelona	Spain	2021-10-21 12:33:51.964+02	2021-10-21 12:33:51.964+02	932ce8e1-84ce-4ac3-8cdf-85b6999c7d6a	42b69c88-3130-44a2-83f3-09654e16ddd6
+904a9927-3229-4134-a5c6-13046903a050	Connorito's	https://images.pexels.com/photos/3434523/pexels-photo-3434523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Best chef in town, come by my place anytime you need feeding	{lat:41.3951,lng:2.1977}	Carrer de Sant Pere Més Alt, 62, 08003 Barcelona	Barcelona	Spain	2021-10-21 12:44:03.722+02	2021-10-21 12:44:03.722+02	932ce8e1-84ce-4ac3-8cdf-85b6999c7d6a	42b69c88-3130-44a2-83f3-09654e16ddd6
+2c4ed6f5-3cc9-4242-8233-e0eecfed6ad2	Average Joe's Gym	https://images.pexels.com/photos/949130/pexels-photo-949130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	The kind of place you can go after work, in the morning, on the weekend, or in the middle of the day. Whenever you go you will find nice people and great facilities. They have everything you could want.	{lat:41.3958219,lng:2.1902074}	Carrer de Zamora, 78, 08018 Barcelona, Spain	Barcelona	Spain	2021-10-21 13:02:24.9+02	2021-10-21 13:02:24.9+02	b7a7de32-8576-441f-a076-98842cc0da14	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+89caca66-bcf2-4555-ad95-d811bafd01e3	Park Guell	https://www.barcelo.com/guia-turismo/wp-content/uploads/2019/04/parque-guell.jpg	This is a must to do in Barcelona, had a wonderful time there. If you have time you can even go to the Turo de la Rovira right nearby !	{lat:41.4140994,lng:2.1524386}	Park Güell, Barcelona, Spain	Barcelona, Spain	Spain	2021-10-21 13:04:53.193+02	2021-10-21 13:04:53.193+02	cbf1f689-7479-44ec-8b25-30e705f0c4eb	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+3bb7086b-46a3-43d7-9937-509b409d7110	Street Music	https://images.pexels.com/photos/1427368/pexels-photo-1427368.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	A bunch of locals get together to jam, Alban headlines when he's not on tour. Truly a must do if you are in Barcelona.	{lat:41.4003702,lng:2.1967513}	C. de Pallars, 190, 08005 Barcelona	Barcelona	Spain	2021-10-21 13:05:19.04+02	2021-10-21 13:05:19.04+02	b7a7de32-8576-441f-a076-98842cc0da14	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+2d7b9e08-4df3-4f57-9276-114e860231f9	Codeworks	https://images.pexels.com/photos/169573/pexels-photo-169573.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Great school, amazing, talented, good looking group of seniors	{lat:41.3949,lng:2.1978}	Carrer D'avila, 27, 08005 Barcelona	Barcelona	Spain	2021-10-21 13:06:24.259+02	2021-10-21 13:06:24.259+02	932ce8e1-84ce-4ac3-8cdf-85b6999c7d6a	42b69c88-3130-44a2-83f3-09654e16ddd6
+9674d977-e5bf-408b-891a-d9a555f557e9	Brunch spots	https://images.pexels.com/photos/1388030/pexels-photo-1388030.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	My fav brunch spots in Barcelona based on how healthy and delicious they were!	{lat:41.3888,lng:2.159}	C. de Pere IV, 168, 08005 Barcelona	Barcelona	Spain	2021-10-21 13:08:01.119+02	2021-10-21 13:08:01.119+02	709c6492-2dd9-43be-8353-1d69a9b2a4af	d32112f3-c5db-42c6-801e-3203e6c69b9f
+a86dac50-fde1-4779-a66d-ccf950dff5a8	Green Bar	https://lh5.googleusercontent.com/p/AF1QipPbPgy_uae8feGr_GL4bsC1hJheExgKafnF58bC=w408-h273-k-no	Friendly staff. Fantastic cocktails. Live music on weekends	{lat:51.50979,lng:-0.135653}	Hotel Café Royal, 15 Glasshouse St, London W1B 4DY, United Kingdom	London	United Kingdom	2021-10-21 13:08:13.601+02	2021-10-21 13:08:13.601+02	b4d844df-bdfd-45f3-b002-07c8437fa5a5	c848c206-55a2-4aa7-8b2c-afc98a75efac
+b20429ba-3021-4eb4-906f-a637e2ba50d1	Tresor	https://images.pexels.com/photos/426976/pexels-photo-426976.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Awesome nightclub, with crazy people all night long	{lat:52.5108,lng:13.4198}	Köpenicker Str. 70, 10179 Berlin, Germany	Berlin	Germany	2021-10-21 13:13:34.241+02	2021-10-21 13:13:34.241+02	a7e14fa4-6e40-485a-98da-90392a75be73	42b69c88-3130-44a2-83f3-09654e16ddd6
+bb8b5c4c-56ef-4208-935d-ed9c144d7662	San Pedrito	https://media-cdn.tripadvisor.com/media/photo-s/10/fd/9c/67/tostadas-de-pulpo.jpg	If you're looking for amazing Mexican food in Barcelona, this is the place. 	{lat:41.386657023261236,lng:2.1836810240919093}	San Pedrito, Restaurante Y Licoreria, Carrer de la Fusina, Barcelona	Barcelona, Spain	Spain	2021-10-21 13:14:32.91+02	2021-10-21 13:14:32.91+02	cbf1f689-7479-44ec-8b25-30e705f0c4eb	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+39659d3d-e955-4361-a07c-e9d390b67334	Hidden Ruins	https://images.pexels.com/photos/5992273/pexels-photo-5992273.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	People are always shocked to learn that this hidden gem is nestled in the center of Berlin. But there it is.	{lat:52.51489082843558,lng:13.390221288713104}	Friedrichstadt-Passagen (Q 207), Jägerstraße 60, 10117 Berlin, Germany	Berlin	Germany	2021-10-21 13:15:42.973+02	2021-10-21 13:15:42.973+02	a0e1949a-4d5d-43f4-9c39-7c04634086b4	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+a2ff7f09-734e-4613-9aa2-e2eba318933d	Ethos Sports Centre	https://lh5.googleusercontent.com/p/AF1QipOXsKUgiblmENbLQD0YZDqZPcJHkcgZ5iLdnEuB=w408-h240-k-no-pi0-ya80-ro0-fo100	Offordable membership. Large pool with friendly staff. Well equipped.	{lat:51.500258,lng:-0.172657}	7 Prince's Gardens, London SW7 1NA, United Kingdom	London	United Kingdom	2021-10-21 13:16:24.181+02	2021-10-21 13:16:24.181+02	b4d844df-bdfd-45f3-b002-07c8437fa5a5	c848c206-55a2-4aa7-8b2c-afc98a75efac
+26f9ea38-750d-4a47-bef2-23a756602743	Cake man	https://images.pexels.com/photos/709841/pexels-photo-709841.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Best cakes and coffee in town	{lat:41.3999848,lng:2.2055662}	Carrer de l'Amistat, 18, 08005 Barcelona	Barcelona	Spain	2021-10-21 13:18:13.103+02	2021-10-21 13:18:13.103+02	709c6492-2dd9-43be-8353-1d69a9b2a4af	d32112f3-c5db-42c6-801e-3203e6c69b9f
+b369550a-651d-4b45-a9aa-7d89de6b2352	Codeworks Coffee	https://images.pexels.com/photos/5865232/pexels-photo-5865232.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	A coffee shop for hipster Berlin coders	{lat:52.5151,lng:13.3990}	Werderscher Markt 1, 10117 Berlin, Germany	Berlin	Germany	2021-10-21 13:18:37.867+02	2021-10-21 13:18:37.867+02	a7e14fa4-6e40-485a-98da-90392a75be73	42b69c88-3130-44a2-83f3-09654e16ddd6
+14574a25-bf04-48b6-80a4-053667a80bac	Nice Viewpoint	https://images.pexels.com/photos/2026452/pexels-photo-2026452.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	One of the nicest viewpoints in Berlin. You can see well past the city. Most cities dont offer anything like this. Nice little grocery store up here as well.	{lat:52.52264843579731,lng:13.388519930007345}	Grill Royal, Friedrichstraße 105B, 10117 Berlin, Germany	Berlin	Germany	2021-10-21 13:19:27.772+02	2021-10-21 13:19:27.772+02	a0e1949a-4d5d-43f4-9c39-7c04634086b4	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+958b4294-12b4-4982-b30e-717f999e348a	The Albert	https://media-cdn.tripadvisor.com/media/photo-s/19/16/9e/0d/side-bar-the-albert-victoria.jpg	A proper traditionnal english pub, all we need !	{lat:51.49785556567719,lng:-0.13560471111015848}	The Albert, Victoria Street, London, UK	London, UK	UK	2021-10-21 13:20:35.533+02	2021-10-21 13:20:35.533+02	d0277190-159a-478f-96c2-7bed7b10cd43	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+aedb5748-18cd-45f0-994c-3b69b14928d2	AR Games	https://images.pexels.com/photos/4009599/pexels-photo-4009599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Some crazy ex-codeworks Berlin student started an AR focused gaming arcade after graduation	{lat:52.4994,lng:13.3068}	Brandenburgische Str. 35, 10707 Berlin, Germany	Berlin	Germany	2021-10-21 13:23:58.224+02	2021-10-21 13:23:58.224+02	a7e14fa4-6e40-485a-98da-90392a75be73	42b69c88-3130-44a2-83f3-09654e16ddd6
+a5736956-08ec-48b9-b0de-3879899abf5f	Route 66	https://images.pexels.com/photos/2835547/pexels-photo-2835547.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	American themed dive bar in the heart of London. Lowest prices in London and amazing vibe. I go every time I'm in the city.	{lat:51.51026055208001,lng:-0.14550370360245868}	Moreau Paris, 21 Bruton Street, London, W1J 6QB, United Kingdom	London	England	2021-10-21 13:08:15.808+02	2021-10-21 13:08:15.808+02	6c72e41b-e4f7-4560-8b6f-5d67830a09b1	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+70294bdf-df4f-44d3-a61b-cdf02a3c23f2	Huckletree Soho	https://images.pexels.com/photos/2041627/pexels-photo-2041627.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500	Great ergonomics and vibes.	{lat:51.512967,lng:-0.13525}	Ingestre Court, Huckletree, Ingestre Pl, London W1F 0JL, United Kingdom	London	United Kingdom	2021-10-21 13:24:49.463+02	2021-10-21 13:24:49.463+02	5e2b1ea3-0505-4004-b33e-b571e9761ac5	d32112f3-c5db-42c6-801e-3203e6c69b9f
+bb887478-fcf4-4a8b-85eb-3cb419cb99d0	Cosy Corner	https://images.pexels.com/photos/5847396/pexels-photo-5847396.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	My favorite brunch spot in London. Super nice staff and the owner is always giving out samples of things they are baking. Great spot to work from.	{lat:51.503421,lng:-0.102271}	Arch 25, Old union yard arches, 229 Union St, London SE1 0LR, United Kingdom	London	United Kingdom	2021-10-21 13:25:08.003+02	2021-10-21 13:25:08.003+02	6c72e41b-e4f7-4560-8b6f-5d67830a09b1	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+d3490634-b7e7-412a-9137-341cefdb69bb	British Museum	https://www.casafrica.es/sites/default/files/network/44831/user_picture/british_museum_0.jpg	A very impressive museum, with incredible architecture. The exhibitions there are amazing with so much history and culture. The shop had a good selection of books too. 	{lat:51.51960688357653,lng:-0.1269244149412475}	British Museum, Great Russell Street, London, UK	London, UK	UK	2021-10-21 13:28:02.722+02	2021-10-21 13:28:02.722+02	d0277190-159a-478f-96c2-7bed7b10cd43	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+1a7fc6c1-318f-4fc4-a265-0263c31fdace	Codeworks	https://images.pexels.com/photos/3153198/pexels-photo-3153198.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Find the hottest and the best Fullstack Engineers.	{lat:51.4951256,lng:-0.1274109}	Dean Bradley House, 52 Horseferry Rd, London SW1P 2AF, United Kingdom	London	United Kingdom	2021-10-21 13:28:26.184+02	2021-10-21 13:28:26.184+02	5e2b1ea3-0505-4004-b33e-b571e9761ac5	d32112f3-c5db-42c6-801e-3203e6c69b9f
+f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	Southern Fairies	https://images.pexels.com/photos/9163132/pexels-photo-9163132.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Bad team, mediocre football, embarassing club, MUFC forever!	{lat:51.4811,lng:-0.1902}	Fulham Rd., London SW6 1HS, United Kingdom	London	United Kingdom	2021-10-21 13:31:22.942+02	2021-10-21 13:31:22.942+02	3984e650-e9cf-4f6a-9a01-d8784fa42aab	42b69c88-3130-44a2-83f3-09654e16ddd6
+1bb42bde-46c9-4b44-a382-1250b2d14f71	Healing hands	https://images.pexels.com/photos/6663361/pexels-photo-6663361.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500	Cannot recommed more the people in this place are amazing.	{lat:52.5026864,lng:13.3364619}	Marburger Str. 5, 10789 Berlin, Germany	Berlin	Germany	2021-10-21 13:32:55.219+02	2021-10-21 13:32:55.219+02	687667ef-7d44-48b1-9db5-ab4e5df5b430	d32112f3-c5db-42c6-801e-3203e6c69b9f
+fad7dba0-79c6-4417-b6c6-80b7b03af0bb	Bar 55	https://lh5.googleusercontent.com/p/AF1QipMFBjLSA09As20rvdJ-XEk8zti-lqp63tXD3lxh=w312-h192-p-k-no	Lovely service with great music and a fine selection of drinks and bits to eat. Great pub with a welcoming atmosphere	{lat:52.5351558,lng:13.4164095}	Kollwitzstraße 55, 10405 Berlin, Germany	Berlin	Germany	2021-10-21 13:33:24.637+02	2021-10-21 13:33:24.637+02	42df04fe-f9f7-4146-beb5-e05de056cc65	c848c206-55a2-4aa7-8b2c-afc98a75efac
+495f1459-7107-4254-98cc-775d041525ef	Battersea	https://images.pexels.com/photos/4019344/pexels-photo-4019344.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500	Cool former power station, cool park, sometimes have awesome clubbing and live DJ events here as well	{lat:51.4810,lng:-0.1406}	188 Kirtling St, Nine Elms, London SW8 5BN, United Kingdom	London	United Kingdom	2021-10-21 13:35:52.657+02	2021-10-21 13:35:52.657+02	3984e650-e9cf-4f6a-9a01-d8784fa42aab	42b69c88-3130-44a2-83f3-09654e16ddd6
+09997bcb-7f7b-4bd0-a845-19bda3206884	Link Hair Design	https://images.pexels.com/photos/973401/pexels-photo-973401.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Coloring with organic products.	{lat:52.528690338134766,lng:13.418845176696777}	Prenzlauer Allee 5, 10405 Berlin, Germany	Berlin	Germany	2021-10-21 13:36:40.337+02	2021-10-21 13:36:40.337+02	687667ef-7d44-48b1-9db5-ab4e5df5b430	d32112f3-c5db-42c6-801e-3203e6c69b9f
+7b8c1fc6-f678-4ce3-a3e6-fb2bccdc0f61	Z-Bar	https://images.pexels.com/photos/941864/pexels-photo-941864.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Cool bar with regular stand-up comedy sessions. Beer selection is also great! 	{lat:52.529615318031524,lng:13.395725285084886}	Z-Bar, Bergstraße, Berlin, Germany	Berlin	Germany	2021-10-21 13:36:58+02	2021-10-21 13:36:58+02	c590b721-8a70-49dd-b4c4-011d153e83c1	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+97400304-ec9c-4d29-9297-5061d9ae2a54	Codeworks Bakery	https://images.pexels.com/photos/6647202/pexels-photo-6647202.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Coding themed baked goods, started by former codeworks students as a passion project on the side. Promises not to start the Great Fire of London PtII	{lat:51.4951,lng:-0.1274}	Dean Bradley House, 52 Horseferry Rd, London SW1P 2AF, United Kingdom	London	United Kingdom	2021-10-21 13:41:20.612+02	2021-10-21 13:41:20.612+02	3984e650-e9cf-4f6a-9a01-d8784fa42aab	42b69c88-3130-44a2-83f3-09654e16ddd6
+d4d8af4f-faa7-41d2-ab85-03b11df306f8	Restaurant Balthazar	https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-1536x1024.jpg	Outstanding meal - big fan of the mushroom pasta, the scallops and the burrata. The staff was super nice.	{lat:52.51603437415491,lng:13.40635296760326}	Restaurant Balthazar, Spreeufer, Berlin, Germany	Berlin	Germany	2021-10-21 13:42:52.309+02	2021-10-21 13:42:52.309+02	c590b721-8a70-49dd-b4c4-011d153e83c1	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+03a9551b-94aa-4f7f-b72f-fdd6e152c67e	Opium Barcelona Restaurant and Club	https://lh5.googleusercontent.com/p/AF1QipNT_IHKl_oGgYFMIPOvT0eJJiX6hfmyHbP8qljn=w312-h192-p-k-no	High energy dancing. Very crowded, but very fun	{lat:41.3852778,lng:2.1967099}	Passeig Marítim de la Barceloneta, 34, 08003 Barcelona, Spain	Barcelona	Spain	2021-10-21 13:23:03.268+02	2021-10-21 13:23:03.268+02	6e0ca968-c1d7-44c2-a882-af477876687d	c848c206-55a2-4aa7-8b2c-afc98a75efac
+b0dc875f-b8d6-4621-8e83-b3c35426f913	Club de Futbol La Catalana	https://lh5.googleusercontent.com/p/AF1QipPJPAl0mm_7ZE_2KfeqGyvAgsyri5jYsMZL8P2S=w408-h544-k-no	Great place to enjoy football in Barcelona	{lat:41.3866405,lng:2.19411}	Carrer del Dr. Aiguader, 58, 08003 Barcelona, Spain	Barcelona	Spain	2021-10-21 13:26:40.566+02	2021-10-21 13:26:40.566+02	6e0ca968-c1d7-44c2-a882-af477876687d	c848c206-55a2-4aa7-8b2c-afc98a75efac
+aacb480c-7db7-4661-876f-7d3a227f8789	Sutton's	https://images.pexels.com/photos/2835547/pexels-photo-2835547.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Local spot. Excellent food, get the shephards pie if you are ever in London.	{lat:51.51750344438621,lng:-0.13272582749357387}	25 Gresse Street, London, W1T 1QP, United Kingdom	London	England	2021-10-21 13:10:14.984+02	2021-10-21 13:10:14.984+02	6c72e41b-e4f7-4560-8b6f-5d67830a09b1	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+\.
+
+
+--
+-- Data for Name: places_tag_junction; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.places_tag_junction ("createdAt", "updatedAt", "PlaceId", "TagName") FROM stdin;
+2021-10-21 12:33:51.968+02	2021-10-21 12:33:51.968+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Sport
+2021-10-21 12:33:51.974+02	2021-10-21 12:33:51.974+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Activity
+2021-10-21 12:33:51.976+02	2021-10-21 12:33:51.976+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Beach
+2021-10-21 12:33:51.978+02	2021-10-21 12:33:51.978+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Ocean
+2021-10-21 12:33:51.979+02	2021-10-21 12:33:51.979+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Nature
+2021-10-21 12:33:51.981+02	2021-10-21 12:33:51.981+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Swim
+2021-10-21 12:33:51.983+02	2021-10-21 12:33:51.983+02	e91c0e32-c9d4-419a-93c8-f0343fabc539	Scenic
+2021-10-21 12:44:03.734+02	2021-10-21 12:44:03.734+02	904a9927-3229-4134-a5c6-13046903a050	Food and Drink
+2021-10-21 12:44:03.739+02	2021-10-21 12:44:03.739+02	904a9927-3229-4134-a5c6-13046903a050	Internet
+2021-10-21 12:44:03.742+02	2021-10-21 12:44:03.742+02	904a9927-3229-4134-a5c6-13046903a050	Music
+2021-10-21 12:44:03.743+02	2021-10-21 12:44:03.743+02	904a9927-3229-4134-a5c6-13046903a050	Date Spot
+2021-10-21 12:44:03.745+02	2021-10-21 12:44:03.745+02	904a9927-3229-4134-a5c6-13046903a050	Accommodation
+2021-10-21 12:44:03.746+02	2021-10-21 12:44:03.746+02	904a9927-3229-4134-a5c6-13046903a050	Restaurant
+2021-10-21 13:02:24.904+02	2021-10-21 13:02:24.904+02	2c4ed6f5-3cc9-4242-8233-e0eecfed6ad2	Activity
+2021-10-21 13:02:24.91+02	2021-10-21 13:02:24.91+02	2c4ed6f5-3cc9-4242-8233-e0eecfed6ad2	Sport
+2021-10-21 13:04:53.195+02	2021-10-21 13:04:53.195+02	89caca66-bcf2-4555-ad95-d811bafd01e3	Art
+2021-10-21 13:04:53.197+02	2021-10-21 13:04:53.197+02	89caca66-bcf2-4555-ad95-d811bafd01e3	Culture
+2021-10-21 13:04:53.199+02	2021-10-21 13:04:53.199+02	89caca66-bcf2-4555-ad95-d811bafd01e3	History
+2021-10-21 13:05:19.045+02	2021-10-21 13:05:19.045+02	3bb7086b-46a3-43d7-9937-509b409d7110	Music
+2021-10-21 13:05:19.05+02	2021-10-21 13:05:19.05+02	3bb7086b-46a3-43d7-9937-509b409d7110	Culture
+2021-10-21 13:05:19.056+02	2021-10-21 13:05:19.056+02	3bb7086b-46a3-43d7-9937-509b409d7110	Date Spot
+2021-10-21 13:06:24.266+02	2021-10-21 13:06:24.266+02	2d7b9e08-4df3-4f57-9276-114e860231f9	Working
+2021-10-21 13:06:24.269+02	2021-10-21 13:06:24.269+02	2d7b9e08-4df3-4f57-9276-114e860231f9	Internet
+2021-10-21 13:06:24.272+02	2021-10-21 13:06:24.272+02	2d7b9e08-4df3-4f57-9276-114e860231f9	Learning
+2021-10-21 13:06:24.274+02	2021-10-21 13:06:24.274+02	2d7b9e08-4df3-4f57-9276-114e860231f9	Date Spot
+2021-10-21 13:08:13.605+02	2021-10-21 13:08:13.605+02	a86dac50-fde1-4779-a66d-ccf950dff5a8	Bar
+2021-10-21 13:08:13.608+02	2021-10-21 13:08:13.608+02	a86dac50-fde1-4779-a66d-ccf950dff5a8	Music
+2021-10-21 13:08:15.815+02	2021-10-21 13:08:15.815+02	a5736956-08ec-48b9-b0de-3879899abf5f	Bar
+2021-10-21 13:08:15.818+02	2021-10-21 13:08:15.818+02	a5736956-08ec-48b9-b0de-3879899abf5f	Art
+2021-10-21 13:10:14.994+02	2021-10-21 13:10:14.994+02	aacb480c-7db7-4661-876f-7d3a227f8789	Bar
+2021-10-21 13:10:15+02	2021-10-21 13:10:15+02	aacb480c-7db7-4661-876f-7d3a227f8789	Food and Drink
+2021-10-21 13:10:15.003+02	2021-10-21 13:10:15.003+02	aacb480c-7db7-4661-876f-7d3a227f8789	Restaurant
+2021-10-21 13:13:34.252+02	2021-10-21 13:13:34.252+02	b20429ba-3021-4eb4-906f-a637e2ba50d1	Music
+2021-10-21 13:13:34.256+02	2021-10-21 13:13:34.256+02	b20429ba-3021-4eb4-906f-a637e2ba50d1	Art
+2021-10-21 13:13:34.259+02	2021-10-21 13:13:34.259+02	b20429ba-3021-4eb4-906f-a637e2ba50d1	Culture
+2021-10-21 13:13:34.262+02	2021-10-21 13:13:34.262+02	b20429ba-3021-4eb4-906f-a637e2ba50d1	Clubbing
+2021-10-21 13:13:34.263+02	2021-10-21 13:13:34.263+02	b20429ba-3021-4eb4-906f-a637e2ba50d1	Dance
+2021-10-21 13:14:32.919+02	2021-10-21 13:14:32.919+02	bb8b5c4c-56ef-4208-935d-ed9c144d7662	Food and Drink
+2021-10-21 13:14:32.922+02	2021-10-21 13:14:32.922+02	bb8b5c4c-56ef-4208-935d-ed9c144d7662	Restaurant
+2021-10-21 13:15:42.977+02	2021-10-21 13:15:42.977+02	39659d3d-e955-4361-a07c-e9d390b67334	Culture
+2021-10-21 13:15:42.98+02	2021-10-21 13:15:42.98+02	39659d3d-e955-4361-a07c-e9d390b67334	Museum
+2021-10-21 13:16:24.187+02	2021-10-21 13:16:24.187+02	a2ff7f09-734e-4613-9aa2-e2eba318933d	Sport
+2021-10-21 13:18:13.114+02	2021-10-21 13:18:13.114+02	26f9ea38-750d-4a47-bef2-23a756602743	Food and Drink
+2021-10-21 13:18:13.118+02	2021-10-21 13:18:13.118+02	26f9ea38-750d-4a47-bef2-23a756602743	Coffee/Tea
+2021-10-21 13:18:37.872+02	2021-10-21 13:18:37.872+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Learning
+2021-10-21 13:18:37.875+02	2021-10-21 13:18:37.875+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Date Spot
+2021-10-21 13:18:37.878+02	2021-10-21 13:18:37.878+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Culture
+2021-10-21 13:18:37.881+02	2021-10-21 13:18:37.881+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Coffee/Tea
+2021-10-21 13:18:37.883+02	2021-10-21 13:18:37.883+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Internet
+2021-10-21 13:18:37.884+02	2021-10-21 13:18:37.884+02	b369550a-651d-4b45-a9aa-7d89de6b2352	Food and Drink
+2021-10-21 13:19:27.778+02	2021-10-21 13:19:27.778+02	14574a25-bf04-48b6-80a4-053667a80bac	Culture
+2021-10-21 13:19:27.781+02	2021-10-21 13:19:27.781+02	14574a25-bf04-48b6-80a4-053667a80bac	Hike
+2021-10-21 13:20:35.537+02	2021-10-21 13:20:35.537+02	958b4294-12b4-4982-b30e-717f999e348a	Food and Drink
+2021-10-21 13:20:35.541+02	2021-10-21 13:20:35.541+02	958b4294-12b4-4982-b30e-717f999e348a	Restaurant
+2021-10-21 13:23:03.276+02	2021-10-21 13:23:03.276+02	03a9551b-94aa-4f7f-b72f-fdd6e152c67e	Dance
+2021-10-21 13:23:03.28+02	2021-10-21 13:23:03.28+02	03a9551b-94aa-4f7f-b72f-fdd6e152c67e	Bar
+2021-10-21 13:23:03.284+02	2021-10-21 13:23:03.284+02	03a9551b-94aa-4f7f-b72f-fdd6e152c67e	Activity
+2021-10-21 13:23:58.23+02	2021-10-21 13:23:58.23+02	aedb5748-18cd-45f0-994c-3b69b14928d2	Activity
+2021-10-21 13:23:58.235+02	2021-10-21 13:23:58.235+02	aedb5748-18cd-45f0-994c-3b69b14928d2	Date Spot
+2021-10-21 13:23:58.238+02	2021-10-21 13:23:58.238+02	aedb5748-18cd-45f0-994c-3b69b14928d2	Culture
+2021-10-21 13:23:58.241+02	2021-10-21 13:23:58.241+02	aedb5748-18cd-45f0-994c-3b69b14928d2	Internet
+2021-10-21 13:23:58.245+02	2021-10-21 13:23:58.245+02	aedb5748-18cd-45f0-994c-3b69b14928d2	Sport
+2021-10-21 13:23:58.249+02	2021-10-21 13:23:58.249+02	aedb5748-18cd-45f0-994c-3b69b14928d2	ESports
+2021-10-21 13:24:49.473+02	2021-10-21 13:24:49.473+02	70294bdf-df4f-44d3-a61b-cdf02a3c23f2	Internet
+2021-10-21 13:24:49.477+02	2021-10-21 13:24:49.477+02	70294bdf-df4f-44d3-a61b-cdf02a3c23f2	Coffee/Tea
+2021-10-21 13:25:08.014+02	2021-10-21 13:25:08.014+02	bb887478-fcf4-4a8b-85eb-3cb419cb99d0	Coffee/Tea
+2021-10-21 13:25:08.016+02	2021-10-21 13:25:08.016+02	bb887478-fcf4-4a8b-85eb-3cb419cb99d0	Working
+2021-10-21 13:26:40.57+02	2021-10-21 13:26:40.57+02	b0dc875f-b8d6-4621-8e83-b3c35426f913	Sport
+2021-10-21 13:26:40.572+02	2021-10-21 13:26:40.572+02	b0dc875f-b8d6-4621-8e83-b3c35426f913	Activity
+2021-10-21 13:28:02.728+02	2021-10-21 13:28:02.728+02	d3490634-b7e7-412a-9137-341cefdb69bb	Activity
+2021-10-21 13:28:02.731+02	2021-10-21 13:28:02.731+02	d3490634-b7e7-412a-9137-341cefdb69bb	History
+2021-10-21 13:28:02.733+02	2021-10-21 13:28:02.733+02	d3490634-b7e7-412a-9137-341cefdb69bb	Museum
+2021-10-21 13:28:02.735+02	2021-10-21 13:28:02.735+02	d3490634-b7e7-412a-9137-341cefdb69bb	Culture
+2021-10-21 13:28:26.191+02	2021-10-21 13:28:26.191+02	1a7fc6c1-318f-4fc4-a265-0263c31fdace	Internet
+2021-10-21 13:28:26.194+02	2021-10-21 13:28:26.194+02	1a7fc6c1-318f-4fc4-a265-0263c31fdace	Coffee/Tea
+2021-10-21 13:31:22.944+02	2021-10-21 13:31:22.944+02	f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	Activity
+2021-10-21 13:31:22.946+02	2021-10-21 13:31:22.946+02	f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	Date Spot
+2021-10-21 13:31:22.947+02	2021-10-21 13:31:22.947+02	f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	Culture
+2021-10-21 13:31:22.948+02	2021-10-21 13:31:22.948+02	f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	History
+2021-10-21 13:31:22.949+02	2021-10-21 13:31:22.949+02	f8822f5a-dbd5-461f-9dc0-1c4bc2f7660b	Sport
+2021-10-21 13:32:55.22+02	2021-10-21 13:32:55.22+02	1bb42bde-46c9-4b44-a382-1250b2d14f71	Massage
+2021-10-21 13:32:55.221+02	2021-10-21 13:32:55.221+02	1bb42bde-46c9-4b44-a382-1250b2d14f71	Beauty
+2021-10-21 13:33:24.645+02	2021-10-21 13:33:24.645+02	fad7dba0-79c6-4417-b6c6-80b7b03af0bb	Bar
+2021-10-21 13:33:24.657+02	2021-10-21 13:33:24.657+02	fad7dba0-79c6-4417-b6c6-80b7b03af0bb	Dance
+2021-10-21 13:35:52.662+02	2021-10-21 13:35:52.662+02	495f1459-7107-4254-98cc-775d041525ef	Clubbing
+2021-10-21 13:35:52.665+02	2021-10-21 13:35:52.665+02	495f1459-7107-4254-98cc-775d041525ef	Date Spot
+2021-10-21 13:35:52.67+02	2021-10-21 13:35:52.67+02	495f1459-7107-4254-98cc-775d041525ef	Culture
+2021-10-21 13:35:52.672+02	2021-10-21 13:35:52.672+02	495f1459-7107-4254-98cc-775d041525ef	History
+2021-10-21 13:35:52.675+02	2021-10-21 13:35:52.675+02	495f1459-7107-4254-98cc-775d041525ef	Nature
+2021-10-21 13:36:40.34+02	2021-10-21 13:36:40.34+02	09997bcb-7f7b-4bd0-a845-19bda3206884	Hair
+2021-10-21 13:36:40.341+02	2021-10-21 13:36:40.341+02	09997bcb-7f7b-4bd0-a845-19bda3206884	Beauty
+2021-10-21 13:36:58.003+02	2021-10-21 13:36:58.003+02	7b8c1fc6-f678-4ce3-a3e6-fb2bccdc0f61	Bar
+2021-10-21 13:36:58.005+02	2021-10-21 13:36:58.005+02	7b8c1fc6-f678-4ce3-a3e6-fb2bccdc0f61	Food and Drink
+2021-10-21 13:36:58.008+02	2021-10-21 13:36:58.008+02	7b8c1fc6-f678-4ce3-a3e6-fb2bccdc0f61	Events
+2021-10-21 13:41:20.617+02	2021-10-21 13:41:20.617+02	97400304-ec9c-4d29-9297-5061d9ae2a54	Food and Drink
+2021-10-21 13:41:20.618+02	2021-10-21 13:41:20.618+02	97400304-ec9c-4d29-9297-5061d9ae2a54	Date Spot
+2021-10-21 13:41:20.621+02	2021-10-21 13:41:20.621+02	97400304-ec9c-4d29-9297-5061d9ae2a54	Culture
+2021-10-21 13:41:20.622+02	2021-10-21 13:41:20.622+02	97400304-ec9c-4d29-9297-5061d9ae2a54	History
+\.
+
+
+--
+-- Data for Name: saved_places; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.saved_places (id, name, img, description, location, address, city, country, "createdAt", "updatedAt", "UserId") FROM stdin;
+b9033857-ba9d-4f6c-9e62-c42d316cbff7	Average Joe's Gym	https://images.pexels.com/photos/949130/pexels-photo-949130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	The kind of place you can go after work, in the morning, on the weekend, or in the middle of the day. Whenever you go you will find nice people and great facilities. They have everything you could want.	{lat:41.3958219,lng:2.1902074}	Carrer de Zamora, 78, 08018 Barcelona, Spain	Barcelona	Spain	2021-10-21 13:07:46.713+02	2021-10-21 13:07:46.713+02	dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37
+df110448-ef9a-43ab-add6-81bb39491ce0	Average Joe's Gym	https://images.pexels.com/photos/949130/pexels-photo-949130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	The kind of place you can go after work, in the morning, on the weekend, or in the middle of the day. Whenever you go you will find nice people and great facilities. They have everything you could want.	{lat:41.3958219,lng:2.1902074}	Carrer de Zamora, 78, 08018 Barcelona, Spain	Barcelona	Spain	2021-10-21 13:40:16.353+02	2021-10-21 13:40:16.353+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+d6ba1511-dde8-4795-8739-d37facd4db30	Cosy Corner	https://images.pexels.com/photos/5847396/pexels-photo-5847396.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	My favorite brunch spot in London. Super nice staff and the owner is always giving out samples of things they are baking. Great spot to work from.	{lat:51.503421,lng:-0.102271}	Arch 25, Old union yard arches, 229 Union St, London SE1 0LR, United Kingdom	London	United Kingdom	2021-10-21 13:40:37.046+02	2021-10-21 13:40:37.046+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+3b489698-c153-47c4-89c7-33797f09a9e4	British Museum	https://www.casafrica.es/sites/default/files/network/44831/user_picture/british_museum_0.jpg	A very impressive museum, with incredible architecture. The exhibitions there are amazing with so much history and culture. The shop had a good selection of books too. 	{lat:51.51960688357653,lng:-0.1269244149412475}	British Museum, Great Russell Street, London, UK	London, UK	UK	2021-10-21 13:40:44.08+02	2021-10-21 13:40:44.08+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+4ebd7eb5-6519-417a-8819-6b0d10009322	Opium Barcelona Restaurant and Club	https://lh5.googleusercontent.com/p/AF1QipNT_IHKl_oGgYFMIPOvT0eJJiX6hfmyHbP8qljn=w312-h192-p-k-no	High energy dancing. Very crowded, but very fun	{lat:41.3852778,lng:2.1967099}	Passeig Marítim de la Barceloneta, 34, 08003 Barcelona, Spain	Spain	Spain	2021-10-21 13:41:02.734+02	2021-10-21 13:41:02.734+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Connorito's	https://images.pexels.com/photos/3434523/pexels-photo-3434523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Best chef in town, come by my place anytime you need feeding	{lat:41.3951,lng:2.1977}	Carrer de Sant Pere Més Alt, 62, 08003 Barcelona	Barcelona	Spain	2021-10-21 13:41:10.994+02	2021-10-21 13:41:10.994+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+165ac99e-4c26-45dc-a3a3-891ccada327d	BCN Surf Break	https://images.pexels.com/photos/6230131/pexels-photo-6230131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Nothing but glass nuggs all day long baby	{lat:41.3784,lng:2.1925}	Passeig Marítim de la Barceloneta, 34, 08003 Barcelona	Barcelona	Spain	2021-10-21 13:41:12.543+02	2021-10-21 13:41:12.543+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+42e09f37-a60f-42de-a22e-b7743e8823d6	AR Games	https://images.pexels.com/photos/4009599/pexels-photo-4009599.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	Some crazy ex-codeworks Berlin student started an AR focused gaming arcade after graduation	{lat:52.4994,lng:13.3068}	Brandenburgische Str. 35, 10707 Berlin, Germany	Berlin	Germany	2021-10-21 13:54:51.901+02	2021-10-21 13:54:51.901+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+da9d497b-41ca-433b-89ed-a3433540d15a	BCN Surf Break	https://images.pexels.com/photos/6230131/pexels-photo-6230131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Nothing but glass nuggs all day long baby	{lat:41.3784,lng:2.1925}	Passeig Marítim de la Barceloneta, 34, 08003 Barcelona	Barcelona	Spain	2021-10-21 14:24:30.179+02	2021-10-21 14:24:30.179+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+6505bfd4-05ca-469a-b8f9-178607cec493	Connorito's	https://images.pexels.com/photos/3434523/pexels-photo-3434523.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	Best chef in town, come by my place anytime you need feeding	{lat:41.3951,lng:2.1977}	Carrer de Sant Pere Més Alt, 62, 08003 Barcelona	Barcelona	Spain	2021-10-21 14:26:44.861+02	2021-10-21 14:26:44.861+02	f328ab36-1e9d-4bfc-af55-f8bd378fd839
+7fb66d4c-06b8-4222-9c01-fae8a57110f0	Average Joe's Gym	https://images.pexels.com/photos/949130/pexels-photo-949130.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	The kind of place you can go after work, in the morning, on the weekend, or in the middle of the day. Whenever you go you will find nice people and great facilities. They have everything you could want.	{lat:41.3958219,lng:2.1902074}	Carrer de Zamora, 78, 08018 Barcelona, Spain	Barcelona	Spain	2021-10-21 15:14:56.964+02	2021-10-21 15:14:56.964+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+ae0f52aa-f462-4cbf-814e-e6aa1f6e7c7b	Street Music	https://images.pexels.com/photos/1427368/pexels-photo-1427368.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	A bunch of locals get together to jam, Alban headlines when he's not on tour. Truly a must do if you are in Barcelona.	{lat:41.4003702,lng:2.1967513}	C. de Pallars, 190, 08005 Barcelona	Barcelona	Spain	2021-10-21 15:19:01.705+02	2021-10-21 15:19:01.705+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+fa90491e-0051-4058-90f9-a09dc64f7058	San Pedrito	https://media-cdn.tripadvisor.com/media/photo-s/10/fd/9c/67/tostadas-de-pulpo.jpg	If you're looking for amazing Mexican food in Barcelona, this is the place. 	{lat:41.386657023261236,lng:2.1836810240919093}	San Pedrito, Restaurante Y Licoreria, Carrer de la Fusina, Barcelona	Barcelona, Spain	Spain	2021-10-21 16:11:57.457+02	2021-10-21 16:11:57.457+02	c848c206-55a2-4aa7-8b2c-afc98a75efac
+139f8971-fbfc-454c-877a-7cadcaaab2f5	San Pedrito	https://media-cdn.tripadvisor.com/media/photo-s/10/fd/9c/67/tostadas-de-pulpo.jpg	If you're looking for amazing Mexican food in Barcelona, this is the place. 	{lat:41.386657023261236,lng:2.1836810240919093}	San Pedrito, Restaurante Y Licoreria, Carrer de la Fusina, Barcelona	Barcelona, Spain	Spain	2021-10-22 19:14:14.505+02	2021-10-22 19:14:14.505+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+fcee0b2d-784b-4c9c-9227-00ee4a6010a2	Restaurant Balthazar	https://www.elitetraveler.com/wp-content/uploads/2007/02/Alain-Ducasse-1536x1024.jpg	Outstanding meal - big fan of the mushroom pasta, the scallops and the burrata. The staff was super nice.	{lat:52.51603437415491,lng:13.40635296760326}	Restaurant Balthazar, Spreeufer, Berlin, Germany	Berlin	Germany	2021-10-22 19:15:20.561+02	2021-10-22 19:15:20.561+02	d32112f3-c5db-42c6-801e-3203e6c69b9f
+\.
+
+
+--
+-- Data for Name: saved_places_tag_junction; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.saved_places_tag_junction ("createdAt", "updatedAt", "SavedPlaceId", "TagName") FROM stdin;
+2021-10-21 13:07:46.726+02	2021-10-21 13:07:46.726+02	b9033857-ba9d-4f6c-9e62-c42d316cbff7	Activity
+2021-10-21 13:07:46.734+02	2021-10-21 13:07:46.734+02	b9033857-ba9d-4f6c-9e62-c42d316cbff7	Sport
+2021-10-21 13:40:16.36+02	2021-10-21 13:40:16.36+02	df110448-ef9a-43ab-add6-81bb39491ce0	Activity
+2021-10-21 13:40:16.364+02	2021-10-21 13:40:16.364+02	df110448-ef9a-43ab-add6-81bb39491ce0	Sport
+2021-10-21 13:40:37.059+02	2021-10-21 13:40:37.059+02	d6ba1511-dde8-4795-8739-d37facd4db30	Coffee/Tea
+2021-10-21 13:40:37.066+02	2021-10-21 13:40:37.066+02	d6ba1511-dde8-4795-8739-d37facd4db30	Working
+2021-10-21 13:40:44.084+02	2021-10-21 13:40:44.084+02	3b489698-c153-47c4-89c7-33797f09a9e4	Activity
+2021-10-21 13:40:44.091+02	2021-10-21 13:40:44.091+02	3b489698-c153-47c4-89c7-33797f09a9e4	Culture
+2021-10-21 13:40:44.092+02	2021-10-21 13:40:44.092+02	3b489698-c153-47c4-89c7-33797f09a9e4	History
+2021-10-21 13:40:44.093+02	2021-10-21 13:40:44.093+02	3b489698-c153-47c4-89c7-33797f09a9e4	Museum
+2021-10-21 13:41:02.738+02	2021-10-21 13:41:02.738+02	4ebd7eb5-6519-417a-8819-6b0d10009322	Activity
+2021-10-21 13:41:02.74+02	2021-10-21 13:41:02.74+02	4ebd7eb5-6519-417a-8819-6b0d10009322	Bar
+2021-10-21 13:41:02.742+02	2021-10-21 13:41:02.742+02	4ebd7eb5-6519-417a-8819-6b0d10009322	Dance
+2021-10-21 13:41:10.998+02	2021-10-21 13:41:10.998+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Accommodation
+2021-10-21 13:41:10.999+02	2021-10-21 13:41:10.999+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Date Spot
+2021-10-21 13:41:11+02	2021-10-21 13:41:11+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Food and Drink
+2021-10-21 13:41:11.002+02	2021-10-21 13:41:11.002+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Internet
+2021-10-21 13:41:11.006+02	2021-10-21 13:41:11.006+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Music
+2021-10-21 13:41:11.007+02	2021-10-21 13:41:11.007+02	e3e8c510-8a6e-4b29-b062-01ccfdfa5059	Restaurant
+2021-10-21 13:41:12.545+02	2021-10-21 13:41:12.545+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Activity
+2021-10-21 13:41:12.547+02	2021-10-21 13:41:12.547+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Beach
+2021-10-21 13:41:12.549+02	2021-10-21 13:41:12.549+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Nature
+2021-10-21 13:41:12.552+02	2021-10-21 13:41:12.552+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Ocean
+2021-10-21 13:41:12.555+02	2021-10-21 13:41:12.555+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Scenic
+2021-10-21 13:41:12.558+02	2021-10-21 13:41:12.558+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Sport
+2021-10-21 13:41:12.56+02	2021-10-21 13:41:12.56+02	165ac99e-4c26-45dc-a3a3-891ccada327d	Swim
+2021-10-21 13:54:51.907+02	2021-10-21 13:54:51.907+02	42e09f37-a60f-42de-a22e-b7743e8823d6	Activity
+2021-10-21 13:54:51.909+02	2021-10-21 13:54:51.909+02	42e09f37-a60f-42de-a22e-b7743e8823d6	Culture
+2021-10-21 13:54:51.911+02	2021-10-21 13:54:51.911+02	42e09f37-a60f-42de-a22e-b7743e8823d6	Date Spot
+2021-10-21 13:54:51.913+02	2021-10-21 13:54:51.913+02	42e09f37-a60f-42de-a22e-b7743e8823d6	ESports
+2021-10-21 13:54:51.915+02	2021-10-21 13:54:51.915+02	42e09f37-a60f-42de-a22e-b7743e8823d6	Internet
+2021-10-21 13:54:51.917+02	2021-10-21 13:54:51.917+02	42e09f37-a60f-42de-a22e-b7743e8823d6	Sport
+2021-10-21 14:24:30.187+02	2021-10-21 14:24:30.187+02	da9d497b-41ca-433b-89ed-a3433540d15a	Activity
+2021-10-21 14:24:30.193+02	2021-10-21 14:24:30.193+02	da9d497b-41ca-433b-89ed-a3433540d15a	Beach
+2021-10-21 14:24:30.194+02	2021-10-21 14:24:30.194+02	da9d497b-41ca-433b-89ed-a3433540d15a	Nature
+2021-10-21 14:24:30.195+02	2021-10-21 14:24:30.195+02	da9d497b-41ca-433b-89ed-a3433540d15a	Ocean
+2021-10-21 14:24:30.196+02	2021-10-21 14:24:30.196+02	da9d497b-41ca-433b-89ed-a3433540d15a	Scenic
+2021-10-21 14:24:30.198+02	2021-10-21 14:24:30.198+02	da9d497b-41ca-433b-89ed-a3433540d15a	Sport
+2021-10-21 14:24:30.2+02	2021-10-21 14:24:30.2+02	da9d497b-41ca-433b-89ed-a3433540d15a	Swim
+2021-10-21 14:26:44.867+02	2021-10-21 14:26:44.867+02	6505bfd4-05ca-469a-b8f9-178607cec493	Accommodation
+2021-10-21 14:26:44.87+02	2021-10-21 14:26:44.87+02	6505bfd4-05ca-469a-b8f9-178607cec493	Date Spot
+2021-10-21 14:26:44.871+02	2021-10-21 14:26:44.871+02	6505bfd4-05ca-469a-b8f9-178607cec493	Food and Drink
+2021-10-21 14:26:44.873+02	2021-10-21 14:26:44.873+02	6505bfd4-05ca-469a-b8f9-178607cec493	Internet
+2021-10-21 14:26:44.874+02	2021-10-21 14:26:44.874+02	6505bfd4-05ca-469a-b8f9-178607cec493	Music
+2021-10-21 14:26:44.876+02	2021-10-21 14:26:44.876+02	6505bfd4-05ca-469a-b8f9-178607cec493	Restaurant
+2021-10-21 15:14:56.977+02	2021-10-21 15:14:56.977+02	7fb66d4c-06b8-4222-9c01-fae8a57110f0	Activity
+2021-10-21 15:14:56.981+02	2021-10-21 15:14:56.981+02	7fb66d4c-06b8-4222-9c01-fae8a57110f0	Sport
+2021-10-21 15:19:01.713+02	2021-10-21 15:19:01.713+02	ae0f52aa-f462-4cbf-814e-e6aa1f6e7c7b	Culture
+2021-10-21 15:19:01.721+02	2021-10-21 15:19:01.721+02	ae0f52aa-f462-4cbf-814e-e6aa1f6e7c7b	Date Spot
+2021-10-21 15:19:01.722+02	2021-10-21 15:19:01.722+02	ae0f52aa-f462-4cbf-814e-e6aa1f6e7c7b	Music
+2021-10-21 16:11:57.471+02	2021-10-21 16:11:57.471+02	fa90491e-0051-4058-90f9-a09dc64f7058	Food and Drink
+2021-10-21 16:11:57.482+02	2021-10-21 16:11:57.482+02	fa90491e-0051-4058-90f9-a09dc64f7058	Restaurant
+2021-10-22 19:14:14.53+02	2021-10-22 19:14:14.53+02	139f8971-fbfc-454c-877a-7cadcaaab2f5	Food and Drink
+2021-10-22 19:14:14.534+02	2021-10-22 19:14:14.534+02	139f8971-fbfc-454c-877a-7cadcaaab2f5	Restaurant
+\.
+
+
+--
+-- Data for Name: sessions; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.sessions (id, valid, user_agent, "createdAt", "updatedAt", "UserId") FROM stdin;
+763b4720-88df-49e5-9e00-4a87416b7cf9	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:03:02.119+02	2021-10-21 12:03:02.119+02	\N
+7aa30751-6a61-47f9-96cc-424c30418edf	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 12:05:39.708+02	2021-10-21 12:05:39.708+02	\N
+60f9265e-e994-4c56-9eff-1bfa225aa823	t	okhttp/3.14.9	2021-10-21 12:08:23.171+02	2021-10-21 12:08:23.171+02	\N
+ab8eb6aa-a7c1-4db2-9379-0a5d389013b3	t	PostmanRuntime/7.28.4	2021-10-21 12:09:09.988+02	2021-10-21 12:09:09.988+02	\N
+f26bb5f3-284c-4073-af59-ab77bd4e4a62	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:10:04.356+02	2021-10-21 12:10:04.356+02	\N
+4f12dec5-8994-4ab9-84b9-db2cb245f56a	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:15:20.082+02	2021-10-21 12:15:20.082+02	\N
+985dc848-7a4a-45d8-9018-2075ba81b0dc	t	okhttp/3.14.9	2021-10-21 12:16:20.433+02	2021-10-21 12:16:20.433+02	\N
+3376a919-4bc9-4ccd-89e6-1a519c165d46	t	okhttp/3.14.9	2021-10-21 12:19:31.294+02	2021-10-21 12:19:31.294+02	\N
+298f71bd-5711-4d6f-bb38-070c6ff2fba6	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:27:42.807+02	2021-10-21 12:27:42.807+02	\N
+60c80748-5f2b-4d8c-b134-a5543fd7e587	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:27:50.15+02	2021-10-21 12:27:50.15+02	\N
+4fd2987b-f34f-47cb-8a51-f9e36a88aee6	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:28:11.261+02	2021-10-21 12:28:11.261+02	\N
+ed2045d7-eee6-478f-b3de-e3f0e64cd160	t	PostmanRuntime/7.28.4	2021-10-21 12:28:17.214+02	2021-10-21 12:28:17.214+02	\N
+6a4d7c3f-5821-4f35-9dc0-d73f0a427cf3	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:28:55.443+02	2021-10-21 12:28:55.443+02	\N
+29a0dc4b-0c7f-45e2-86d8-9bebe5b47093	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:28:56.452+02	2021-10-21 12:28:56.452+02	\N
+4ec8eaf0-2815-431c-96b0-c26d032fcd48	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:29:39.386+02	2021-10-21 12:29:39.386+02	\N
+264fe744-d66f-4fc5-91ce-3c7430884815	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:30:17.605+02	2021-10-21 12:30:17.605+02	\N
+4e7590d5-1ad5-4188-b2cd-befade3863d4	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:30:55.078+02	2021-10-21 12:30:55.078+02	\N
+42516ff4-4bc9-49f5-b1c9-9a5da7c9c1f1	t	PostmanRuntime/7.28.4	2021-10-21 12:31:37.191+02	2021-10-21 12:31:37.191+02	\N
+a9dfc60e-1b88-451b-94df-f806752ccbfc	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:32:08.686+02	2021-10-21 12:32:08.686+02	\N
+6a51963c-a2e8-4498-941e-68fe6a75e9b9	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:32:31.127+02	2021-10-21 12:32:31.127+02	\N
+9f2d4fd4-d955-417a-9e1b-0fd81c5c3760	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:33:56.22+02	2021-10-21 12:33:56.22+02	\N
+1c0e8a61-a77b-4ead-aafd-015182d54fcb	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:34:23.878+02	2021-10-21 12:34:23.878+02	\N
+1d91dc21-b06e-4630-9f3e-73ba3f5ddbee	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:36:13.14+02	2021-10-21 12:36:13.14+02	\N
+4b1f7f3c-202a-4a52-8634-44f0fca0f14b	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:37:32.019+02	2021-10-21 12:37:32.019+02	\N
+d22cccb5-13c5-43b3-a088-7638d63f539d	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:37:32.792+02	2021-10-21 12:37:32.792+02	\N
+0a945153-d294-484d-8679-cdfc4623b9ae	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:37:43.647+02	2021-10-21 12:37:43.647+02	\N
+e2f5bc07-2741-4e0c-b49a-12dbc4b58caa	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 12:38:53.82+02	2021-10-21 12:38:53.82+02	\N
+121464a1-1525-4f3b-a77a-7d2fd8bb538c	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:41:43.387+02	2021-10-21 12:41:43.387+02	\N
+a8a22b8b-cad9-4925-9364-79e3e6cc078d	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:44:07.158+02	2021-10-21 12:44:07.158+02	\N
+65cf9cdd-27d4-446c-bbd9-b1fe3e221877	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:45:02.463+02	2021-10-21 12:45:02.463+02	\N
+15be8b4a-57e5-4773-b0de-d3fd4c8c90c9	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:46:44.075+02	2021-10-21 12:46:44.075+02	\N
+03b4fa64-36f8-41e4-9f3c-2729a46acb5b	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 12:47:12.068+02	2021-10-21 12:47:12.068+02	\N
+4e8cfdab-e869-4d94-93d5-edd4045e946c	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 12:47:46.95+02	2021-10-21 12:47:46.95+02	\N
+73499a0e-d63c-4564-86d6-a91cccbead42	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:56:23.773+02	2021-10-21 12:56:23.773+02	\N
+7eaef491-f11f-4368-8c73-785daa6acce4	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:56:26.107+02	2021-10-21 12:56:26.107+02	\N
+30885a6e-86e3-4d0b-a14a-a1f96e4ee422	t	PostmanRuntime/7.26.8	2021-10-21 12:57:48.365+02	2021-10-21 12:57:48.365+02	\N
+80f2a71f-5e84-4ee6-8146-76d06125bb06	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 12:59:33.592+02	2021-10-21 12:59:33.592+02	\N
+97afde1d-1eb0-45e8-a303-ce3c8098add1	t	PostmanRuntime/7.28.4	2021-10-21 13:02:17.705+02	2021-10-21 13:02:17.705+02	\N
+e5ebaae5-fa27-42cd-8810-604398b1b05a	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:02:24.125+02	2021-10-21 13:02:24.125+02	\N
+2df06ccf-dc05-42f6-a082-bb7934724d36	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:02:40.057+02	2021-10-21 13:02:40.057+02	\N
+e369805a-fef1-4cb6-a948-266dda0c1797	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:02:41.191+02	2021-10-21 13:02:41.191+02	\N
+4bf16080-542b-4a84-a8b6-b0466e192751	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:03:16.587+02	2021-10-21 13:03:16.587+02	\N
+b0069097-69ae-4fad-8061-a1a71a2d8b91	t	PostmanRuntime/7.28.4	2021-10-21 13:04:15.349+02	2021-10-21 13:04:15.349+02	\N
+e121d2c0-e2d5-4a9e-9954-792e91ec972a	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 13:05:31.107+02	2021-10-21 13:05:31.107+02	\N
+383b2a25-7927-4dbb-8041-359eabdcb1ab	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:06:32.631+02	2021-10-21 13:06:32.631+02	\N
+52922fa8-2677-4dd5-9497-588402d18a98	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:08:21.009+02	2021-10-21 13:08:21.009+02	\N
+62a9c214-0d43-4bb2-9d70-263d999648a5	t	PostmanRuntime/7.28.4	2021-10-21 13:09:24.754+02	2021-10-21 13:09:24.754+02	\N
+e9faab51-598e-4ea0-9205-70f16189360b	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:10:33.925+02	2021-10-21 13:10:33.925+02	\N
+cdb4db05-1220-45c8-962c-87222cd44d77	t	PostmanRuntime/7.28.4	2021-10-21 13:12:09.051+02	2021-10-21 13:12:09.051+02	\N
+e1b250d2-7cf0-41db-ac13-797b5b493271	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:13:12.5+02	2021-10-21 13:13:12.5+02	\N
+c825bdab-daef-4b04-be80-849d4dec2b53	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:13:28.367+02	2021-10-21 13:13:28.367+02	\N
+3f768ac9-2d14-4fc9-bb33-6357081a0d53	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 13:15:08.046+02	2021-10-21 13:15:08.046+02	\N
+b5d7075e-f7d1-4f5b-9045-d63d7797b140	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:15:58.654+02	2021-10-21 13:15:58.654+02	\N
+0d2fb082-6633-405e-a114-3dedc41738b0	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:18:29.536+02	2021-10-21 13:18:29.536+02	\N
+5d604e22-b262-4bc2-831d-e99c52514036	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:19:59.459+02	2021-10-21 13:19:59.459+02	\N
+a86593a7-0308-44a5-a0b7-490e4632d435	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 13:21:22.018+02	2021-10-21 13:21:22.018+02	\N
+fd87024e-0284-49a1-b1f3-4681b70b9ee2	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:25:13.223+02	2021-10-21 13:25:13.223+02	\N
+73b6afd1-8025-478b-806e-c78ee2d8e65a	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:25:23.881+02	2021-10-21 13:25:23.881+02	\N
+26d218a4-8194-4b1b-82bd-8e20aa5e2e5b	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 13:28:32.129+02	2021-10-21 13:28:32.129+02	\N
+b11f8092-d68c-4634-9413-e99bb3791e56	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:28:42.882+02	2021-10-21 13:28:42.882+02	\N
+967290b1-00e3-49a0-b8ad-51f08c0c234e	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:36:53.501+02	2021-10-21 13:36:53.501+02	\N
+426f682c-41fd-4acd-b43c-4458cb18f8d4	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 13:37:34.286+02	2021-10-21 13:37:34.286+02	\N
+be0e4bb9-550c-4672-939b-bd9642eb5f3a	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 13:42:48.651+02	2021-10-21 13:42:48.651+02	\N
+c1946947-3df1-4cfe-830f-037d75afb69c	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:45:41.08+02	2021-10-21 13:45:41.08+02	\N
+ace54afd-2828-4800-8351-6c0ba04c52f2	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:47:42.328+02	2021-10-21 13:47:42.328+02	\N
+62b39e1c-0991-49c8-b74a-33f2e41554f3	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 13:59:21.041+02	2021-10-21 13:59:21.041+02	\N
+56851b68-ad7c-4002-a7f2-7737f9b97e86	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:08:49.237+02	2021-10-21 14:08:49.237+02	\N
+a3c4ba16-b55a-4f28-a08e-6dcaa0f45ba3	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:08:50.217+02	2021-10-21 14:08:50.217+02	\N
+3c6a8371-31cb-41fe-aac6-9d41324e781d	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:11:50.49+02	2021-10-21 14:11:50.49+02	\N
+de74d0f9-0aab-4cad-b7e4-1aa7453e9e99	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:14:25.522+02	2021-10-21 14:14:25.522+02	\N
+489dba36-2592-43b6-b82e-ab742f39db4c	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 14:19:10.875+02	2021-10-21 14:19:10.875+02	\N
+d305699e-d324-4eea-a75d-7a282e6b7787	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 14:32:05.759+02	2021-10-21 14:32:05.759+02	\N
+1fa78551-7090-4dd1-b1c3-d56c3393abb0	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:48:53.662+02	2021-10-21 14:48:53.662+02	\N
+91ab5758-e8c3-413d-9ffe-8047c2fef067	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:49:11.045+02	2021-10-21 14:49:11.045+02	\N
+26446552-e788-4b8e-a60d-bd3add449f22	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:49:39.99+02	2021-10-21 14:49:39.99+02	\N
+10f6d817-e7ea-438a-be10-0b6fe4867082	t	Expo/2.21.3.1012198 CFNetwork/1312 Darwin/21.0.0	2021-10-21 14:50:56.51+02	2021-10-21 14:50:56.51+02	\N
+bcddbb38-7c83-4ed4-ad4a-7a771f3c893f	t	Expo/2.21.3.1012198 CFNetwork/1240.0.4 Darwin/20.6.0	2021-10-21 14:54:06.026+02	2021-10-21 14:54:06.026+02	\N
+c4ac706b-5771-4677-8d66-d3c38a03ed12	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:03:00.146+02	2021-10-21 15:03:00.146+02	\N
+92dcdf24-848d-417d-9c05-153810b9ef1d	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:11:18.111+02	2021-10-21 15:11:18.111+02	\N
+aabfb42a-6842-4337-8d2f-a0620b42e623	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:14:13.962+02	2021-10-21 15:14:13.962+02	\N
+c163bbb1-092f-44ee-aa11-209b12c67292	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:18:17.694+02	2021-10-21 15:18:17.694+02	\N
+1877a873-bd7f-4669-8f48-214253a44273	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:21:41.028+02	2021-10-21 15:21:41.028+02	\N
+56868472-93cc-43b7-9eb9-b091ba4ba33a	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:33:17.999+02	2021-10-21 15:33:17.999+02	\N
+09a722a0-a03a-474a-836f-f51595c1828c	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:38:59.05+02	2021-10-21 15:38:59.05+02	\N
+6ce9c3d7-e7c7-4336-92c8-3df4326bd216	t	okhttp/3.14.9	2021-10-21 15:42:22.476+02	2021-10-21 15:42:22.476+02	\N
+833c4c81-7023-45b7-a15f-2c53e2613511	t	okhttp/3.14.9	2021-10-21 15:44:20.934+02	2021-10-21 15:44:20.934+02	\N
+2311fb23-ff8b-454a-bc55-72da953a4769	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 15:49:09.995+02	2021-10-21 15:49:09.995+02	\N
+b68436c9-aa39-4074-9541-d93768559281	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:02:48.858+02	2021-10-21 16:02:48.858+02	\N
+f5fa42bb-51e9-458c-bc3d-d4313b0c93c2	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:07:45.063+02	2021-10-21 16:07:45.063+02	\N
+985d04c8-758c-42c2-9ad8-81911852964d	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:10:18.91+02	2021-10-21 16:10:18.91+02	\N
+6a5cac41-167b-4b36-b2d4-f4d68ef4c7e0	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:11:36.985+02	2021-10-21 16:11:36.985+02	\N
+dabc9f35-0d96-4da7-b731-1b91fc2e008b	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:18:25.093+02	2021-10-21 16:18:25.093+02	\N
+a79531d9-7c37-4154-a06c-b1e0096c1a07	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-21 16:24:21.924+02	2021-10-21 16:24:21.924+02	\N
+b478715f-1fd6-4c54-8af6-771640510e17	t	Expo/2.21.3.10300 CFNetwork/1312 Darwin/20.6.0	2021-10-22 19:11:44.777+02	2021-10-22 19:11:44.777+02	\N
+\.
+
+
+--
+-- Data for Name: tags; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.tags (name, "createdAt", "updatedAt") FROM stdin;
+Food and Drink	2021-10-21 11:58:37.356+02	2021-10-21 11:58:37.356+02
+Coffee/Tea	2021-10-21 11:58:37.36+02	2021-10-21 11:58:37.36+02
+Sport	2021-10-21 11:58:37.361+02	2021-10-21 11:58:37.361+02
+Activity	2021-10-21 11:58:37.362+02	2021-10-21 11:58:37.362+02
+Art	2021-10-21 11:58:37.363+02	2021-10-21 11:58:37.363+02
+Bar	2021-10-21 11:58:37.363+02	2021-10-21 11:58:37.363+02
+Hike	2021-10-21 11:58:37.364+02	2021-10-21 11:58:37.364+02
+Internet	2021-10-21 11:58:37.365+02	2021-10-21 11:58:37.365+02
+Music	2021-10-21 11:58:37.366+02	2021-10-21 11:58:37.366+02
+History	2021-10-21 11:58:37.367+02	2021-10-21 11:58:37.367+02
+Culture	2021-10-21 11:58:37.368+02	2021-10-21 11:58:37.368+02
+Events	2021-10-21 11:58:37.368+02	2021-10-21 11:58:37.368+02
+Museum	2021-10-21 11:58:37.369+02	2021-10-21 11:58:37.369+02
+Dance	2021-10-21 11:58:37.369+02	2021-10-21 11:58:37.369+02
+Beach	2021-10-21 11:58:37.37+02	2021-10-21 11:58:37.37+02
+Ocean	2021-10-21 11:58:37.37+02	2021-10-21 11:58:37.37+02
+Working	2021-10-21 11:58:37.371+02	2021-10-21 11:58:37.371+02
+Nature	2021-10-21 11:58:37.372+02	2021-10-21 11:58:37.372+02
+Swim	2021-10-21 11:58:37.372+02	2021-10-21 11:58:37.372+02
+Volunteering	2021-10-21 11:58:37.373+02	2021-10-21 11:58:37.373+02
+Medical	2021-10-21 11:58:37.375+02	2021-10-21 11:58:37.375+02
+Services	2021-10-21 11:58:37.376+02	2021-10-21 11:58:37.376+02
+Walk	2021-10-21 11:58:37.377+02	2021-10-21 11:58:37.377+02
+Surf	2021-10-21 11:58:37.377+02	2021-10-21 11:58:37.377+02
+Shopping	2021-10-21 11:58:37.378+02	2021-10-21 11:58:37.378+02
+Parking	2021-10-21 11:58:37.379+02	2021-10-21 11:58:37.379+02
+Van Life	2021-10-21 11:58:37.379+02	2021-10-21 11:58:37.379+02
+Date Spot	2021-10-21 11:58:37.38+02	2021-10-21 11:58:37.38+02
+Accommodation	2021-10-21 11:58:37.38+02	2021-10-21 11:58:37.38+02
+Clubbing	2021-10-21 11:58:37.38+02	2021-10-21 11:58:37.38+02
+ESports	2021-10-21 11:58:37.381+02	2021-10-21 11:58:37.381+02
+Beauty	2021-10-21 11:58:37.381+02	2021-10-21 11:58:37.381+02
+Massage	2021-10-21 11:58:37.382+02	2021-10-21 11:58:37.382+02
+Hair	2021-10-21 11:58:37.383+02	2021-10-21 11:58:37.383+02
+Groceries	2021-10-21 11:58:37.383+02	2021-10-21 11:58:37.383+02
+Scenic	2021-10-21 11:58:37.384+02	2021-10-21 11:58:37.384+02
+Learning	2021-10-21 11:58:37.384+02	2021-10-21 11:58:37.384+02
+Gambling	2021-10-21 11:58:37.385+02	2021-10-21 11:58:37.385+02
+Restaurant	2021-10-21 11:58:37.386+02	2021-10-21 11:58:37.386+02
+\.
+
+
+--
+-- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: williamsukonik
+--
+
+COPY public.users (id, user_name, bio, img, following_count, followers_count, first_name, last_name, email, password, "createdAt", "updatedAt") FROM stdin;
+c848c206-55a2-4aa7-8b2c-afc98a75efac	adriano_g	Live, Laugh, Love	https://i.imgur.com/w1Yimky.jpg	4	4	adriano	gonzalez	ag@myplaces.com	$2b$10$AIPx4eS2A95bMR9IxLEvdupxlUw5hJRODiN3HHcZiReHN39HJQSbq	2021-10-21 12:24:07.363+02	2021-10-21 16:25:51.454+02
+42b69c88-3130-44a2-83f3-09654e16ddd6	connorito	I came here to add places and chew bubblegum... and I'm all outta gum	https://images.pexels.com/photos/2066202/pexels-photo-2066202.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2	4	4	Connor	Musson	connorito@em.com	$2b$10$PQZmkd2qd/7UWifwm6LxbOFiT.m8bhxqPRsVCiUgVHtDDWm7a16z6	2021-10-21 12:13:23.682+02	2021-10-21 16:25:51.455+02
+f328ab36-1e9d-4bfc-af55-f8bd378fd839	willpower	Amazing person, kind, generous, brilliant, maybe the greatest person ever. Definitely worth following.	https://images.pexels.com/photos/1431283/pexels-photo-1431283.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260	4	4	Will	Sukonik	will@em.com	$2b$10$xoosfJkaJE9wAZ.N/Z9u6ulxK34F7tFGHLTqvhGBuQ4GWhh8ml/XK	2021-10-21 12:02:34.926+02	2021-10-22 19:20:15.315+02
+dc7e1014-bc9d-4918-8a7e-6a0e19ba4a37	alban_msd	Basically gigs, beers, cookies and cream. Always travelling arround so you might wanna follow :) 	https://scontent.fbcn1-1.fna.fbcdn.net/v/t31.18172-8/16422902_10209477230262323_3028030848035622275_o.jpg?_nc_cat=104&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=3uNvJpSVnsQAX_NM1mZ&_nc_ht=scontent.fbcn1-1.fna&oh=65c60be94d1b02b87582e5252ebd3170&oe=6196D5FE	3	4	Alban	Mansord	alban@em.com	$2b$10$wPtxZp9aNg7fTk9mQmdKvuKhz3fZtfEYKoGXTm9k14qNrIwOiVLpG	2021-10-21 12:05:23.721+02	2021-10-22 19:20:28.28+02
+d32112f3-c5db-42c6-801e-3203e6c69b9f	whereisdonde	Wanderer and dreamer	https://media-exp1.licdn.com/dms/image/C4D03AQE84h-O0UtA-g/profile-displayphoto-shrink_800_800/0/1550975220478?e=1640217600&v=beta&t=9O0GkPwMIhKqfJNG9Y7hzpuVuCBwd4cDBEARZ1Xx_1E	4	3	Juliana	Halko	juliana@em.com	$2b$10$CTbtImPmeRnrr7J8TlnxT.UI6tEUuOm/W4Q/F1H4tgSrBN3/vuyne	2021-10-21 12:08:30.221+02	2021-10-22 19:20:28.279+02
+\.
+
+
+--
+-- Name: cities cities_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.cities
+    ADD CONSTRAINT cities_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: followings followings_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.followings
+    ADD CONSTRAINT followings_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: places places_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: places_tag_junction places_tag_junction_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places_tag_junction
+    ADD CONSTRAINT places_tag_junction_pkey PRIMARY KEY ("PlaceId", "TagName");
+
+
+--
+-- Name: saved_places saved_places_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.saved_places
+    ADD CONSTRAINT saved_places_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: saved_places_tag_junction saved_places_tag_junction_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.saved_places_tag_junction
+    ADD CONSTRAINT saved_places_tag_junction_pkey PRIMARY KEY ("SavedPlaceId", "TagName");
+
+
+--
+-- Name: sessions sessions_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (name);
+
+
+--
+-- Name: users users_email_key; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_email_key UNIQUE (email);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: users users_user_name_key; Type: CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_user_name_key UNIQUE (user_name);
+
+
+--
+-- Name: cities cities_UserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.cities
+    ADD CONSTRAINT "cities_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: followings followings_UserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.followings
+    ADD CONSTRAINT "followings_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: places places_CityId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places
+    ADD CONSTRAINT "places_CityId_fkey" FOREIGN KEY ("CityId") REFERENCES public.cities(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: places places_UserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places
+    ADD CONSTRAINT "places_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: places_tag_junction places_tag_junction_PlaceId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places_tag_junction
+    ADD CONSTRAINT "places_tag_junction_PlaceId_fkey" FOREIGN KEY ("PlaceId") REFERENCES public.places(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: places_tag_junction places_tag_junction_TagName_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.places_tag_junction
+    ADD CONSTRAINT "places_tag_junction_TagName_fkey" FOREIGN KEY ("TagName") REFERENCES public.tags(name) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: saved_places saved_places_UserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.saved_places
+    ADD CONSTRAINT "saved_places_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: saved_places_tag_junction saved_places_tag_junction_SavedPlaceId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.saved_places_tag_junction
+    ADD CONSTRAINT "saved_places_tag_junction_SavedPlaceId_fkey" FOREIGN KEY ("SavedPlaceId") REFERENCES public.saved_places(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: saved_places_tag_junction saved_places_tag_junction_TagName_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.saved_places_tag_junction
+    ADD CONSTRAINT "saved_places_tag_junction_TagName_fkey" FOREIGN KEY ("TagName") REFERENCES public.tags(name) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: sessions sessions_UserId_fkey; Type: FK CONSTRAINT; Schema: public; Owner: williamsukonik
+--
+
+ALTER TABLE ONLY public.sessions
+    ADD CONSTRAINT "sessions_UserId_fkey" FOREIGN KEY ("UserId") REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
