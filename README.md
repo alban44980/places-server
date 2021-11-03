@@ -39,10 +39,10 @@ Enjoy!
 
 ## Table of Contents:
 
-[MyPlaces Frontend](https://github.com/alban44980/places-client)
-[Tech Stack](#tech-stack)  
-[Running MyPlaces](#running-myplaces)  
-[Developers Team](#developers-team)  
+- [MyPlaces Frontend](https://github.com/alban44980/places-client)
+- [Tech Stack](#tech-stack)  
+- [Running MyPlaces](#running-myplaces)  
+- [Developers Team](#developers-team)  
 
 
 ## Tech Stack
