@@ -72,11 +72,23 @@ Enjoy!
 </ul>
 
 
-## The server
+## Running MyPlaces
+## Backend
 
 - Fork & clone the [MyPlaces Backend](https://github.com/alban44980/places-server)
 - Make sure you have postgreSQL installed on your machine mac || windows
+- Create a database called MyPlaces
 - Run npm i in the places-server directory
 - Adjust the necessary env variables to match your system
 - Run npm run dev to start the server
+
+
+## Developers Team
+
+- Alban [Github](https://github.com/alban44980) - [LinkedIn](https://www.linkedin.com/in/alban-mansord/) 
+- Connor [Github](https://github.com/cmusson) - [LinkedIn](https://www.linkedin.com/in/connor-musson/) 
+- Juliana [Github](https://github.com/Julianahlk) - [LinkedIn](https://www.linkedin.com/in/juliana-halko/)
+- Adriano [Github](https://github.com/AdrianoG117) - [LinkedIn](https://www.linkedin.com/in/adriano-gonzalez-alberto/)
+- Will [Github](https://github.com/wms8463) - [LinkedIn](https://www.linkedin.com/in/williamsukonik/) 
+
 
